@@ -1,0 +1,13 @@
+p {
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.relevant {
+    color: #0080FF;
+    font-weight: bold;
+}
+
+.exact {
+    background-color: yellow;
+}

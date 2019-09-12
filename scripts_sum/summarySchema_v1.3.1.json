@@ -1,0 +1,97 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://localhost/summary_spec/v1.3.1",
+    "title": "MATERIAL English Summary Specification",
+    "description": "JSON Schema for MATERIAL 2X English Summaries. Updated: 2019-05-29",
+    "type": "object",
+    "definitions": {
+        "summary_component_content": {
+            "type": "object",
+            "properties": {
+                "query_component": {"type": "string"},
+                "query_component_image_filename": {
+                    "type": "string",
+                    "pattern": ".jpg|.png$"
+                },
+                "eng_content_list": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "items": {"type": "string"}
+                },
+                "instructions": {
+                    "description": "Optional component instructions provided by the Performer Team. See the MATERIAL Evaluation plan for guidance on the content of the instructions.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query_component",
+                "query_component_image_filename",
+                "eng_content_list"
+            ]
+        }
+    },
+    "properties": {
+        "team_id": {
+            "description": "The Performer Team name; case sensitive.",
+            "type": "string",
+            "enum": [
+                "FLAIR",
+                "SARAL",
+                "SCRIPTS"
+            ]
+        },
+        "sys_label": {
+            "description": "An alphanumeric [a-zA-Z0-9] name that Performer Team assigns to the submission.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$"
+        },
+        "uuid": {
+            "description": "The UUID of the summary.",
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+        },
+        "query_id": {
+            "description": "The ID of the query in the Query-Document pair.",
+            "type": "string"
+        },
+        "document_id": {
+            "description": "The ID of the document in the Query-Document pair.",
+            "type": "string"
+        },
+        "run_name": {
+            "description": "The Performer Team assigned name of the retrieval run.",
+            "type": "string"
+        },
+        "run_date_time": {
+            "description": "The ISO-8601/RFC-3339 date-time of the retrieval run.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "document_score": {
+            "description": "document-level score",
+            "type": "number"
+        },
+        "summary_content": {
+            "description": "per-MQ-component English snippets and images",
+            "components": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {"$ref": "#/definitions/summary_component_content"}
+            }
+        }
+    },
+    "required": [
+        "team_id",
+        "sys_label",
+        "uuid",
+        "query_id",
+        "document_id",
+        "run_name",
+        "run_date_time",
+        "document_score",
+        "summary_content"
+    ],
+    "additionalProperties": false
+}
