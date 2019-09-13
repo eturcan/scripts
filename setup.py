@@ -8,7 +8,8 @@ setup(
     py_modules=["package_summaries"],
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
-    install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema"],
+    install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema",
+                      "imgkit"],
     include_package_data=True,
     zip_safe=False,
     entry_points={
