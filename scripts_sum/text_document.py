@@ -44,13 +44,18 @@ class TextDocument(AnnotatedDocument):
             for name in all_translation_morph_lines.keys()
         }
         for i in range(len(sent_segment_lines)):
-            src_morph = json.loads(src_morph_lines[i])
+            try:
+                src_morph = json.loads(src_morph_lines[i])
+            except json.decoder.JSONDecodeError:
+                raise RuntimeError(
+                    "bad json: doc_id {} morphology line {} path {}".format(
+                        doc_id, i, str(source_morphology_path)))
             sent_seg = sent_segment_lines[i]
             if len(src_morph) == 0:
                 if sent_seg.strip() != "":
                     raise RuntimeError(
                         "Bad morph/segmentation alignment: {}".format(
-                            result["id"]))
+                            doc_id))
                 continue
             final_sent_segments.append(sent_seg)
             final_src_morph.append(src_morph)

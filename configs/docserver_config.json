@@ -196,6 +196,54 @@
             ],
             "source_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/morphology_store/material-scripts-morph-v5.2_sent-split-v3.0"
         }
+    },
+    {
+        "lang": "1A",
+        "name": "1A-ANALYSIS1",
+        "index": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/index.txt",
+        "audio": {
+            "source": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/src",
+            "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/asr_store/material-asr-sw-v5.0",
+            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-sw-v5.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/scriptsmt-systems-v6.1_material-asr-sw-v5.0",
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v6.1_material-asr-sw-v5.0"
+                },
+                {
+                    "name": "umd-nmt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-nmt-v4.1_material-asr-sw-v5.0",
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.1_material-asr-sw-v5.0"
+                },
+                {
+                    "name": "umd-smt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-smt-v2.4_material-asr-sw-v5.0",
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.4_material-asr-sw-v5.0"
+                }
+            ]
+        },
+        "text": {
+            "source": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/src",
+            "sentence_segmentation": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/sentSplitter_store/sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/mt_store/scriptsmt-systems-v6.1_sent-split-v3.0",
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v6.1_sent-split-v3.0"
+                },
+                { 
+                    "name": "umd-nmt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/mt_store/umd-nmt-v4.1_sent-split-v3.0",                    
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.1_sent-split-v3.0"
+                },
+                {
+                    "name": "umd-smt",
+                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/mt_store/umd-smt-v2.4_sent-split-v3.0",
+                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.4_sent-split-v3.0"
+                }
+            ],
+            "source_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/morphology_store/material-scripts-morph-v5.1_cu-code-switching-v7.0_sent-split-v3.0"
+        }
     }
-
 ]

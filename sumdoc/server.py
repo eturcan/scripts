@@ -82,7 +82,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     def validate_doc(self, doc_id):
         if doc_id not in self.doc_cache:
-            return False
+            return "Document {} not in cache!".format(doc_id)
         mode = self.doc_cache[doc_id]["mode"]
         ds = self.doc_cache[doc_id]["ds"]
         if mode == "audio":
