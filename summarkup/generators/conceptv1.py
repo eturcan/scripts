@@ -26,10 +26,13 @@ class ConceptV1:
                 scores_t.append(x['sentence']['max'])
             scores.append(scores_t)
 
-        ranks = np.stack([np.argsort(x)[::-1] for x in scores])
+
+        # replace nans (nan != nan, scores != scores is a is mask of nan
+        # locations)
         scores = np.array(scores)
-#        print(ranks)
-#        print(merge_rankings(ranks))
+        scores[scores != scores] = float('-inf')
+
+        ranks = np.argsort(scores, axis=1)[:,::-1]
 
         size = 0
         ranked_utterances = []
@@ -53,7 +56,7 @@ class ConceptV1:
 
         ranked_utterances.sort(key=lambda x: x["index"])
         size = 0
-        markup = "<h1> Sentences related to {}</h1>\n".format(query)
+        markup = "<h1>Sentences related to {}</h1>\n".format(query)
 
         exact_matches = set()
         close_matches = set()
@@ -81,7 +84,6 @@ class ConceptV1:
              for token in tokens:
                  if token.word[0] not in punc:
                      size += 1
-#                 print(size, token.word)
                  if token in exact_matches:
                      line += ' <span class="relevant exact">' + token.word \
                         + '</span>'
@@ -93,7 +95,7 @@ class ConceptV1:
                  if size == budget: 
                      line += "..."
                      break
-             markup += "<p>"+ line + "</p>\n"
+             markup += "<p>"+ line.strip() + "</p>\n"
              if size == budget: 
                  break
         markup = re.sub(r" `` ", ' "', markup)
@@ -109,7 +111,8 @@ class ConceptV1:
         markup = re.sub(r"-LRB- ", "(", markup)
         markup = re.sub(r" -RRB-", ")", markup)
 
-        print(markup) 
+        markup = markup.strip()
+
         return markup 
 
 def merge_rankings(rankings):
