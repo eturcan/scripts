@@ -12,6 +12,7 @@ def generate_markup():
     parser.add_argument("annotated_document", type=Path,
                         help="path to annotated doc pkl file")
     parser.add_argument("output_path", type=Path, help="path to write markup")
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 
     module_str, class_str = args.markup_module.rsplit(".", 1)
@@ -23,6 +24,8 @@ def generate_markup():
         doc = pickle.load(fp)
     
     markup = markup_generator(doc)
+    if not args.quiet:
+        print(markup)
     output = json.dumps({
         "markup": markup,
         "document_id": doc.id,
@@ -45,13 +48,23 @@ def generate_image():
     data = json.loads(args.markup.read_text())
     markup = data["markup"]
     css_data = " <style>\n{}\n </style>".format(args.css.read_text())
-    html = "<html><head>\n{}</head><body>\n{}\n</body></html>".format(
-        css_data, markup)
+    html = (
+        '<html>\n'
+        '  <head>\n'
+        '{style}\n'
+        '    <meta charset="UTF-8" />\n'
+        '  </head>'
+        '  <body>\n'
+        '{summary}\n'
+        '  </body>\n'
+        '</html>'
+    ).format(style=css_data, summary=markup)
 
     args.img.parent.mkdir(exist_ok=True, parents=True)
-    imgkit.from_string(
-            html, str(args.img), options={'crop-h': 300, "quiet": "", "xvfb": ""})
-
-    
-#if __name__ == "__main__":
-#    main()
+    options = {
+        'encoding': 'UTF-8', 
+        'crop-h': 300, 
+        'quiet': "", 
+        'xvfb': ""
+    }
+    imgkit.from_string(html, str(args.img), options=options)
