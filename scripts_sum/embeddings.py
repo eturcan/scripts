@@ -48,6 +48,8 @@ class Embeddings:
             if word in self:
                 count += 1         
                 embs.append(self[word])
+        if count == 0:
+            return np.full((1, self.null_emb.shape[0]), float('nan'))
         return np.mean(embs, axis=0, keepdims=True)
 
     def lookup_sequence(self, words):
