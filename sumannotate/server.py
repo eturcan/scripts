@@ -13,7 +13,6 @@ class RequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
         data = self.request.recv(4096)
         msg = json.loads(data.decode())
-        print(msg)
         if msg['type'] == "annotate_material":
             self.annotate_material(msg["query_id"], msg["doc_id"],
                                    msg['component'],
@@ -32,7 +31,6 @@ class RequestHandler(socketserver.BaseRequestHandler):
         
         query = sumquery.client.Client(self.server.query_port).object(query_id)
         doc = sumdoc.client.Client(self.server.doc_port).object(doc_id)
-        print(query_id, doc_id)
         query_comp = query[component]
         for ann_name, ann in self.server.annotators.items():
             doc.annotate_utterances(ann_name, ann(query_comp, doc))
