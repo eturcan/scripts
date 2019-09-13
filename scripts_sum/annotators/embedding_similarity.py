@@ -61,12 +61,19 @@ class EmbeddingSimilarity:
             query_tokens = query_tokens + query.semantic_constraint.tokens
         query_tokens = self.filter_tokens(query_tokens)
         query_embedding = self.embeddings.average_embedding(query_tokens)
+        is_nan_query = np.any(query_embedding != query_embedding)
         annotations = []
         for utt in doc:
             utt_toks = [t.word.lower() 
                         for t in utt["translations"][self.translation].tokens]
             utt_matrix = self.embeddings.lookup_sequence(utt_toks)
-            sims = cosine_similarity(utt_matrix, query_embedding).reshape(-1)
+
+            if is_nan_query:
+                sims = np.full((utt_matrix.shape[0],), float('nan'))
+            else:
+                sims = cosine_similarity(utt_matrix, query_embedding)\
+                    .reshape(-1)
+
             mask = self.make_mask(utt["translations"][self.translation].tokens)
             sims = np.ma.masked_where(mask, sims)
             sims.fill_value = float("-inf")
