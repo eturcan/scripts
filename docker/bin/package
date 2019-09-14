@@ -1,2 +1,5 @@
-!#/bin/bash
+#!/bin/bash
+
+
 printf "Hello World!\n"
+printf "The code is in ${SCRIPTS}\n"
