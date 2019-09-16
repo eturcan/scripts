@@ -1,0 +1,68 @@
+#!/bin/bash
+
+
+make_args () {
+    while read -r doc_score; do
+               doc=`echo $doc_score | cut -d " " -f1`
+               score=`echo $doc_score | cut -d " " -f3`
+               if [ ! -z "$doc" ]; then
+                   printf "$doc $score\n"
+               fi
+    done <<< `cat /CLIR/$1.tsv | grep -E "\tY\t"`
+}
+
+args=`make_args $1`
+
+if [ "$args" == "" ]; then                                                     
+        exit                                                                   
+fi 
+
+summarize () {
+    nc=`num_components $QUERY_PORT $1`
+    if [ "$nc" == "2" ]; then
+        echo "$1 $2 $3 1/2"
+        annotate_material $ANNOTATION_PORT $1 $2 1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl
+        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl \
+            /outputs/markup/$1/$1.$2.c1.json \
+            --quiet
+        generate_image scripts/configs/summary_style.v1.css \
+            /outputs/markup/$1/$1.$2.c1.json \
+            /outputs/images/$1.$2.c1.png
+
+        echo "$1 $2 $3 2/2"
+        annotate_material $ANNOTATION_PORT $1 $2 2 \
+            /outputs/annotations/$1/$1.$2.c2.pkl
+        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+            /outputs/annotations/$1/$1.$2.c2.pkl \
+            /outputs/markup/$1/$1.$2.c2.json \
+            --quiet
+        generate_image scripts/configs/summary_style.v1.css \
+            /outputs/markup/$1/$1.$2.c2.json \
+            /outputs/images/$1.$2.c2.png
+
+
+    else
+        echo "$1 $2 $3 1/1"
+        annotate_material $ANNOTATION_PORT $1 $2 1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl
+        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl \
+            /outputs/markup/$1/$1.$2.c1.json \
+            --quiet
+        generate_image scripts/configs/summary_style.v1.css \
+            /outputs/markup/$1/$1.$2.c1.json \
+            /outputs/images/$1.$2.c1.png
+    fi
+
+}
+
+
+export -f summarize
+
+parallel --link -j8 summarize \
+    ::: $1 \
+    ::: `printf "$args" | cut -d " " -f1` \
+    ::: `printf "$args" | cut -d " " -f2`
+
