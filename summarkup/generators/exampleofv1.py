@@ -14,10 +14,12 @@ annotators = [
     ["glove6Bsim.content_semcons", ["sentence", "max"]],
 ]            
 
-class ConceptV1:
+class ExampleOfV1:
 
     def __call__(self, doc, budget=100, make_header=True):
         query = doc.annotations["QUERY"]
+#        print(query)
+#        print([x.word for x in query.content.tokens])
 
         best_translations = []
         scores = []
@@ -126,7 +128,7 @@ class ConceptV1:
             line = " ".join(line.split()[:wc]) + "..."
 
         line = re.sub(r"span_class", "span class", line)
-        line = re.sub(r"\[EXACTREL\]", "relevant exact", line)
+        line = re.sub(r"\[EXACTREL\]", "rel_exact_match", line)
         line = re.sub(r"\[REL\]", "relevant", line)
         return "<p>{}</p>\n".format(line), wc
 

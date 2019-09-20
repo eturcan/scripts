@@ -3,6 +3,23 @@ p {
     font-family: Arial, sans-serif;
 }
 
+h1 {
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.rel_exact {
+    color: #0080FF;
+    font-weight: bold;
+}
+
+.rel_close {
+    color: #0080FF;
+    font-weight: bold;
+}
+
+
+
 .relevant {
     color: #0080FF;
     font-weight: bold;
@@ -10,4 +27,30 @@ p {
 
 .exact {
     background-color: yellow;
+}
+
+.rel_exact_match {
+
+    color: #0080FF;
+    font-weight: bold;
+    background-color: yellow;
+}
+
+.rel_close_match {
+
+    color: #0080FF;
+    font-weight: bold;
+    background-color: yellow;
+}
+
+.exact_header {
+    color: green;
+}
+
+.close_header {
+    color: orange;
+}
+
+.relevant_header {
+    color: orange;
 }

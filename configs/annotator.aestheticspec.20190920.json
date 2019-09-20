@@ -18,6 +18,60 @@
             "args": ["umd-smt"],
             "kwargs": {}
         },
+        "edi-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
         "edi-nmt.glove6Bsim.content_semcons": {
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",

@@ -2,7 +2,7 @@ from nltk.corpus import stopwords
 import string
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-en_stopwords = set(stopwords.words('english'))
+en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
 punc = set(string.punctuation) 
 from scripts_sum.utils import unpack_masked_constant
 

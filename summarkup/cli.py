@@ -43,10 +43,15 @@ def generate_image():
     parser.add_argument("markup", type=Path, 
                         help="json file containing markup")
     parser.add_argument("img", type=Path, help="path to image file")
+    parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
 
     data = json.loads(args.markup.read_text())
     markup = data["markup"]
+    if args.debug:
+        markup += "<br/><p>Debug: {} {} {}</p>".format(
+            data["query_id"], data["document_id"], data["query_string"])
+
     css_data = " <style>\n{}\n </style>".format(args.css.read_text())
     html = (
         '<html>\n'

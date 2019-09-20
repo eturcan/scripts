@@ -23,10 +23,16 @@ setup(
             "list_queries=sumquery.client:list_queries",
             "list_relevant=sumquery.client:list_relevant",
             "num_components=sumquery.client:num_components",
+            "is_lexical=sumquery.client:is_lexical",
+            "is_simple=sumquery.client:is_simple",
+            "is_morph=sumquery.client:is_morph",
+            "is_conceptual=sumquery.client:is_conceptual",
+            "is_example_of=sumquery.client:is_example_of",
             "doc_client=sumdoc.client:main",
             "generate_markup=summarkup.cli:generate_markup",
             "generate_image=summarkup.cli:generate_image",
             "package_summaries=package_summaries:main",
+            "print_markup=scripts_sum.print_markup:main",
         ],
     }
 )

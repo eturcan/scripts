@@ -1,5 +1,22 @@
 from nltk import word_tokenize
 
+def merge_ints(morph_tokens):
+    new_tokens = [] 
+    itr = enumerate(morph_tokens)
+
+    for i, token in itr:
+        if token.word == "<" and i + 2 < len(morph_tokens):
+            if morph_tokens[i + 1].word == "int" \
+                    and morph_tokens[i + 2].word == ">":
+                new_tokens.append(
+                    Token('<int>', pos='OTHER', tense='NA', 
+                          number='NA', stem='<int>', suffix='', prefix=''))
+                next(itr)
+                next(itr)
+        else:
+            new_tokens.append(token)
+    return new_tokens
+
 class Token:
 
     @staticmethod
@@ -15,7 +32,7 @@ class Token:
                               suffix=m["suffixes"], pos=m["pos"], tense=m["tense"],
                               number=m["number"])
                 tokens.append(token)
-        return tokens
+        return merge_ints(tokens)
 
     def __init__(self, word, prefix=None, stem=None, suffix=None, pos=None,
                  tense=None, number=None):

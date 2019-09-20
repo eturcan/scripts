@@ -5,6 +5,7 @@ from pathlib import Path
 from scripts_sum.query_processor import process_query
 from scripts_sum.lang import get_material
 from collections import defaultdict
+import re
 
 
 class RequestHandler(socketserver.BaseRequestHandler):
@@ -24,8 +25,20 @@ class RequestHandler(socketserver.BaseRequestHandler):
         elif msg["type"] == "list_queries":
             queries = self.server.list_queries(
                 lang=get_material(msg["lang"]) if msg["lang"] else None,
-                group=msg["group"], tsv=msg["tsv"], no_phrase=msg['no_phrase'],
-                phrase=msg['phrase'])
+                group=msg["group"], tsv=msg["tsv"], 
+                lexical=msg["lexical"],
+                no_lexical=msg["no_lexical"],
+                conceptual=msg["conceptual"],
+                no_conceptual=msg["no_conceptual"],
+                example_of=msg["example_of"],
+                no_example_of=msg["no_example_of"],
+                simple=msg["simple"],
+                no_simple=msg["no_simple"],
+                multi_word=msg["multi_word"],
+                no_multi_word=msg["no_multi_word"],
+                morph=msg["morph"],
+                no_morph=msg["no_morph"])
+
             self._send(pickle.dumps(queries))
         elif msg["type"] == "num_components":
             nc = self.server.num_components(msg["query_id"])
@@ -35,6 +48,11 @@ class RequestHandler(socketserver.BaseRequestHandler):
                 pickle.dumps(
                     self.server.list_relevant_docs(msg["query_id"])))
         
+        elif msg["type"] == "query_type":
+            self._send(
+                pickle.dumps(
+                    self.server.query_type_from_id(msg["query_id"],
+                                                   msg["component"])))
 
     def process_material_query(self, msg):
         lang, query_id = msg["language"], msg["query_id"]
@@ -111,8 +129,16 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.cache[query_id] = query
         return query 
 
-    def list_queries(self, lang=None, group=None, tsv=False, phrase=False,
-                     no_phrase=False):
+    def list_queries(self, lang=None, group=None, tsv=False, 
+                     lexical=False, no_lexical=False, 
+                     conceptual=False, no_conceptual=False,
+                     example_of=False, no_example_of=False,
+                     simple=False, no_simple=False,
+                     multi_word=False, no_multi_word=False,
+                     morph=False, no_morph=False):
+        tmp = (
+            "{id:10s} {lang:2s} {group:16s} {num} {str:25s}"
+        )
         queries = []
         for query in sorted(self._M_queries.keys()):
             if lang is not None:
@@ -123,25 +149,53 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                     continue
 
             if tsv:
-                tmp = "{id:12s}\t{lang:2s}\t{group:12s}\t{num}\t{str:25s}\t{cls:25s}\t{phrase}"
-                qobj = self.lookup_material(query)
-                for i, c in enumerate(qobj, 1):
+
+                query_strings = self._M_queries[query].split(",")
+                query_types = [self.get_query_type(x) for x in query_strings]
+
+                #qobj = self.lookup_material(query)
+                for i, qtype in enumerate(query_types, 1):
+
                     qfields = {
-                        "id": qobj[0].id, 
+                        "id": query,
                         "lang": self._M_q2lang[query],
                         "group": self._M_q2group[query],
                     }
 
-                    if no_phrase and c.phrasal:
+                    if conceptual and not qtype["conceptual"]:
                         continue
-
-                    if phrase and not c.phrasal:
+                    if no_conceptual and qtype["conceptual"]:
                         continue
-                    
-                    qfields['str'] = c.string
-                    qfields['cls'] = c.classification
-                    qfields['num'] = "{}/{}".format(i, len(qobj))
-                    qfields['phrase'] = c.phrasal
+                    if lexical and not qtype["lexical"]:
+                        continue
+                    if no_lexical and qtype["lexical"]:
+                        continue
+                    if example_of and not qtype["example_of"]:
+                        continue
+                    if no_example_of and qtype["example_of"]:
+                        continue
+                    if simple and not qtype["simple"]:
+                        continue
+                    if no_simple and not qtype["simple"]:
+                        continue
+                    if multi_word and not qtype["multi-word"]:
+                        continue
+                    if no_multi_word and qtype["multi-word"]:
+                        continue
+                    if morph and not qtype["morph"]:
+                        continue
+                    if no_morph and qtype["morph"]:
+                        continue
+#                    if no_phrase and c.phrasal:
+#                        continue
+#
+#                    if phrase and not c.phrasal:
+#                        continue
+#                    
+                    qfields['str'] = query_strings[i-1]
+                    #qfields['cls'] = c.classification
+                    qfields['num'] = "{}/{}".format(i, len(query_types))
+                    #qfields['phrase'] = c.phrasal
                     l = tmp.format(**qfields)
                     queries.append(l)
             else:
@@ -163,6 +217,58 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             print("Server started on port", self.port)
             print("Waiting for client request..")
             self.serve_forever()
+
+    def query_type_from_id(self, query_id, component):
+        query_string = self._M_queries[query_id].split(",")[component]
+        return self.get_query_type(query_string)
+
+    def get_query_type(self, query_string):
+
+        if "[syn" in query_string:
+            semantic_constraint = "syn"
+        elif "[hyp" in query_string:
+            semantic_constraint = "hyp"
+        elif "[evf" in query_string:
+            semantic_constraint = "evf"
+        else:
+            semantic_constraint = None
+        
+        query_string = re.sub(r"\[.*?\]", "", query_string)
+        
+        if "+" in query_string:
+            conceptual = True
+            lexical = False
+            example_of = False
+        elif "EXAMPLE_OF" in query_string:
+            conceptual = False
+            lexical = False
+            example_of = True
+        else:            
+            conceptual = False
+            lexical = True
+            example_of = False
+
+        if '"' in query_string:
+            multiword = True
+            simple = False
+        else:
+            multiword = False
+            simple = True
+        
+        if "<" in query_string:
+            morph = True
+        else:
+            morph = False
+
+        return {
+            "conceptual": conceptual, 
+            "lexical": lexical, 
+            "example_of": example_of, 
+            "semantic_constraint": semantic_constraint,
+            "multi-word": multiword,
+            "simple": simple,
+            "morph": morph,
+        }
 
 ABOUT = (
     "Start an MATERIAL query server to support the SCRIPTS summarization "

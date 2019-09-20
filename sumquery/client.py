@@ -35,8 +35,15 @@ class Client:
         client.close()
         return doc
 
-    def queries(self, lang=None, group=None, tsv=False, phrase=False,
-                no_phrase=False):
+
+
+    def queries(self, lang=None, group=None, tsv=False, 
+                lexical=False, no_lexical=False, 
+                conceptual=False, no_conceptual=False,
+                example_of=False, no_example_of=False,
+                simple=False, no_simple=False,
+                multi_word=False, no_multi_word=False,
+                morph=False, no_morph=False):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(("127.0.0.1", self.port))
         request = {
@@ -44,8 +51,18 @@ class Client:
             "lang": lang,
             "group": group, 
             "tsv": tsv,
-            "phrase": phrase,
-            "no_phrase": no_phrase,
+            "lexical": lexical,
+            "no_lexical": no_lexical,
+            "conceptual": conceptual,
+            "no_conceptual": no_conceptual,
+            "example_of": example_of,
+            "no_example_of": no_example_of,
+            "simple": simple,
+            "no_simple": no_simple,
+            "multi_word": multi_word,
+            "no_multi_word": no_multi_word,
+            "morph": morph,
+            "no_morph": no_morph,
         }
         client.sendall(json.dumps(request).encode())
         queries = pickle.loads(self._receive(client))
@@ -76,6 +93,20 @@ class Client:
         client.close()
         return num_components
 
+    def query_type(self, query_id, component):
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(("127.0.0.1", self.port))
+        request = {
+            "type": "query_type",
+            "query_id": query_id,
+            "component": component,
+        }
+        client.sendall(json.dumps(request).encode())
+        query_type = pickle.loads(self._receive(client))
+        client.close()
+        return query_type
+
+
 def list_queries():
     parser = argparse.ArgumentParser("List MATERIAL queries")
     parser.add_argument("port", type=int)
@@ -84,11 +115,31 @@ def list_queries():
     parser.add_argument("--tsv", action="store_true")
     parser.add_argument("--no-phrase", action="store_true")
     parser.add_argument("--phrase", action="store_true")
+    parser.add_argument("--lexical", action="store_true")
+    parser.add_argument("--no-lexical", action="store_true")
+    parser.add_argument("--conceptual", action="store_true")
+    parser.add_argument("--no-conceptual", action="store_true")
+    parser.add_argument("--example-of", action="store_true")
+    parser.add_argument("--no-example-of", action="store_true")
+    parser.add_argument("--simple", action="store_true")
+    parser.add_argument("--no-simple", action="store_true")
+    parser.add_argument("--multi-word", action="store_true")
+    parser.add_argument("--no-multi-word", action="store_true")
+    parser.add_argument("--morph", action="store_true")
+    parser.add_argument("--no-morph", action="store_true")
     args = parser.parse_args()
 
     client = Client(args.port)
     for q in client.queries(lang=args.lang, group=args.group, tsv=args.tsv,
-                            no_phrase=args.no_phrase, phrase=args.phrase):
+                            lexical=args.lexical, no_lexical=args.no_lexical,
+                            conceptual=args.conceptual, 
+                            no_conceptual=args.no_conceptual,
+                            example_of=args.example_of,
+                            no_example_of=args.no_example_of,
+                            simple=args.simple, no_simple=args.no_simple,
+                            multi_word=args.multi_word,
+                            no_multi_word=args.no_multi_word,
+                            morph=args.morph, no_morph=args.no_morph):
         print(q)
 
 def list_relevant():
@@ -109,3 +160,58 @@ def num_components():
     args = parser.parse_args()
     client = Client(args.port)
     print(client.num_components(args.query_id))
+
+def is_lexical():
+    parser = argparse.ArgumentParser("Check if query is lexical")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("comp", type=int)
+    args = parser.parse_args()
+    client = Client(args.port)
+    qt = client.query_type(args.query_id, args.comp - 1)
+    print(qt["lexical"])
+
+def is_conceptual():
+    parser = argparse.ArgumentParser("Check if query is conceptual")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("comp", type=int)
+    args = parser.parse_args()
+    client = Client(args.port)
+    qt = client.query_type(args.query_id, args.comp - 1)
+    print(qt["conceptual"])
+
+
+def is_simple():
+    parser = argparse.ArgumentParser("Check if query is simple")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("comp", type=int)
+    args = parser.parse_args()
+    client = Client(args.port)
+    qt = client.query_type(args.query_id, args.comp - 1)
+    print(qt["simple"])
+
+def is_morph():
+    parser = argparse.ArgumentParser(
+        "Check if query is morphologically constrained")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("comp", type=int)
+    args = parser.parse_args()
+    client = Client(args.port)
+    qt = client.query_type(args.query_id, args.comp - 1)
+    print(qt["morph"])
+
+def is_example_of():
+    parser = argparse.ArgumentParser(
+        "Check if query is morphologically constrained")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("comp", type=int)
+    args = parser.parse_args()
+    client = Client(args.port)
+    qt = client.query_type(args.query_id, args.comp - 1)
+    print(qt["example_of"])
+
+

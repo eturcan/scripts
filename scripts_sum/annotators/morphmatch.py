@@ -5,7 +5,7 @@ en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
 punc = set(string.punctuation) 
 
 
-class ExactMatcher:
+class MorphMatcher:
 
     def __init__(self, translation, uncased=True, embeddings=None,
                  remove_stopwords=True):
@@ -28,6 +28,14 @@ class ExactMatcher:
 
 
     def __call__(self, query, doc):
+
+        #print(query)
+        if query.morphological_constraint is None:
+            return None
+
+        #print(query)
+        #print(query.morphological_constraint)
+
 
         query_forms = self.filter_tokens(query.content.tokens)
         annotations = []

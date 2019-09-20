@@ -1,0 +1,41 @@
+[
+    {
+        "lang": "2B",
+        "name": "2B-ANALYSIS",
+        "index": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/index.txt",
+        "audio": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/src",
+            "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/asr_store/material-asr-lt-v1.2/",
+            "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v5.2_material-asr-lt-v1.2",
+            "translations": [
+                {
+                    "name": "reference",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/translation_english",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v5.2_umd-smt-v2.6_material-asr-lt-v1.2"
+                }
+            ]
+        },
+        "text": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/src",
+            "sentence_segmentation": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/sentSplitter_store/sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/mt_store/scriptsmt-systems-v8_sent-split-v3.0",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v5.2_scriptsmt-systems-v8_sent-split-v3.0"
+                },
+                { 
+                    "name": "umd-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/mt_store/umd-nmt-v4.3_sent-split-v3.0",                    
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v5.2_umd-nmt-v4.3_sent-split-v3.0"
+                },
+                {
+                    "name": "umd-smt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/mt_store/umd-smt-v2.6_sent-split-v3.0",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v5.2_umd-smt-v2.6_sent-split-v3.0"
+                }
+            ],
+            "source_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v5.2_sent-split-v3.0"
+        }
+    }
+]

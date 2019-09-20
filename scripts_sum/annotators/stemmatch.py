@@ -5,12 +5,11 @@ en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
 punc = set(string.punctuation) 
 
 
-class ExactMatcher:
+class StemMatcher:
 
-    def __init__(self, translation, uncased=True, embeddings=None,
+    def __init__(self, translation, embeddings=None,
                  remove_stopwords=True):
         self.translation = translation
-        self.uncased = uncased
         self.remove_stopwords = remove_stopwords
 
     def filter_tokens(self, tokens):
@@ -20,10 +19,7 @@ class ExactMatcher:
                 continue
             if self.remove_stopwords and all([c in punc for c in tok.word]):
                 continue
-            if self.uncased:
-                fltr_tokens.append(tok.word.lower())
-            else:
-                fltr_tokens.append(tok.word)
+            fltr_tokens.append(tok.stem)
         return fltr_tokens
 
 
@@ -37,7 +33,7 @@ class ExactMatcher:
             matches = [] 
 
             for token in utt.tokens:
-                utt_form = token.word.lower() if self.uncased else token.word
+                utt_form = token.stem.lower()
                 matches.append([1 if qf == utt_form else 0 
                                 for qf in query_forms])
             matches = np.array(matches)
@@ -55,7 +51,8 @@ class ExactMatcher:
             })
         meta = {
             "query": query.string,
-            "type": "ExactMatcher", 
-            "args": {"translation": self.translation, "uncased": self.uncased},
+            "type": "StemMatcher", 
+            "args": {"translation": self.translation, 
+                     "remove_stopwords": self.remove_stopwords},
         }
         return {"annotation": annotations, "meta": meta}
