@@ -60,6 +60,7 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
             }
 
             markup_dir = summary_results_dir / "markup" / query_id
+            print(markup_dir)
             for component_path in sorted(markup_dir.glob(
                     "{}.{}.c*.json".format(query_id, doc_id))):
 
@@ -86,11 +87,13 @@ def read_component_content(json_path):
     markup = re.sub(r"<.*?>(.*?)<.*?>", r"\1", markup)
 
     content = [re.sub(r"\s+", " ", line.strip())
-               for line in markup.split("\n")]
+               for line in markup.strip().split("\n")]
+    content = [c for c in content if c != '']
 
     return {
         "query_component": data["query_string"], 
         "eng_content_list": content,
+        "instructions": data["instructions"],
     }
 
 

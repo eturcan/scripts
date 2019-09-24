@@ -3,6 +3,7 @@ import re
 import string
 from summarkup.utils import detokenize, make_word_match_header
 from summarkup.generators.conceptv1 import ConceptV1
+from scripts_sum.summary_instructions import get_instructions
 
 
 punc = set(string.punctuation)
@@ -101,4 +102,9 @@ class MorphV1:
             if size >= budget:
                 break
 
-        return "\n".join(markup_lines)
+        missing_terms = [t.word.lower() for t in query.content.tokens
+                         if t.word.lower() not in found_terms]
+        
+        instructions = get_instructions(
+            query.string, found_terms, missing_terms)
+        return "\n".join(markup_lines), instructions

@@ -14,6 +14,7 @@ def set_header_color(match):
 def main():
     parser = argparse.ArgumentParser("Display markup summary")
     parser.add_argument("paths", type=Path, nargs="+", help="markup to display")
+    parser.add_argument("--instr", action="store_true")
     args = parser.parse_args()
 
     for path in args.paths:
@@ -46,6 +47,14 @@ def main():
         print()
         print(re.sub(r"<p>(.*?)</p>", lambda x: textwrap.fill(x[1].strip(), initial_indent="  ", subsequent_indent="  ") + "\n", markup))
         print()
+        if args.instr:
+
+            instr = re.sub('<b><font .*?>(.*?)</font></b>', 
+                Fore.GREEN + Style.BRIGHT + r'\1' + Style.RESET_ALL, 
+                data["instructions"])
+            print(instr)
+            print()
+            print()
 
 if __name__ == "__main__":
     main() 

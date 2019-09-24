@@ -2,6 +2,7 @@ import numpy as np
 import re
 import string
 from summarkup.utils import make_relevant_header, detokenize
+from scripts_sum.summary_instructions import get_instructions
 
 punc = set(string.punctuation)
 translations = ["edi-nmt", "umd-nmt", "umd-smt"]
@@ -80,7 +81,13 @@ class ConceptV1:
             if size >= budget:
                  break
 
-        return "\n".join(markup_lines)
+        found_words = set([t.word.lower() for t in exact_matches])
+        missing_words = set([t.word.lower() for t in query.content.tokens
+                             if t.word.lower() not in found_words])
+
+        instructions = get_instructions(
+            query.string, list(found_words), list(missing_words))
+        return "\n".join(markup_lines), instructions
 
     def get_best_translation(self, annotations, utt_index):
         t2s = {}
@@ -126,8 +133,8 @@ class ConceptV1:
             line = " ".join(line.split()[:wc]) + "..."
 
         line = re.sub(r"span_class", "span class", line)
-        line = re.sub(r"\[EXACTREL\]", "relevant exact", line)
-        line = re.sub(r"\[REL\]", "relevant", line)
+        line = re.sub(r"\[EXACTREL\]", "rel_exact_match", line)
+        line = re.sub(r"\[REL\]", "rel_exact", line)
         return "<p>{}</p>\n".format(line), wc
 
 def merge_rankings(rankings):

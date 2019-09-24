@@ -28,7 +28,7 @@ def get_iso(code):
     if is_iso(code):
         return code.lower()
     elif code in MATERIAL2ISO:
-        return MATERIAL2ISO
+        return MATERIAL2ISO[code]
     else:
         raise RuntimeError("{} is not a valid iso language code".format(code))
 

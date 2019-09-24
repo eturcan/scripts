@@ -2,6 +2,7 @@ import numpy as np
 import re
 import string
 from summarkup.utils import make_relevant_header, detokenize
+from scripts_sum.summary_instructions import get_instructions
 
 punc = set(string.punctuation)
 translations = ["edi-nmt", "umd-nmt", "umd-smt"]
@@ -82,7 +83,12 @@ class ExampleOfV1:
             if size >= budget:
                  break
 
-        return "\n".join(markup_lines)
+        found_terms = set([t.word.lower() for t in exact_matches])
+        missing_terms = set([t.word.lower() for t in query.content.tokens
+                             if t.word.lower() not in found_terms])
+
+        instr = get_instructions(query.string, found_terms, missing_terms)
+        return "\n".join(markup_lines), instr
 
     def get_best_translation(self, annotations, utt_index):
         t2s = {}

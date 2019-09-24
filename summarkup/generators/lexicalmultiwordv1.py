@@ -4,6 +4,7 @@ import string
 from nltk.corpus import stopwords
 from summarkup.utils import detokenize, make_word_match_header
 from summarkup.generators.conceptv1 import ConceptV1
+from scripts_sum.summary_instructions import get_instructions
 
 
 en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
@@ -26,7 +27,7 @@ class LexicalMultiWordV1:
             sent_ann = {
                 k: doc.annotations[k]["annotation"][i]
                 for k in doc.annotations.keys() 
-                if k != "QUERY"
+                if k != "QUERY" and doc.annotations[k] is not None
             }
             
             best_exact_trans = self.find_best_translation(sent_ann)
@@ -99,7 +100,11 @@ class LexicalMultiWordV1:
                     break
 
         if len(markup_lines) > 0:
-            return "\n".join(markup_lines)
+            missing_terms = [t.word.lower() for t in query.content.tokens
+                             if t.word.lower() not in found_terms and \
+                                t.word.lower() not in en_stopwords]
+            instr = get_instructions(query.string, found_terms, missing_terms)
+            return "\n".join(markup_lines), instr
         else:
             return ConceptV1()(doc, budget=budget)
 

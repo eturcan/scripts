@@ -1,0 +1,31 @@
+[
+    {
+        "lang": "2B",
+        "name": "2B-ANALYSIS",
+        "index": "2B/index.txt",
+        "text": {
+            "source": "2B/text/src",
+            "sentence_segmentation": "2B/text/src",
+            "source_morphology": "2B/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "2B/text/translation",
+                    "morph": "2B/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2B/audio/src",
+            "asr": "2B/audio/asr",
+            "asr_morphology": "2B/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "2B/audio/translation",
+                    "morph": "2B/audio/translation_morphology"
+                }
+            ]
+        }
+    }
+]

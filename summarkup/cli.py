@@ -23,7 +23,7 @@ def generate_markup():
     with args.annotated_document.open("rb") as fp:
         doc = pickle.load(fp)
     
-    markup = markup_generator(doc)
+    markup, instr = markup_generator(doc)
     if not args.quiet:
         print(markup)
     output = json.dumps({
@@ -33,6 +33,7 @@ def generate_markup():
         "query_id": doc.annotations["QUERY"].id,
         "component": doc.annotations["QUERY"].num,
         "total_components": doc.annotations["QUERY"].num_components,
+        "instructions": instr,
     })
     args.output_path.parent.mkdir(exist_ok=True, parents=True)
     args.output_path.write_text(output)

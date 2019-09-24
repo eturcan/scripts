@@ -17,45 +17,54 @@ if [ "$args" == "" ]; then
         exit                                                                   
 fi 
 
+get_markup_gen () {
+    if [ `is_example_of $1 $2 $3` == "True" ]; then
+        return "summarkup.generators.exampleofv1.ExampleOfV1"
+    elif [ `is_morph $1 $2 $3` == "True" ]; then
+        return "summarkup.generators.morphv1.MorphV1"
+    elif [ `is_conceptual $1 $2 $3` == "True" ]; then
+        return "summarkup.generators.conceptv1.ConceptV1"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "True" ]; then
+        return "summarkup.generators.lexicalv1.LexicalV1"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "False" ]; then
+        return "summarkup.generators.lexicalmultiwordv1.LexicalMultiWordV1"
+    else
+        return "NONE"
+    fi
+}
+
+
 summarize () {
     nc=`num_components $QUERY_PORT $1`
+        echo "$1 $2 $3 1"
+#        annotate_material $ANNOTATION_PORT $1 $2 1 \
+#            /outputs/annotations/$1/$1.$2.c1.pkl
+#        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+#            /outputs/annotations/$1/$1.$2.c1.pkl \
+#            /outputs/markup/$1/$1.$2.c1.json \
+#            --quiet
+#        generate_image scripts/configs/summary_style.v1.css \
+#            /outputs/markup/$1/$1.$2.c1.json \
+#            /outputs/images/$1.$2.c1.png
+#
+
     if [ "$nc" == "2" ]; then
-        echo "$1 $2 $3 1/2"
-        annotate_material $ANNOTATION_PORT $1 $2 1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl
-        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl \
-            /outputs/markup/$1/$1.$2.c1.json \
-            --quiet
-        generate_image scripts/configs/summary_style.v1.css \
-            /outputs/markup/$1/$1.$2.c1.json \
-            /outputs/images/$1.$2.c1.png
 
-        echo "$1 $2 $3 2/2"
-        annotate_material $ANNOTATION_PORT $1 $2 2 \
-            /outputs/annotations/$1/$1.$2.c2.pkl
-        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            /outputs/annotations/$1/$1.$2.c2.pkl \
-            /outputs/markup/$1/$1.$2.c2.json \
-            --quiet
-        generate_image scripts/configs/summary_style.v1.css \
-            /outputs/markup/$1/$1.$2.c2.json \
-            /outputs/images/$1.$2.c2.png
-
+        echo "$1 $2 $3 2"
+#        annotate_material $ANNOTATION_PORT $1 $2 2 \
+#            /outputs/annotations/$1/$1.$2.c2.pkl
+#        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+#            /outputs/annotations/$1/$1.$2.c2.pkl \
+#            /outputs/markup/$1/$1.$2.c2.json \
+#            --quiet
+#        generate_image scripts/configs/summary_style.v1.css \
+#            /outputs/markup/$1/$1.$2.c2.json \
+#            /outputs/images/$1.$2.c2.png
+#
 
     else
-        echo "$1 $2 $3 1/1"
-        annotate_material $ANNOTATION_PORT $1 $2 1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl
-        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl \
-            /outputs/markup/$1/$1.$2.c1.json \
-            --quiet
-        generate_image scripts/configs/summary_style.v1.css \
-            /outputs/markup/$1/$1.$2.c1.json \
-            /outputs/images/$1.$2.c1.png
-    fi
-
 }
 
 

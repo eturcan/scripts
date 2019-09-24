@@ -52,7 +52,7 @@ class TextDocument(AnnotatedDocument):
                         doc_id, i, str(source_morphology_path)))
             sent_seg = sent_segment_lines[i]
             if len(src_morph) == 0:
-                if sent_seg.strip() != "":
+                if sent_seg.strip() != "" and sent_seg.strip() not in [".", "?", "!", ";", "..."]:
                     raise RuntimeError(
                         "Bad morph/segmentation alignment: {}".format(
                             doc_id))

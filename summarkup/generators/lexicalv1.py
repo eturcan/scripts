@@ -3,12 +3,23 @@ import re
 import string
 from summarkup.utils import detokenize, make_word_match_header
 from summarkup.generators.conceptv1 import ConceptV1
+from scripts_sum.summary_instructions import get_instructions
 
 
 punc = set(string.punctuation)
 translations = ["edi-nmt", "umd-nmt", "umd-smt"]
 
 class LexicalV1:
+
+
+    def instructions(self, doc):
+        query = doc.annotations["QUERY"]
+        
+        
+
+
+        
+
 
     def __call__(self, doc, budget=100):
         query = doc.annotations["QUERY"]
@@ -22,7 +33,7 @@ class LexicalV1:
             sent_ann = {
                 k: doc.annotations[k]["annotation"][i]
                 for k in doc.annotations.keys() 
-                if k != "QUERY"
+                if k != "QUERY" if doc.annotations[k] is not None
             }
             
             best_exact_trans = self.find_best_translation(sent_ann)
@@ -84,7 +95,14 @@ class LexicalV1:
                     break
 
         if len(markup_lines) > 0:
-            return "\n".join(markup_lines)
+            if len(exact_matches) > 0:
+                instructions = get_instructions(
+                    query.string, [query.content.tokens[0].word], [])
+            else:
+                instructions = get_instructions(
+                    query.string, [], [query.content.tokens[0].word])
+
+            return "\n".join(markup_lines), instructions
         else:
             return ConceptV1()(doc, budget=budget)
 
