@@ -1,0 +1,40 @@
+{
+    "annotators": {
+        "gold.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["gold"],
+            "kwargs": {}
+        },
+        "gold.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["gold"],
+            "kwargs": {}
+        },
+        "gold.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["gold"],
+            "kwargs": {}
+        },
+        "gold.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["gold", "glove.6B"],
+            "kwargs": {}
+        },
+        "gold.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["gold", "glove.42B"],
+            "kwargs": {}
+        }
+    },
+    "embeddings": {
+        "en": {
+            "glove.6B": "glove.6B.300d.txt",
+            "glove.42B": "glove.42B.300d.txt"
+        }
+    }
+}
