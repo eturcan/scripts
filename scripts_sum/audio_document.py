@@ -67,7 +67,7 @@ class SpeechDocument(AnnotatedDocument):
             for token in src_tokens:
                 idx = token_info_pos[spkr]
                 if token.word != asr_tokens[spkr][idx]["token"]:
-                    raise Exception("Bad ctm-utt alignment")
+                    raise RuntimeError("Bad ctm-utt alignment")
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1
                  
@@ -113,7 +113,7 @@ class SpeechDocument(AnnotatedDocument):
                 })
 
         if asr_path is None:
-            raise Exception("No asr with version {}".format(
+            raise RuntimeError("No asr with version {}".format(
                 asr_config["ver"]))
 
         asr_morph_path = None
@@ -126,7 +126,7 @@ class SpeechDocument(AnnotatedDocument):
                 continue
 
         if asr_morph_path is None:
-            raise Exception(("No asr morphology with version {} on " \
+            raise RuntimeError(("No asr morphology with version {} on " \
                              "asr version {}").format(
                 asr_morph_config["ver"], asr_config["ver"]))
 
@@ -147,7 +147,7 @@ class SpeechDocument(AnnotatedDocument):
                     translation_path = info["path"]
                     break  
             if translation_path is None:
-                raise Exception(
+                raise RuntimeError(
                     "No translation version {} on asr {}".format(
                         translation["ver"], asr_config["ver"]))
             for m_name, m_info in result["asr_translation_morphology"].items():
@@ -157,7 +157,7 @@ class SpeechDocument(AnnotatedDocument):
                     translation_morph_path = m_info["path"]
 
             if translation_morph_path is None:
-                raise Exception(
+                raise RuntimeError(
                     ("No translation morph for mt version {} on " \
                      "sent seg {}").format(
                         translation["ver"], asr_config["ver"]))
@@ -208,7 +208,7 @@ class SpeechDocument(AnnotatedDocument):
             for token in src_tokens:
                 idx = token_info_pos[spkr]
                 if token.word != asr_tokens[spkr][idx]["token"]:
-                    raise Exception("Bad ctm-utt alignment")
+                    raise RuntimeError("Bad ctm-utt alignment")
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1
                  

@@ -149,13 +149,16 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         ds = self.doc_cache[doc_id]["ds"]
 
         if mode == "audio":
-            paths = self.retrieve_audio_paths(ds, doc_id)
-            return SpeechDocument.new(paths["source"],
-                                       paths["asr"],
-                                       paths["asr_morphology"], 
-                                       paths["translations"],
-                                       paths["translation_morphology"],
-                                       doc_id=doc_id)
+            try:
+                paths = self.retrieve_audio_paths(ds, doc_id)
+                return SpeechDocument.new(paths["source"],
+                                           paths["asr"],
+                                           paths["asr_morphology"], 
+                                           paths["translations"],
+                                           paths["translation_morphology"],
+                                           doc_id=doc_id)
+            except RuntimeError as e:
+                return e
   
         else:
             try:
