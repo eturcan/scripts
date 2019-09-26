@@ -1,8 +1,14 @@
 #!/bin/bash
 
 
+cwd=`pwd`
+morhp_dir=`dirname $SCRIPTS_MORPH`
+
+
+cd $morhp_dir
 echo "java -jar $SCRIPTS_MORPH $MORPH_PORT EN &"
 java -jar $SCRIPTS_MORPH $MORPH_PORT EN &
+cd $cwd
 echo "doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG &"
 doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG &
 echo "query_server $QUERY_PORT $MORPH_PORT $NIST_DATA &"

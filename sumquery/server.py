@@ -89,8 +89,9 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                     ("1B", "BASE", ()), 
                     ("1S", "BASE", ()),
                     ("2S", "OP1", ()),
-                    ("2B", "OP1", (("DEV", "DEV_ANNOTATION"),
-                                   ("ANALYSIS", "ANALYSIS_ANNOTATION")))]:
+                    ("2B", "OP1", ())]:
+#("DEV", "DEV_ANNOTATION"),
+#                                   ("ANALYSIS", "ANALYSIS_ANNOTATION")))]:
             lang_dir = (
                 self.nist_data / lang / 
                 "IARPA_MATERIAL_{}-{}".format(period, lang)
