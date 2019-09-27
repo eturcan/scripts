@@ -39,34 +39,31 @@ get_markup_gen () {
 summarize () {
     nc=`num_components $QUERY_PORT $1`
         echo "$1 $2 $3 1"
-#        annotate_material $ANNOTATION_PORT $1 $2 1 \
-#            /outputs/annotations/$1/$1.$2.c1.pkl
-#        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-#            /outputs/annotations/$1/$1.$2.c1.pkl \
-#            /outputs/markup/$1/$1.$2.c1.json \
-#            --quiet
-#        generate_image scripts/configs/summary_style.v1.css \
-#            /outputs/markup/$1/$1.$2.c1.json \
-#            /outputs/images/$1.$2.c1.png
-#
+        annotate_material $ANNOTATION_PORT $1 $2 1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl
+        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+            /outputs/annotations/$1/$1.$2.c1.pkl \
+            /outputs/markup/$1/$1.$2.c1.json \
+            --quiet
+        generate_image scripts/configs/summary_style.v1.css \
+            /outputs/markup/$1/$1.$2.c1.json \
+            /outputs/images/$1.$2.c1.png
 
     if [ "$nc" == "2" ]; then
 
         echo "$1 $2 $3 2"
-#        annotate_material $ANNOTATION_PORT $1 $2 2 \
-#            /outputs/annotations/$1/$1.$2.c2.pkl
-#        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-#            /outputs/annotations/$1/$1.$2.c2.pkl \
-#            /outputs/markup/$1/$1.$2.c2.json \
-#            --quiet
-#        generate_image scripts/configs/summary_style.v1.css \
-#            /outputs/markup/$1/$1.$2.c2.json \
-#            /outputs/images/$1.$2.c2.png
-#
+        annotate_material $ANNOTATION_PORT $1 $2 2 \
+            /outputs/annotations/$1/$1.$2.c2.pkl
+        generate_markup summarkup.generators.conceptv1.ConceptV1 \
+            /outputs/annotations/$1/$1.$2.c2.pkl \
+            /outputs/markup/$1/$1.$2.c2.json \
+            --quiet
+        generate_image scripts/configs/summary_style.v1.css \
+            /outputs/markup/$1/$1.$2.c2.json \
+            /outputs/images/$1.$2.c2.png
+    fi
 
-    else
 }
-
 
 export -f summarize
 
@@ -74,4 +71,3 @@ parallel --link -j8 summarize \
     ::: $1 \
     ::: `printf "$args" | cut -d " " -f1` \
     ::: `printf "$args" | cut -d " " -f2`
-
