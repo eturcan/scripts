@@ -8,7 +8,7 @@ make_args () {
                if [ ! -z "$doc" ]; then
                    printf "$doc $score\n"
                fi
-    done <<< `cat /CLIR/$1.tsv | grep -E "\tY\t"`
+    done <<< `cat /clir/UMD-CLIR-workECDir/$1.tsv | grep -E "\tY\t"`
 }
 
 args=`make_args $1`
