@@ -9,7 +9,7 @@ setup(
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
     install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema",
-                      "imgkit"],
+                      "imgkit", "torch"],
     include_package_data=True,
     zip_safe=False,
     entry_points={
