@@ -19,7 +19,7 @@ start_doc_server () {
         > >(tee /outputs/logs-latest/doc.out.log) \
         2> >(tee /outputs/logs-latest/doc.err.log >&2) &
     sleep 1
-    ( tail -f -n0 /outputs/logs-latest/doc.out.log & ) | grep -q "Waiting for client request on port $DOC_PORT.."
+    ( tail -f -n1 /outputs/logs-latest/doc.out.log & ) | grep -q "Waiting for client request on port $DOC_PORT.."
 }
 
 start_query_server () {
