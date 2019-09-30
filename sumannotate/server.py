@@ -28,11 +28,16 @@ class RequestHandler(socketserver.BaseRequestHandler):
             self.request.send(b'reload ok')
 
     def annotate_material(self, query_id, doc_id, component, output_path):
-        
+         
         query = sumquery.client.Client(self.server.query_port).object(query_id)
         doc = sumdoc.client.Client(self.server.doc_port).object(doc_id)
         query_comp = query[component]
+        if self.server.verbose:
+            print("annotating query-id: {} doc-id {} mode {}".format(
+                query_id, doc_id, doc.mode))
         for ann_name, ann in self.server.annotators.items():
+            if self.server.verbose:
+                print("Applying annotator: {}".format(ann_name))
             doc.annotate_utterances(ann_name, ann(query_comp, doc))
         doc.annotate_utterances("QUERY", query_comp)
         output_path.parent.mkdir(exist_ok=True, parents=True)
@@ -41,7 +46,7 @@ class RequestHandler(socketserver.BaseRequestHandler):
         
 class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, port, query_port, doc_port, model_dir, config_path, 
-                 threads=8):
+                 threads=8, verbose=False):
         super(Server, self).__init__(("127.0.0.1", port), RequestHandler)
         self.port = port
         self.query_port = query_port
@@ -51,6 +56,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.config = json.loads(config_path.read_text())
         self.embeddings = self.load_embeddings(self.config)
         self.annotators = self.load_annotators(self.config)
+        self.verbose = verbose
 
     def load_annotators(self, config):
         annotators = {}
@@ -89,8 +95,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     def start(self):
         with self:
-            print("Server started on port", self.port)
-            print("Waiting for client request..")
+            print("Waiting for client request on port {}..".format(
+                self.port), flush=True)
             self.serve_forever()
 
 ABOUT = (
@@ -108,8 +114,9 @@ def main():
     parser.add_argument("config", type=Path, help="path to config json")
     parser.add_argument("-t", "--threads", default=8, 
                         help="number of handler threads")
+    parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
     server = Server(args.port, args.query_port, args.doc_port, 
                     args.model_dir, args.config,
-                    threads=args.threads)
+                    threads=args.threads, verbose=args.verbose)
     server.start()

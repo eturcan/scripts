@@ -3,6 +3,7 @@
 
 make_args () {
     query_list=$1
+    clir_dir=$2
     for query in $query_list; do
 
         while read -r doc_score; do
@@ -11,15 +12,10 @@ make_args () {
                if [ ! -z "$doc" ]; then
                    printf "$query $doc $score\n"
                fi
-        done <<< `cat /clir/UMD-CLIR-workECDir/$query.tsv | grep -E "\tY\t"`
+        done <<< `cat /$clir_dir/UMD-CLIR-workECDir/$query.tsv | grep -E "\tY\t"`
 
     done
 }
-
-args=`make_args "$1"`
-if [ "$args" == "" ]; then                                                     
-        exit                                                                   
-fi 
 
 get_markup_gen () {
     if [ `is_example_of $1 $2 $3` == "True" ]; then
@@ -39,40 +35,55 @@ get_markup_gen () {
     fi
 }
 
-
 summarize () {
+    output_dir=$4
     nc=`num_components $QUERY_PORT $1`
         echo "$1 $2 $3 1"
         annotate_material $ANNOTATION_PORT $1 $2 1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl
+            "$output_dir/annotations/$1/$1.$2.c1.pkl"
         generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            /outputs/annotations/$1/$1.$2.c1.pkl \
-            /outputs/markup/$1/$1.$2.c1.json \
+            $output_dir/annotations/$1/$1.$2.c1.pkl \
+            $output_dir/markup/$1/$1.$2.c1.json \
             --quiet
         generate_image scripts/configs/summary_style.v1.css \
-            /outputs/markup/$1/$1.$2.c1.json \
-            /outputs/images/$1.$2.c1.png
+            $output_dir/markup/$1/$1.$2.c1.json \
+            $output_dir/images/$1.$2.c1.png
 
     if [ "$nc" == "2" ]; then
 
         echo "$1 $2 $3 2"
         annotate_material $ANNOTATION_PORT $1 $2 2 \
-            /outputs/annotations/$1/$1.$2.c2.pkl
+            $output_dir/annotations/$1/$1.$2.c2.pkl
         generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            /outputs/annotations/$1/$1.$2.c2.pkl \
-            /outputs/markup/$1/$1.$2.c2.json \
+            $output_dir/annotations/$1/$1.$2.c2.pkl \
+            $output_dir/markup/$1/$1.$2.c2.json \
             --quiet
         generate_image scripts/configs/summary_style.v1.css \
-            /outputs/markup/$1/$1.$2.c2.json \
-            /outputs/images/$1.$2.c2.png
+            $output_dir/markup/$1/$1.$2.c2.json \
+            $output_dir/images/$1.$2.c2.png
     fi
 
 }
 
 export -f summarize
 
+if [[ $3 != "" ]]; then
+    clir_dir="clir-$3"
+    output_dir=/outputs/$3
+else
+    clir_dir="clir"
+    output_dir=/outputs/
+fi
+
+args=`make_args "$1" $clir_dir`
+if [ "$args" == "" ]; then                                                     
+    exit                                                                   
+fi 
+
 parallel --link -j$2 summarize \
-    ::: `printf "$args" | cut -d " " -f1` \
-    ::: `printf "$args" | cut -d " " -f2` \
-    ::: `printf "$args" | cut -d " " -f3`
+    ::: `echo "$args" | cut -d " " -f1` \
+    ::: `echo "$args" | cut -d " " -f2` \
+    ::: `echo "$args" | cut -d " " -f3` \
+    ::: $output_dir
+    
 

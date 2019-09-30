@@ -215,8 +215,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     def start(self):
         with self:
-            print("Server started on port", self.port)
-            print("Waiting for client request..")
+            print("Waiting for client request on port {}..".format(
+                self.port), flush=True)
             self.serve_forever()
 
     def query_type_from_id(self, query_id, component):

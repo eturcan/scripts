@@ -251,8 +251,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     def start(self):
         with self:
-            print("Server started on port", self.port)
-            print("Waiting for client request..")
+            print("Waiting for client request on port {}..".format(
+                self.port), flush=True)
             self.serve_forever()
 
 ABOUT = (
