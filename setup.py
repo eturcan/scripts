@@ -5,7 +5,7 @@ setup(
     version='0.1',
     packages=['scripts_sum', 'sumquery', 'sumdoc', 'sumannotate', 
               'summarkup'],
-    py_modules=["package_summaries"],
+    py_modules=["package_summaries", "ds2config"],
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
     install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema",
@@ -33,6 +33,7 @@ setup(
             "generate_image=summarkup.cli:generate_image",
             "package_summaries=package_summaries:main",
             "print_markup=scripts_sum.print_markup:main",
+            "ds2config=ds2config:main",
         ],
     }
 )
