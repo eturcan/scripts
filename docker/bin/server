@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm /outputs/logs-latest/*
+rm -f /outputs/logs-latest/*
 
 start_morph_server () {
     cwd=`pwd`
@@ -48,6 +48,19 @@ echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNO
     ( tail -f -n1 /outputs/logs-latest/ann.out.log & ) \
         | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
 }
+
+if [[ -d /experiment ]]; then
+
+    experiment_config=`ls /experiment/*.json`
+    new_doc_config=/app/config/doc.server.config.json
+    experiment_config $experiment_config /NIST-data $new_doc_config
+    echo "Deriving doc server config from experiment config $experiment_config"
+    export DOCSERVER_CONFIG=$new_doc_config
+    echo "Setting new doc server config: $DOCSERVER_CONFIG"
+
+else
+    echo "Using default document server config: $DOCSERVER_CONFIG"
+fi
 
 mkdir -p /outputs/logs-latest
 
