@@ -157,6 +157,10 @@ class SemanticConstraint:
         return self._type
 
     @property
+    def text(self):
+        return self._utterance.text
+
+    @property
     def utterance(self):
         return self._utterance
 
