@@ -1,0 +1,124 @@
+{
+    "annotators": {
+        "edi-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.morph_match_np": {
+            "module": "scripts_sum.annotators.morphmatchnp",
+            "class": "MorphMatcherNP",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.6B"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-nmt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-nmt", "glove.6B"],
+            "kwargs": {}
+        },
+        "umd-nmt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-smt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-smt", "glove.6B"],
+            "kwargs": {}
+        },
+        "umd-smt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-smt", "glove.42B"],
+            "kwargs": {}
+        },
+        "queryrel": {
+            "module": "scripts_sum.annotators.queryrel",
+            "class": "QueryRel",
+            "args": [8604],
+            "kwargs": {}
+        }
+    },
+    "embeddings": {
+        "en": {
+            "glove.6B": "glove.6B.300d.txt",
+            "glove.42B": "glove.42B.300d.txt"
+        }
+    }
+}
