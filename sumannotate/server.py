@@ -29,12 +29,12 @@ class RequestHandler(socketserver.BaseRequestHandler):
 
     def annotate_material(self, query_id, doc_id, component, output_path):
          
+        if self.server.verbose:
+            print("annotating query-id: {} component {} doc-id {}".format(
+                query_id, component, doc_id))
         query = sumquery.client.Client(self.server.query_port).object(query_id)
         doc = sumdoc.client.Client(self.server.doc_port).object(doc_id)
         query_comp = query[component]
-        if self.server.verbose:
-            print("annotating query-id: {} doc-id {} mode {}".format(
-                query_id, doc_id, doc.mode))
         for ann_name, ann in self.server.annotators.items():
             if self.server.verbose:
                 print("Applying annotator: {}".format(ann_name))

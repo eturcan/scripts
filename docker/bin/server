@@ -49,6 +49,22 @@ echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNO
         | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
 }
 
+start_queryrel_server () {
+
+qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
+qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
+qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/model.pkl"
+
+echo ">>  queryrel_server 8604 $qrel_args"
+queryrel_server 8604 $qrel_args \
+        > >(tee /outputs/logs-latest/qrel.out.log) \
+        2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/qrel.out.log & ) \
+        | grep -q "Query relevance server started on port 8604"
+}
+
 if [[ -d /experiment ]]; then
 
     experiment_config=`ls /experiment/*.json`
@@ -68,6 +84,10 @@ cwd=`pwd`
 morhp_dir=`dirname $SCRIPTS_MORPH`
 echo "Kicking off the summarizer..."
 echo 
+echo "Starting queryrel server:"
+    start_queryrel_server
+echo "Queryrel server running."
+echo
 echo "Starting English morphological analyzer:"
     start_morph_server
 echo "English morphological analyzer running."
