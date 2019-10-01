@@ -4,7 +4,7 @@ setup(
     name='scripts_sum',
     version='0.1',
     packages=['scripts_sum', 'sumquery', 'sumdoc', 'sumannotate', 
-              'summarkup'],
+              'summarkup', 'sumpsq'],
     py_modules=["package_summaries", "ds2config"],
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
@@ -14,6 +14,8 @@ setup(
     zip_safe=False,
     entry_points={
         "console_scripts": [
+            "sumpsq=sumpsq.server:sumpsq_server",
+            "get_psq=sumpsq.client:get_psq",
             "annotation_server=sumannotate.server:main",
             "annotate_material=sumannotate.client:annotate_material",
             "reload_annotators=sumannotate.client:reload_annotators",
