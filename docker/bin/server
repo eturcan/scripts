@@ -55,16 +55,38 @@ qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
 qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
 qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/model.pkl"
 
-echo ">>  queryrel_server 8604 $qrel_args"
-queryrel_server 8604 $qrel_args \
+echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
+queryrel_server $QUERYREL_PORT $qrel_args \
         > >(tee /outputs/logs-latest/qrel.out.log) \
         2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
 
     sleep 1
     ( tail -f -n1 /outputs/logs-latest/qrel.out.log & ) \
-        | grep -q "Query relevance server started on port 8604"
+        | grep -q "Query relevance server started on port $QUERYREL_PORT"
 }
 
+start_psq_server () {
+
+argstr=""
+query_jsons=""
+if compgen -G "/query-*" > /dev/null; then
+    query_jsons="$query_jsons `ls /query-*/query*`"
+    argstr="$argstr /query-*/query*"
+fi
+
+if [[ -d /query ]]; then
+    query_jsons="$query_jsons `ls /query/query*`"
+    argstr="$argstr /query/query*"
+fi
+echo ">>  sumpsq $PSQ_PORT $argstr"
+sumpsq $PSQ_PORT $query_jsons \
+        > >(tee /outputs/logs-latest/psq.out.log) \
+        2> >(tee /outputs/logs-latest/psq.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/psq.out.log & ) \
+        | grep -q "Waiting for client request on port $PSQ_PORT.."
+}
 if [[ -d /experiment ]]; then
 
     experiment_config=`ls /experiment/*.json`
@@ -83,6 +105,10 @@ mkdir -p /outputs/logs-latest
 cwd=`pwd`
 morhp_dir=`dirname $SCRIPTS_MORPH`
 echo "Kicking off the summarizer..."
+echo
+echo "Staring PSQ server:"
+    start_psq_server
+echo "PSQ server running."
 echo 
 echo "Starting queryrel server:"
     start_queryrel_server
