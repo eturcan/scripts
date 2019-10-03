@@ -78,7 +78,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                     raise Exception(
                         "Could not find source for doc id: {}".format(doc_id))
                 assert doc_id not in self.doc_cache
-                self.doc_cache[doc_id] = {"ds": config["name"], "mode": mode}
+                self.doc_cache[doc_id] = {"ds": config["name"], "mode": mode,
+                                          "lang": config["lang"]}
 
     def validate_doc(self, doc_id):
         if doc_id not in self.doc_cache:
@@ -147,6 +148,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
         mode = self.doc_cache[doc_id]["mode"]
         ds = self.doc_cache[doc_id]["ds"]
+        lang = self.doc_cache[doc_id]["lang"]
 
         if mode == "audio":
             try:
@@ -156,7 +158,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                                            paths["asr_morphology"], 
                                            paths["translations"],
                                            paths["translation_morphology"],
-                                           doc_id=doc_id)
+                                           doc_id=doc_id, lang=lang)
             except RuntimeError as e:
                 return e
   
@@ -168,7 +170,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                                         paths["source_morphology"], 
                                         paths["translations"],
                                         paths["translation_morphology"],
-                                        doc_id=doc_id)
+                                        doc_id=doc_id, lang=lang)
             except RuntimeError as e:
                 return e
 

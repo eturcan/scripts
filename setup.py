@@ -5,11 +5,11 @@ setup(
     version='0.1',
     packages=['scripts_sum', 'sumquery', 'sumdoc', 'sumannotate', 
               'summarkup', 'sumpsq'],
-    py_modules=["package_summaries", "ds2config"],
+    py_modules=["package_summaries", "ds2config", "normalize_embeddings"],
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
     install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema",
-                      "imgkit", "torch"],
+                      "imgkit", "torch", "mosestokenizer"],
     include_package_data=True,
     zip_safe=False,
     entry_points={
@@ -36,6 +36,7 @@ setup(
             "package_summaries=package_summaries:main",
             "print_markup=scripts_sum.print_markup:main",
             "ds2config=ds2config:main",
+            "normalize_embeddings=normalize_embeddings:main",
         ],
     }
 )
