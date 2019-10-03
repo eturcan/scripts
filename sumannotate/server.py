@@ -48,6 +48,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, port, query_port, doc_port, model_dir, config_path, 
                  threads=8, verbose=False):
         super(Server, self).__init__(("127.0.0.1", port), RequestHandler)
+        self.verbose = verbose
         self.port = port
         self.query_port = query_port
         self.doc_port = doc_port
@@ -56,7 +57,6 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.config = json.loads(config_path.read_text())
         self.embeddings = self.load_embeddings(self.config)
         self.annotators = self.load_annotators(self.config)
-        self.verbose = verbose
 
     def load_annotators(self, config):
         annotators = {}
@@ -71,12 +71,14 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     
     def load_embeddings(self, config):
         embeddings = {}
-
         for lang, embs in config["embeddings"].items():
-            embeddings[lang] = {
-                name: Embeddings.from_path(self.model_dir / Path(path))
-                for name, path in embs.items() 
-            }
+            embeddings[lang] = {}
+            for name, path in embs.items():
+                if self.verbose:
+                    print("Loading embeddings: lang={} name={} path={}".format(
+                        lang, name, path))
+                embeddings[lang][name] = Embeddings.from_path(
+                    self.model_dir / Path(path))
         return embeddings
 
     def reload_annotators(self):
