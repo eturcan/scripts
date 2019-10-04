@@ -29,10 +29,12 @@ class MorphMatcher:
 
     def __call__(self, query, doc):
 
+        return
         #print(query)
         if query.morphological_constraint is None:
             return None
 
+        print(query)
         #print(query)
         #print(query.morphological_constraint)
 

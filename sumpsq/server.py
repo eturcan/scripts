@@ -6,7 +6,10 @@ from io import BytesIO
 
 
 PSQ_NAMES = set([
-    "PSQ_SMT-BUILD+ParaCrawl-en2lt-word-to-word-v1",
+#    "PSQ_SMT-BUILD+ParaCrawl-en2lt-word-to-word-v1",
+#    "PSQ_tokenized_normalized+berk_part_flat",
+    "PSQ_tokenized_normalized+berk_part_flat_keep_syn",   
+    "PSQ_tokenized_normalized+berk_part_flat_keep_exampleof",
 ])
 
 class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -20,9 +23,17 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def import_data_from_json(self, path):
         data = json.loads(path.read_text())
         query_id = data["query_id"]
+        found = 0
         for query in data["queries"]:
             if query["type"] in PSQ_NAMES:
-                self._cache[query_id] = query["translations"]
+                if query_id not in self._cache:
+                    self._cache[query_id] = {}
+                for k, v in query["translations"].items():
+                    self._cache[query_id][k] = v
+                found += 1
+        if found < 2:
+            from warnings import warn
+            warn("No PSQ for path: {}".format(path.parent))
 
 class PSQRequestHandler(socketserver.BaseRequestHandler):
 
@@ -48,8 +59,12 @@ class PSQRequestHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
         query_id = pickle.loads(self._receive())
-        self._send(pickle.dumps(self.server._cache[query_id]))
-
+        if query_id in self.server._cache:
+            self._send(pickle.dumps(self.server._cache[query_id]))
+        else:
+            self._send(pickle.dumps(
+                RuntimeError("Bad query id: {}".format(query_id))))
+        
 def sumpsq_server():
     import argparse
     parser = argparse.ArgumentParser("Start PSQ server.")

@@ -34,11 +34,20 @@ class RequestHandler(socketserver.BaseRequestHandler):
                 query_id, component, doc_id))
         query = sumquery.client.Client(self.server.query_port).object(query_id)
         doc = sumdoc.client.Client(self.server.doc_port).object(doc_id)
+
         query_comp = query[component]
         for ann_name, ann in self.server.annotators.items():
             if self.server.verbose:
                 print("Applying annotator: {}".format(ann_name))
-            doc.annotate_utterances(ann_name, ann(query_comp, doc))
+            try:
+                doc.annotate_utterances(ann_name, ann(query_comp, doc))
+            except Exception as e:
+                import sys
+                print("Annotation error: {} {} {} {} {} {} {}".format(
+                    query_id, component, query_comp.string, doc_id, doc.mode,
+                    doc.source_lang, ann_name), file=sys.stderr)
+                raise e
+                
         doc.annotate_utterances("QUERY", query_comp)
         output_path.parent.mkdir(exist_ok=True, parents=True)
         with output_path.open("wb") as fp:

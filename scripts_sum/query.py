@@ -31,6 +31,7 @@ class QueryComponent:
         self._conceptual = "+" in query_string
         self._phrasal = '"' in query_string
         self._query_content = query_content
+        self._example_of = "EXAMPLE_OF" in query_string
         
     def embed(self, embed_model, content_words=True, constraint_words=False):
 
@@ -88,6 +89,10 @@ class QueryComponent:
         return self._phrasal
 
     @property
+    def example_of(self):
+        return self._example_of
+
+    @property
     def classification(self):
         if self.morphological_constraint:
             return "morphological_lexical"
@@ -106,6 +111,7 @@ class QueryComponent:
 
         return "generic"
        
+
 
     def __str__(self):
         return "{} {}/{}: {}".format(self.id, self.num, self.num_components,

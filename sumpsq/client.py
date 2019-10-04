@@ -35,6 +35,8 @@ class PSQClient:
         self._send(connection, pickle.dumps(query_id)) 
         result = pickle.loads(self._receive(connection))
         connection.close()
+        if isinstance(result, RuntimeError):
+            raise result
         return result
 
 

@@ -56,6 +56,8 @@ class Client:
         client.sendall(json.dumps(request).encode())
         doc = pickle.loads(self._receive(client))
         client.close()
+        if isinstance(doc, RuntimeError):
+            raise doc
         return doc
 
     def mode(self, doc_id):

@@ -1,12 +1,19 @@
 from queryrel.client import QueryRelClient
+import os
+from scripts_sum.lang import get_iso
 
 
 class QueryRel:
 
-    def __init__(self, port, embeddings=None):
+    def __init__(self, port=None, embeddings=None):
+        if port is None:
+            port = int(os.getenv("QUERYREL_PORT"))
         self.queryrel_client = QueryRelClient(port)
 
     def __call__(self, query, doc):
+
+        if get_iso(doc.source_lang) != "lt":
+            return 
 
         query_content = query.content.text
         texts = [utt["source"].text.strip() for utt in doc.utterances]

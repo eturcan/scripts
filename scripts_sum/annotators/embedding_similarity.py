@@ -66,6 +66,20 @@ class EmbeddingSimilarity:
         for utt in doc:
             utt_toks = [t.word.lower() 
                         for t in utt["translations"][self.translation].tokens]
+            if len(utt_toks) == 0:
+                annotations.append({
+                    "sentence": { 
+                        "min": float("nan"),
+                        "max": float("nan"),
+                        "mean": float("nan"),
+                    },
+                    "word": {
+                        "sims": [[]], 
+                    },
+
+                })
+                continue
+
             utt_matrix = self.embeddings.lookup_sequence(utt_toks)
 
             if is_nan_query:

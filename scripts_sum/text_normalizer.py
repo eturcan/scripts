@@ -15,7 +15,7 @@ import sys
 import re
 import unicodedata
 import string
-from mosestokenizer import *
+#from mosestokenizer import *
 
 class TextNormalizer:
     
@@ -67,8 +67,8 @@ class TextNormalizer:
             'ū': 'u',
             'ž': 'z',
         }
-        self.tokenize = MosesTokenizer(language)
-        self.norm = MosesPunctuationNormalizer(language)
+        #self.tokenize = MosesTokenizer(language)
+        #self.norm = MosesPunctuationNormalizer(language)
 
     def normalize(self, text, remove_repetitions, remove_vowels, remove_spaces, remove_diacritics=True):
         remove_repetitions_count = 0
@@ -81,8 +81,7 @@ class TextNormalizer:
         '''
         Normalization and cleaning-up text
         '''
-        if text: text = " ".join(self.tokenize(self.norm(text)))
-        
+        #if text: text = text.translate(str.maketrans('', '', string.punctuation)) 
         alphabet = None
         vowels = None
         language = self.language.upper()
