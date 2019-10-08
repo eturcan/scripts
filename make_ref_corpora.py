@@ -17,13 +17,13 @@ cargs = {
         "text": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/translation",
         "audio": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/translation",
     },
-#    "2S-ANALYSIS": {
-#        "lang": "2S",
-#        "part": "ANALYSIS",
-#        "index": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/index.txt",
-#        "text": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/translation",
-#        "audio": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/translation",
-#    },
+    "2S-ANALYSIS": {
+        "lang": "2S",
+        "part": "ANALYSIS",
+        "index": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/index.txt",
+        "text": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/translation",
+        "audio": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/translation",
+    },
 }
 
 
@@ -90,21 +90,26 @@ def make_ref_corpus(root_dir, ref_dir, config, en_port, fgn_port, jar):
     tgt_asr_trans_morph_dir = (
         ref_dir / config["lang"] / "audio" / "translation_morphology"
     )
-    make_text_data(src_text_dir, tgt_src_text_dir, tgt_src_morph_text_dir,
-                   tgt_trans_text_dir, tgt_trans_morph_text_dir, en_port, 
-                   fgn_port, jar, lang)
-                    
-    make_audio_data(src_audio_dir, wav_dir, tgt_src_dir, tgt_src_morph_dir, 
-                    tgt_asr_dir,
-                    tgt_asr_trans_dir, 
-                    tgt_asr_trans_morph_dir,
-                    en_port, fgn_port, jar, lang)
-
+                   
     index_path = ref_dir / config["lang"] / "index.txt"
-    index_path.write_text((root_dir / config["index"]).read_text())
+
+    with index_path.open("w") as index_fp:
+        print("docid", file=index_fp)
+        make_audio_data(src_audio_dir, wav_dir, tgt_src_dir, tgt_src_morph_dir, 
+                        tgt_asr_dir,
+                        tgt_asr_trans_dir, 
+                        tgt_asr_trans_morph_dir,
+                        en_port, fgn_port, jar, lang, index_fp)
+
+        make_text_data(src_text_dir, tgt_src_text_dir, tgt_src_morph_text_dir,
+                       tgt_trans_text_dir, tgt_trans_morph_text_dir, en_port, 
+                       fgn_port, jar, lang, index_fp)
+ 
+#    index_path.write_text((root_dir / config["index"]).read_text())
  
 def make_text_data(orig_dir, src_dir, src_morph_dir, trans_dir, 
-                   trans_morph_dir, en_port, fgn_port, jar, lang):
+                   trans_morph_dir, en_port, fgn_port, jar, lang,
+                   index_fp):
     
     src_dir.mkdir(exist_ok=True, parents=True)
     src_morph_dir.mkdir(exist_ok=True, parents=True)
@@ -116,6 +121,8 @@ def make_text_data(orig_dir, src_dir, src_morph_dir, trans_dir,
         doc_id = path.name.split(".")[0]
 
         src_path = src_dir / "{}.txt".format(doc_id)
+        print(src_path.stem, file=index_fp)
+        continue
         src_morph_path = src_morph_dir / "{}.txt".format(doc_id)
         tgt_path = trans_dir / "{}.txt".format(doc_id)
         tgt_morph_path = trans_morph_dir / "{}.txt".format(doc_id)
@@ -168,7 +175,7 @@ def make_text_data(orig_dir, src_dir, src_morph_dir, trans_dir,
 #            print()
 
 def make_audio_data(orig_dir, wav_dir, src_dir, src_morph_dir, asr_dir, trans_dir, 
-                    trans_morph_dir, en_port, fgn_port, jar, lang):
+                    trans_morph_dir, en_port, fgn_port, jar, lang, index_fp):
 
     wav_dir.mkdir(exist_ok=True, parents=True)
     src_dir.mkdir(exist_ok=True, parents=True)
@@ -182,7 +189,9 @@ def make_audio_data(orig_dir, wav_dir, src_dir, src_morph_dir, asr_dir, trans_di
         doc_id = path.name.split(".")[0]
          
         wav_path = wav_dir / "{}.wav".format(doc_id)
+        print(doc_id, file=index_fp)
         wav_path.touch()
+#        continue
         src_path = src_dir / "{}.txt".format(doc_id)
         src_morph_path = src_morph_dir / "{}.txt".format(doc_id)
         tgt_path = trans_dir / "{}.txt".format(doc_id)
