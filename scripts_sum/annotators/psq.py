@@ -75,3 +75,10 @@ class PSQ:
                     if t in translations:
                         sentence_score += translations[t]
             scores.append(sentence_score)
+       
+        meta = {
+            "query": query.string,
+            "type": "PSQ",
+            "args": {}
+        } 
+        return {"annotation": scores, "meta": meta}   
