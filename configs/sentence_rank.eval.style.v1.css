@@ -1,0 +1,14 @@
+p {
+    font-size: 12pt;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-size: 14pt;
+    font-family: Arial, sans-serif;
+}
+
+.smeta {
+    visibility: hidden;
+    display: none;
+}
