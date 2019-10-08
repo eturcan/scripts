@@ -67,7 +67,7 @@ class RequestHandler(socketserver.BaseRequestHandler):
         return query 
 
 class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
-    def __init__(self, port, nist_data, morph_port, threads=8):
+    def __init__(self, port, nist_data, morph_port, config, threads=8):
         super(Server, self).__init__(("127.0.0.1", port), RequestHandler)
         self.port = port
         self.nist_data = nist_data
@@ -75,41 +75,47 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.cache = {}
         self._M_queries, self._M_q2lang, self._M_q2period, \
             self._M_q2group, self._M_q2rel = \
-            self.read_material_query_manifests()
+            self.read_material_query_manifests(config)
         self.morph_port = morph_port
 
-    def read_material_query_manifests(self):
+    def read_material_query_manifests(self, configs):
         all_queries = {}
         query2lang = {}
         query2period = {}
         query2group = {}
         query2rel = defaultdict(list)
-        for lang, period, rel_docs in [
-                    ("1A", "BASE", ()), 
-                    ("1B", "BASE", ()), 
-                    ("1S", "BASE", ()),
-                    ("2S", "OP1", ()),
-                    ("2B", "OP1", ())]:
+
+        for config in configs:
+            lang = config["lang"]
+            period = config["period"]
+            query_group = config["group"]
+            rel_docs = ()
+#?        for lang, period, rel_docs in [
+#?                    ("1A", "BASE", ()), 
+#?                    ("1B", "BASE", ()), 
+#?                    ("1S", "BASE", ()),
+#?                    ("2S", "OP1", ()),
+#?                    ("2B", "OP1", ())]:
 #("DEV", "DEV_ANNOTATION"),
 #                                   ("ANALYSIS", "ANALYSIS_ANNOTATION")))]:
-            lang_dir = (
-                self.nist_data / lang / 
-                "IARPA_MATERIAL_{}-{}".format(period, lang)
-            )
+#            lang_dir = (
+#                self.nist_data / lang / 
+#                "IARPA_MATERIAL_{}-{}".format(period, lang)
+#            )
 
-            for query_group in lang_dir.glob("QUERY*"):
-                query_list = lang_dir / query_group / "query_list.tsv"
-                with query_list.open("r") as fp:
-                    fp.readline()
-                    for line in fp:
-                        items = line.strip().split("\t")
-                        assert items[0] not in all_queries
-                        all_queries[items[0]] = items[1]
-                        query2lang[items[0]] = lang
-                        query2period[items[0]] = period
-                        query2group[items[0]] = str(query_group.name)
-            
-            
+#            for query_group in lang_dir.glob("QUERY*"):
+            query_list = self.nist_data / config["path"]
+            with query_list.open("r") as fp:
+                fp.readline()
+                for line in fp:
+                    items = line.strip().split("\t")
+                    assert items[0] not in all_queries
+                    all_queries[items[0]] = items[1]
+                    query2lang[items[0]] = lang
+                    query2period[items[0]] = period
+                    query2group[items[0]] = query_group
+        
+        
             for part, annotation_dir in rel_docs:
                 ann_path = lang_dir / annotation_dir / "query_annotation.tsv"
                 with ann_path.open("r") as fp:
@@ -282,9 +288,11 @@ def main():
     parser.add_argument("port", type=int, help="port to run server")
     parser.add_argument("morph_port", type=int, help="morph server port")
     parser.add_argument("nist_data", type=Path, help="path to NIST-data dir")
+    parser.add_argument("config", type=Path, help="config path")
     parser.add_argument("-t", "--threads", default=8, 
                         help="number of handler threads")
     args = parser.parse_args()
     server = Server(args.port, args.nist_data, args.morph_port, 
+                    json.loads(args.config.read_text()),
                     threads=args.threads)
     server.start()
