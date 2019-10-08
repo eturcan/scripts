@@ -23,8 +23,9 @@ start_doc_server () {
 }
 
 start_query_server () {
-    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA &"
+    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA /app/scripts/configs/query.config.json &"
     query_server $QUERY_PORT $MORPH_PORT $NIST_DATA \
+        /app/scripts/configs/query.config.json \
         > >(tee /outputs/logs-latest/query.out.log) \
         2> >(tee /outputs/logs-latest/query.err.log >&2) &
     sleep 1
@@ -53,7 +54,7 @@ start_queryrel_server () {
 
 qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
 qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
-qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/model.pkl"
+qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/modelv2.pkl"
 
 echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
 queryrel_server $QUERYREL_PORT $qrel_args \
@@ -106,14 +107,6 @@ cwd=`pwd`
 morhp_dir=`dirname $SCRIPTS_MORPH`
 echo "Kicking off the summarizer..."
 echo
-echo "Staring PSQ server:"
-    start_psq_server
-echo "PSQ server running."
-echo 
-echo "Starting queryrel server:"
-    start_queryrel_server
-echo "Queryrel server running."
-echo
 echo "Starting English morphological analyzer:"
     start_morph_server
 echo "English morphological analyzer running."
@@ -125,6 +118,14 @@ echo
 echo "Starting query server:"
     start_query_server
 echo "Query server running."
+echo
+echo "Staring PSQ server:"
+    start_psq_server
+echo "PSQ server running."
+echo 
+echo "Starting queryrel server:"
+    start_queryrel_server
+echo "Queryrel server running."
 echo
 echo "Starting annotation server:"
     start_annotation_server
