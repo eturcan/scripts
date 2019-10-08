@@ -26,6 +26,9 @@ def main():
         markup = data["markup"]
 
         markup = re.sub('<h1 class="(.*?)">(.*?)</h1>', set_header_color, markup)
+        markup = re.sub(r'<h1>(.*?)</h1>\n+', 
+            Fore.GREEN + Style.BRIGHT + r"\1\n\n" + Style.RESET_ALL,
+            markup)
            
         markup = re.sub('<span class="rel_exact_match">(.*?)</span>', 
             Fore.GREEN + Style.BRIGHT + r'\1' + Style.RESET_ALL,
@@ -45,7 +48,9 @@ def main():
             markup)
 
         print()
-        print(re.sub(r"<p>(.*?)</p>", lambda x: textwrap.fill(x[1].strip(), initial_indent="  ", subsequent_indent="  ") + "\n", markup))
+        markup = re.sub(r"<p>(.*?)</p>", lambda x: textwrap.fill(x[1].strip(), initial_indent="  ", subsequent_indent="  ") + "\n", markup)
+        markup = re.sub(r"&middot;", "\u00B7", markup)
+        print(markup)
         print()
         if args.instr:
 
