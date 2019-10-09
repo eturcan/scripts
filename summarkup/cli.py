@@ -12,13 +12,18 @@ def generate_markup():
     parser.add_argument("annotated_document", type=Path,
                         help="path to annotated doc pkl file")
     parser.add_argument("output_path", type=Path, help="path to write markup")
+    parser.add_argument("--args", type=Path, default=None)
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 
     module_str, class_str = args.markup_module.rsplit(".", 1)
     mod = __import__(module_str, fromlist=[class_str])
     cls = getattr(mod, class_str)
-    markup_generator = cls()
+    if args.args is not None:
+        mod_args = json.loads(args.args.read_text())
+    else:
+        mod_args = {"args": [], "kwargs": {}}
+    markup_generator = cls(*mod_args["args"], **mod_args["kwargs"])
 
     with args.annotated_document.open("rb") as fp:
         doc = pickle.load(fp)
@@ -70,7 +75,7 @@ def generate_image():
     args.img.parent.mkdir(exist_ok=True, parents=True)
     options = {
         'encoding': 'UTF-8', 
-        'crop-h': 300, 
+        'crop-h': 768, 
         'quiet': "", 
         'xvfb': ""
     }

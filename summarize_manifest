@@ -1,0 +1,76 @@
+#!/bin/bash
+
+args=$1
+
+get_qtype () {
+    if [ `is_example_of $1 $2 $3` == "True" ]; then
+        echo "exampleof"
+    elif [ `is_morph $1 $2 $3` == "True" ]; then
+        echo "morphological"
+    elif [ `is_conceptual $1 $2 $3` == "True" ]; then
+        echo "conceptual"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "True" ]; then
+        echo "lexical_simple"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "False" ]; then
+        echo "lexical_multiword"
+    else
+        echo "NONE"
+    fi
+
+
+}
+export -f get_qtype
+
+
+    
+
+
+run_query_doc () {
+    query_id=$1
+    doc_id=$2
+    comp=$3
+    qtype=`get_qtype $QUERY_PORT $query_id $comp`
+    docmode=`doc_client $DOC_PORT mode $doc_id`
+
+    echo $query_id $doc_id $comp $qtype $docmode
+    annotate_material $ANNOTATION_PORT $query_id $doc_id $comp \
+            /outputs/annotations/$query_id.$doc_id.c$comp.$docmode.pkl
+
+    generate_markup \
+       summarkup.generators.goldqueryrelv1.GoldQueryRelV1 \
+       /outputs/annotations/$query_id.$doc_id.c$comp.$docmode.pkl \
+       /outputs/markup/$query_id.$doc_id.c$comp.$docmode.$qtype.queryrel.json \
+       --quiet
+
+    generate_markup \
+       summarkup.generators.goldpsqv1.GoldPSQV1 \
+       /outputs/annotations/$query_id.$doc_id.c$comp.$docmode.pkl \
+       /outputs/markup/$query_id.$doc_id.c$comp.$docmode.$qtype.psq.json \
+       --quiet
+
+    generate_markup \
+       summarkup.generators.goldglove42.GoldGlove42 \
+       /outputs/annotations/$query_id.$doc_id.c$comp.$docmode.pkl \
+       /outputs/markup/$query_id.$doc_id.c$comp.$docmode.$qtype.englove.json \
+       --quiet
+
+    generate_markup \
+       summarkup.generators.goldpsqembv1.GoldPSQEmbV1 \
+       /outputs/annotations/$query_id.$doc_id.c$comp.$docmode.pkl \
+       /outputs/markup/$query_id.$doc_id.c$comp.$docmode.$qtype.psqemb.json \
+       --quiet
+
+
+
+
+}
+
+export -f run_query_doc 
+
+parallel --link -j16 run_query_doc ::: `echo "$args" | cut -f1` \
+    ::: `echo "$args" | cut -f3` \
+    ::: `echo "$args" | cut -f2`
+    
+

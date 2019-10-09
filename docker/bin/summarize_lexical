@@ -1,0 +1,59 @@
+#!/bin/bash
+
+queryids=$(echo -e "$1" | cut -f1)
+docids=$(echo -e "$1" | cut -f2)
+
+
+summarize () {
+    query_id=$1
+    doc_id=$2
+    output_dir=$3
+    nc=`num_components $QUERY_PORT $query_id`
+
+    if [ `is_lexical $QUERY_PORT $query_id 1` == "True" ] && \
+        [ `is_morph $QUERY_PORT $query_id 1` == "False" ]; then
+
+         echo "$query_id $doc_id $output_dir 1 / $nc"
+        annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
+            "$output_dir/annotations/$query_id.$doc_id.c1.pkl"
+        generate_markup summarkup.generators.lexicalv2.LexicalV2 \
+            $output_dir/annotations/$query_id.$doc_id.c1.pkl \
+            $output_dir/markup/$query_id.$doc_id.c1.json \
+            --args /app/scripts/configs/lexical.v2.gold.config.json \
+            --quiet
+            
+#--args /app/scripts/configs/concept.v2.gold.config.json \
+#        generate_image scripts/configs/summary_style.v2.css \
+#            $output_dir/markup/$query_id.$doc_id.c1.json \
+#            $output_dir/images/$query_id.$doc_id.c1.png \
+#            --debug
+    fi
+
+    if [ "$nc" == "2" ] && \
+        [ `is_lexical $QUERY_PORT $query_id 2` == "True" ] && \
+        [ `is_morph $QUERY_PORT $query_id 2` == "False" ]; then
+         echo "$query_id $doc_id $output_dir 2 / $nc"
+        annotate_material $ANNOTATION_PORT $query_id $doc_id 2 \
+            $output_dir/annotations/$query_id.$doc_id.c2.pkl
+        generate_markup summarkup.generators.lexicalv2.LexicalV2 \
+            $output_dir/annotations/$query_id.$doc_id.c2.pkl \
+            $output_dir/markup/$query_id.$doc_id.c2.json \
+            --args /app/scripts/configs/lexical.v2.gold.config.json \
+            --quiet
+#        generate_image scripts/configs/summary_style.v2.css \
+#            $output_dir/markup/$query_id.$doc_id.c2.json \
+#            $output_dir/images/$query_id.$doc_id.c2.png \
+#            --debug
+    fi
+
+}
+
+export -f summarize
+
+if [[ $2 != "" ]]; then
+    output_dir=/outputs/$2/simple
+else
+    output_dir=/outputs/simple
+fi
+
+parallel --link -j16 summarize ::: "$queryids" ::: "$docids" ::: $output_dir

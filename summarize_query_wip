@@ -1,0 +1,155 @@
+#!/bin/bash
+
+queryids=$(echo -e "$1" | cut -f1)
+docids=$(echo -e "$1" | cut -f2)
+
+get_markup_gen () {
+    if [ `is_example_of $1 $2 $3` == "True" ]; then
+        echo "summarkup.generators.exampleofv1.ExampleOfV1"
+    elif [ `is_morph $1 $2 $3` == "True" ]; then
+        echo "summarkup.generators.morphv1.MorphV1"
+    elif [ `is_conceptual $1 $2 $3` == "True" ]; then
+        echo "summarkup.generators.conceptv1.ConceptV1"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "True" ]; then
+        echo "summarkup.generators.lexicalv1.LexicalV1"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "False" ]; then
+        echo "summarkup.generators.lexicalmultiwordv1.LexicalMultiWordV1"
+    else
+        echo "NONE"
+    fi
+}
+
+get_qtype () {
+    if [ `is_example_of $1 $2 $3` == "True" ]; then
+        echo "exampleof"
+    elif [ `is_morph $1 $2 $3` == "True" ]; then
+        echo "morphological"
+    elif [ `is_conceptual $1 $2 $3` == "True" ]; then
+        echo "conceptual"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "True" ]; then
+        echo "lexical_simple"
+    elif [ `is_lexical $1 $2 $3` == "True" ] \
+            && [ `is_simple $1 $2 $3` == "False" ]; then
+        echo "lexical_multiword"
+    else
+        echo "NONE"
+    fi
+
+
+}
+export -f get_qtype
+
+get_markup_gen () {
+    if [ "$1" == "exampleof" ]; then
+        echo "summarkup.generators.exampleofv1.ExampleOfV1"
+    elif [ "$1" == "morphological" ]; then
+        echo "summarkup.generators.morphv1.MorphV1"
+    elif [ "$1" == "conceptual" ]; then
+        echo "summarkup.generators.conceptv1.ConceptV1"
+    elif [ "$1" == "lexical_simple" ]; then
+        echo "summarkup.generators.goldlexicalv1.GoldLexicalV1"
+    elif [ "$1" == "lexical_multiword" ]; then
+        echo "summarkup.generators.goldlexicalmultiwordv1.GoldLexicalMultiWordV1"
+    else
+        echo "NONE"
+    fi
+}
+export -f get_markup_gen
+
+run_query_doc () {
+    query_id=$1
+    doc_id=$2
+
+    docmode=`doc_client $DOC_PORT mode $doc_id`
+    if [[ $docmode == "audio" ]]; then
+        exit
+    fi
+
+    echo $query_id $doc_id 1 $qtype $docmode $markup
+
+
+    qtype1=`get_qtype $QUERY_PORT $query_id 1`
+    if [[ $qtype1 == "lexical_simple" ]] \
+            || [[ $qtype1 == "lexical_multiword" ]]; then
+  
+        markup1=`get_markup_gen $qtype1`
+#        annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
+#            /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl
+#
+#        generate_markup $markup1 \
+#            /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl \
+#            /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.exactmtach.json \
+#            --quiet
+#
+#        generate_markup summarkup.generators.goldglove42.GoldGlove42 \
+#            /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl \
+#            /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.goldglove42.json \
+#            --quiet
+
+        generate_markup \
+          summarkup.generators.goldqueryrelv1.GoldQueryRelV1 \
+          /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl \
+          /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.queryrel.json \
+          --quiet
+
+#?        generate_image scripts/configs/sentence_rank.eval.style.v1.css \
+#?          /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.queryrel.json \
+#?          /outputs/images/$query_id.$doc_id.c1.$docmode.$qtype1.queryrel.png
+
+
+#        generate_markup summarkup.generators.goldpsqv1.GoldPSQV1 \
+#            /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl \
+#            /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.psq.json \
+#            --quiet
+#
+#        generate_markup summarkup.generators.goldpsqembv1.GoldPSQEmbV1 \
+#            /outputs/annotations/$query_id.$doc_id.c1.$docmode.pkl \
+#            /outputs/markup/$query_id.$doc_id.c1.$docmode.$qtype1.psqemb.json \
+#            --quiet
+
+
+
+    fi
+
+
+
+
+}
+export -f run_query_doc
+
+
+
+
+#if [ "$qtype" == "lexical_simple" ]; then
+#        generate_markup summarkup.generators.goldglove42.GoldGlove42 \
+#            /outputs/annotations/$1.$2.c1.$docmode.pkl \
+#            /outputs/markup/$1.$2.c1.$docmode.$qtype.goldglove42.json \
+#            --quiet
+#        fi
+#
+#
+#nc=`num_components $QUERY_PORT $1`
+#if [ "$nc" == "2" ]; then
+#
+#    qtype=`get_qtype $QUERY_PORT $1 2`
+#    markup=`get_markup_gen $qtype`
+#
+#    echo $1 $2 2 $qtype $docmode $markup
+#        annotate_material $ANNOTATION_PORT $1 $2 2 \
+#            /outputs/annotations/$1.$2.c2.$docmode.pkl
+#        if [ "$qtype" == "lexical_simple" ]; then
+#
+#        generate_markup summarkup.generators.goldglove42.GoldGlove42 \
+#            /outputs/annotations/$1.$2.c2.$docmode.pkl \
+#            /outputs/markup/$1.$2.c2.$docmode.$qtype.goldglove42.json \
+#            --quiet
+#
+#    fi
+##        annotate_material $ANNOTATION_PORT $1 $2 2 \
+##            /outputs/$4/annotations/$1/$1.$2.c2.pkl
+#fi
+
+parallel --link -j16 run_query_doc ::: "$queryids" ::: "$docids"

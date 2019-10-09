@@ -45,7 +45,7 @@ class QueryRel:
             ]
  
         else:
-            sc_scores = [None] * len(texts)
+            sc_scores = [float("nan")] * len(texts)
 
         annotations = [
             {"query_content": s1, "semantic_constraint": s2}

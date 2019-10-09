@@ -2,11 +2,14 @@ import re
 
 
 def detokenize(string):
-    string = re.sub(r" `` ", ' "', string)
+    string = re.sub(r"`` ", '"', string)
     string = re.sub(r" '' ", '" ', string)
     string = re.sub(r" ''", '" ', string)
     string = re.sub(r" ,", ',', string)
     string = re.sub(r" \.", '.', string)
+    string = re.sub(r" 'll", "'ll", string)
+    string = re.sub(r" 'm", "'m", string)
+    string = re.sub(r" 're", "'re", string)
     string = re.sub(r" n't", "n't", string)
     string = re.sub(r" 's", "'s", string)
     string = re.sub(r" % ", "% ", string)
@@ -49,6 +52,6 @@ def make_relevant_header(query):
             " ".join([x.word for x in query.semantic_constraint.tokens]))
     else:
         qsense = ""
-    line = "Most relevant snippets: {}{}".format(qcontent, qsense)
+    line = "Most relevant excerpts: {}{}".format(qcontent, qsense)
     wc = len(line.split())
     return '<h1 class="relevant_header">{}</h1>\n'.format(line), wc
