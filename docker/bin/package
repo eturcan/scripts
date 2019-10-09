@@ -16,7 +16,7 @@ cd ..
 #?cd  /outputs/audio/packages/$run_name
 #?tar -zcf /outputs/audio/packages/$run_name.audio.tar.gz query*
 
-python scripts/package_summaries.py /clir/UMD-CLIR-workECDir /outputs/ \
+python scripts/package_summaries.py /clir /outputs/ \
     /outputs/packages/$run_name scriptssumop1 $run_name
 
 cd  /outputs/packages/$run_name
