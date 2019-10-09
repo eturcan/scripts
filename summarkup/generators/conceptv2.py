@@ -55,7 +55,7 @@ class ConceptV2:
         return scores
 
     def get_exact_matches(self, doc, idx, trans):
-        if trans not in self.exact_matches:
+        if self.exact_matches is None or trans not in self.exact_matches:
             return set()
         
         ann_name = self.exact_matches[trans]
@@ -68,7 +68,7 @@ class ConceptV2:
         return set([t for t, s in zip(utt.tokens, scores) if s > 0.])
 
     def get_stem_matches(self, doc, idx, trans):
-        if trans not in self.stem_matches:
+        if self.stem_matches is None or trans not in self.stem_matches:
             return set()
         
         ann_name = self.stem_matches[trans]
@@ -81,7 +81,7 @@ class ConceptV2:
         return set([t for t, s in zip(utt.tokens, scores) if s > 0.])
 
     def get_soft_matches(self, doc, idx, trans):
-        if trans not in self.soft_matches:
+        if self.soft_matches is None or trans not in self.soft_matches:
             return set()
         
         ann_name = self.soft_matches[trans]
