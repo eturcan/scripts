@@ -1,0 +1,42 @@
+{
+    "annotators": {
+        "edi-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        }
+    },
+    "embeddings": {
+    }
+}

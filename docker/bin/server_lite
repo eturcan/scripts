@@ -1,0 +1,89 @@
+#!/bin/bash
+
+rm -f /outputs/logs-latest/*
+
+start_morph_server () {
+    cwd=`pwd`
+    morph_dir=`dirname $SCRIPTS_MORPH`
+    cd $morph_dir
+    echo ">>  java -jar $SCRIPTS_MORPH $MORPH_PORT EN &"
+    java -jar $SCRIPTS_MORPH $MORPH_PORT EN \
+        > >(tee /outputs/logs-latest/morph.out.log) \
+        2> >(tee /outputs/logs-latest/morph.err.log >&2) &
+    cd $cwd
+}
+
+start_doc_server () {
+    echo ">>  doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG &"
+    doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG \
+        > >(tee /outputs/logs-latest/doc.out.log) \
+        2> >(tee /outputs/logs-latest/doc.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/doc.out.log & ) | grep -q "Waiting for client request on port $DOC_PORT.."
+}
+
+start_query_server () {
+    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA $QUERYSERVER_CONFIG &"
+    query_server $QUERY_PORT $MORPH_PORT $NIST_DATA \
+        $QUERYSERVER_CONFIG \
+        > >(tee /outputs/logs-latest/query.out.log) \
+        2> >(tee /outputs/logs-latest/query.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/query.out.log & ) | grep -q "Waiting for client request on port $QUERY_PORT.."
+}
+
+start_annotation_server () {
+
+    if [[ $VERBOSE_SUM != "" ]]; then
+        VERBOSE="--verbose"
+    else
+        VERBOSE=""
+    fi
+
+echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNOTATION_CONFIG $VERBOSE"
+    annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS \
+        $ANNOTATION_CONFIG $VERBOSE \
+        > >(tee /outputs/logs-latest/ann.out.log) \
+        2> >(tee /outputs/logs-latest/ann.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/ann.out.log & ) \
+        | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
+}
+
+if [[ -d /experiment ]]; then
+
+    experiment_config=`ls /experiment/*.json`
+    new_doc_config=/app/config/doc.server.config.json
+    experiment_config $experiment_config /NIST-data $new_doc_config
+    echo "Deriving doc server config from experiment config $experiment_config"
+    export DOCSERVER_CONFIG=$new_doc_config
+    echo "Setting new doc server config: $DOCSERVER_CONFIG"
+
+else
+    echo "Using default document server config: $DOCSERVER_CONFIG"
+fi
+
+mkdir -p /outputs/logs-latest
+
+cwd=`pwd`
+morhp_dir=`dirname $SCRIPTS_MORPH`
+echo "Kicking off the summarizer..."
+echo
+echo "Starting English morphological analyzer:"
+    start_morph_server
+echo "English morphological analyzer running."
+echo
+echo "Starting document server:"
+    start_doc_server
+echo "Document server running."
+echo
+echo "Starting query server:"
+    start_query_server
+echo "Query server running."
+echo
+echo "Starting annotation server:"
+    start_annotation_server
+echo "Annotation server running."
+echo
+echo "Summarization server is ready."
+while true; do sleep 9999999; done
