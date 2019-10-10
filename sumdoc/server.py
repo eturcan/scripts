@@ -5,6 +5,7 @@ import pickle
 from scripts_sum.query_processor import process_query
 from scripts_sum.text_document import TextDocument
 from scripts_sum.audio_document import SpeechDocument
+from scripts_sum.lang import get_iso
 
 
 class RequestHandler(socketserver.BaseRequestHandler):
@@ -33,6 +34,11 @@ class RequestHandler(socketserver.BaseRequestHandler):
         elif msg['type'] == 'mode':
             self._send(
                 pickle.dumps(self.server.doc_cache[msg['doc_id']]['mode']))
+
+        elif msg['type'] == 'lang':
+            self._send(
+                pickle.dumps(get_iso(
+                    self.server.doc_cache[msg['doc_id']]['lang'])))
 
     def process_material_query(self, msg):
         lang, query_id = msg["language"], msg["query_id"]

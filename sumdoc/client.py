@@ -72,11 +72,25 @@ class Client:
         client.close()
         return mode
 
+    def lang(self, doc_id):
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(("127.0.0.1", self.port))
+        request = {
+            "type": "lang",
+            "doc_id": doc_id, 
+        }
+        client.sendall(json.dumps(request).encode())
+        lang = pickle.loads(self._receive(client))
+        client.close()
+        return lang
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser("Lookup official MATERIAL documents.")
     parser.add_argument("port", type=int, help="port of running doc server")
-    parser.add_argument("action", choices=["validate", "print", "mode"])
+    parser.add_argument(
+        "action", choices=["validate", "print", "mode", "lang"])
     parser.add_argument("doc_id", help="doc id to lookup")
     args = parser.parse_args()
 
@@ -87,4 +101,7 @@ def main():
         client.print(args.doc_id)
     elif args.action == "mode":
         print(client.mode(args.doc_id))
+    elif args.action == "lang":
+        print(client.lang(args.doc_id))
+
 
