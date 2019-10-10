@@ -24,9 +24,111 @@ cargs = {
         "text": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/translation",
         "audio": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/translation",
     },
+    "1A-ANALYSIS1": {
+        "lang": "1A",
+        "part": "ANALYSIS1",
+        "index": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/index.txt",
+        "text": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/text/translation",
+        "audio": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/translation",
+    },
+    "1B-ANALYSIS1": {
+        "lang": "1B",
+        "part": "ANALYSIS1",
+        "index": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/index.txt",
+        "text": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/text/translation",
+        "audio": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/translation",
+    },
+    "1S-ANALYSIS1": {
+        "lang": "1S",
+        "part": "ANALYSIS1",
+        "index": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/index.txt",
+        "text": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/text/translation",
+        "audio": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/translation",
+    },
+    "1A-ANALYSIS2": {
+        "lang": "1A",
+        "part": "ANALYSIS2",
+        "index": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/index.txt",
+        "text": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/text/translation",
+        "audio": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/translation",
+    },
+    "1B-ANALYSIS2": {
+        "lang": "1B",
+        "part": "ANALYSIS2",
+        "index": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/index.txt",
+        "text": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/text/translation",
+        "audio": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/translation",
+    },
+    "1S-ANALYSIS2": {
+        "lang": "1S",
+        "part": "ANALYSIS2",
+        "index": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/index.txt",
+        "text": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/text/translation",
+        "audio": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/translation",
+    },
+
+
+
 }
 
+qargs = {
+    "2B-QUERY1": {
+        "src": "2B/IARPA_MATERIAL_OP1-2B/QUERY1",
+        "tgt": "2B/QUERY1",
+    },
+    "2S-QUERY1": {
+        "src": "2S/IARPA_MATERIAL_OP1-2S/QUERY1",
+        "tgt": "2S/QUERY1",
+    },
+    "1A-QUERY1": {
+        "src": "1A/IARPA_MATERIAL_BASE-1A/QUERY1",
+        "tgt": "1A/QUERY1",
+    },
+    "1A-QUERY2": {
+        "src": "1A/IARPA_MATERIAL_BASE-1A/QUERY2",
+        "tgt": "1A/QUERY2",
+    },
+    "1A-QUERY3": {
+        "src": "1A/IARPA_MATERIAL_BASE-1A/QUERY3",
+        "tgt": "1A/QUERY3",
+    },
+    "1B-QUERY1": {
+        "src": "1B/IARPA_MATERIAL_BASE-1B/QUERY1",
+        "tgt": "1B/QUERY1",
+    },
+    "1B-QUERY2": {
+        "src": "1B/IARPA_MATERIAL_BASE-1B/QUERY2",
+        "tgt": "1B/QUERY2",
+    },
+    "1B-QUERY3": {
+        "src": "1B/IARPA_MATERIAL_BASE-1B/QUERY3",
+        "tgt": "1B/QUERY3",
+    },
+    "1S-QUERY1": {
+        "src": "1S/IARPA_MATERIAL_BASE-1S/QUERY1",
+        "tgt": "1S/QUERY1",
+    },
+    "1S-QUERY2": {
+        "src": "1S/IARPA_MATERIAL_BASE-1S/QUERY2",
+        "tgt": "1S/QUERY2",
+    },
+    "1S-QUERY3": {
+        "src": "1S/IARPA_MATERIAL_BASE-1S/QUERY3",
+        "tgt": "1S/QUERY3",
+    },
+}
 
+def copy_queries(nist_dir, gold_dir):
+
+    for qname, qarg in qargs.items():
+        print("Copying queries: {}".format(qname))
+        src_dir = nist_dir / qarg["src"]
+        tgt_dir = gold_dir / qarg["tgt"]
+        tgt_dir.mkdir(exist_ok=True, parents=True)
+        
+        for src_path in src_dir.glob("*"):
+            tgt_path = tgt_dir / src_path.name
+            tgt_path.write_bytes(src_path.read_bytes())
 
 def main():
     parser = argparse.ArgumentParser()
@@ -37,6 +139,7 @@ def main():
     parser.add_argument("jar", type=Path)
     args = parser.parse_args()
 
+    copy_queries(args.nist, args.refdir)
 
     lang_server = None
     try:
@@ -68,39 +171,35 @@ def make_ref_corpus(root_dir, ref_dir, config, en_port, fgn_port, jar):
 
 
     lang = get_iso(config["lang"]).upper()
-    src_text_dir = root_dir / config["text"]
+    src_text_dir = root_dir / config["text"] 
     src_audio_dir = root_dir / config["audio"]
 
-    tgt_src_text_dir = ref_dir / config["lang"] / "text" / "src"
-    tgt_src_morph_text_dir = (
-        ref_dir / config["lang"] / "text" / "src_morphology"
-    )
-    tgt_trans_text_dir = ref_dir / config["lang"] / "text" / "translation"
-    tgt_trans_morph_text_dir = (
-        ref_dir / config["lang"] / "text" / "translation_morphology"
-    )
+    part_dir = ref_dir / config["lang"] / config["part"]
+    part_dir.mkdir(exist_ok=True, parents=True)
+    tgt_src_text_dir = part_dir / "text" / "src"
+    tgt_src_morph_text_dir = part_dir / "text" / "src_morphology"
+    tgt_trans_text_dir = part_dir / "text" / "translation"
+    tgt_trans_morph_text_dir = part_dir / "text" / "translation_morphology"
 
-    wav_dir = ref_dir / config["lang"] / "audio" / "src"
-    tgt_src_dir = ref_dir / config["lang"] / "audio" / "transcript"
-    tgt_src_morph_dir = (
-        ref_dir / config["lang"] / "audio" / "transcript_morphology"
-    )
-    tgt_asr_dir = ref_dir / config["lang"] / "audio" / "asr"
-    tgt_asr_trans_dir = ref_dir / config["lang"] / "audio" / "translation"
-    tgt_asr_trans_morph_dir = (
-        ref_dir / config["lang"] / "audio" / "translation_morphology"
-    )
+    wav_dir = part_dir / "audio" / "src"
+    tgt_src_dir = part_dir / "audio" / "transcript"
+    tgt_src_morph_dir = part_dir / "audio" / "transcript_morphology"
+    tgt_asr_dir = part_dir / "audio" / "asr"
+    tgt_asr_trans_dir = part_dir / "audio" / "translation"
+    tgt_asr_trans_morph_dir = part_dir / "audio" / "translation_morphology"
                    
-    index_path = ref_dir / config["lang"] / "index.txt"
+    index_path = part_dir / "index.txt"
 
     with index_path.open("w") as index_fp:
         print("docid", file=index_fp)
+        print("making reference for : {}".format(src_audio_dir))
         make_audio_data(src_audio_dir, wav_dir, tgt_src_dir, tgt_src_morph_dir, 
                         tgt_asr_dir,
                         tgt_asr_trans_dir, 
                         tgt_asr_trans_morph_dir,
                         en_port, fgn_port, jar, lang, index_fp)
 
+        print("making reference for : {}".format(src_text_dir))
         make_text_data(src_text_dir, tgt_src_text_dir, tgt_src_morph_text_dir,
                        tgt_trans_text_dir, tgt_trans_morph_text_dir, en_port, 
                        fgn_port, jar, lang, index_fp)
@@ -117,12 +216,12 @@ def make_text_data(orig_dir, src_dir, src_morph_dir, trans_dir,
     trans_morph_dir.mkdir(exist_ok=True, parents=True)
 
     for path in orig_dir.glob("MATERIAL*"):
-        print(path)
+#        print(path)
         doc_id = path.name.split(".")[0]
 
         src_path = src_dir / "{}.txt".format(doc_id)
         print(src_path.stem, file=index_fp)
-        continue
+#        continue
         src_morph_path = src_morph_dir / "{}.txt".format(doc_id)
         tgt_path = trans_dir / "{}.txt".format(doc_id)
         tgt_morph_path = trans_morph_dir / "{}.txt".format(doc_id)
@@ -185,7 +284,7 @@ def make_audio_data(orig_dir, wav_dir, src_dir, src_morph_dir, asr_dir, trans_di
     trans_morph_dir.mkdir(exist_ok=True, parents=True)
 
     for path in orig_dir.glob("MATERIAL*"):
-        print(path)
+#        print(path)
         doc_id = path.name.split(".")[0]
          
         wav_path = wav_dir / "{}.wav".format(doc_id)
