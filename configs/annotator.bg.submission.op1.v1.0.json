@@ -1,0 +1,97 @@
+{
+    "annotators": {
+        "edi-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
+        "umd-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-nmt"],
+            "kwargs": {}
+        },
+        "umd-smt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.6B"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-nmt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-nmt", "glove.6B"],
+            "kwargs": {}
+        },
+        "umd-nmt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-smt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-smt", "glove.6B"],
+            "kwargs": {}
+        },
+        "umd-smt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["umd-smt", "glove.42B"],
+            "kwargs": {}
+        },
+        "psq": {
+            "module": "scripts_sum.annotators.psq",
+            "class": "PSQ",
+            "args": [],
+            "kwargs": {}
+        },
+        "psqemb.ft300": {
+            "module": "scripts_sum.annotators.psq_weighted_embedding_similarity",
+            "class": "PSQWeightedEmbeddingSimilarity",
+            "args": [{"bg": "ft300"}],
+            "kwargs": {}
+        }
+    },
+    "embeddings": {
+        "en": {
+            "glove.6B": "glove.6B.300d.txt",
+            "glove.42B": "glove.42B.300d.txt"
+        },
+        "bg": {
+            "ft300": "emb/bg/cc.bg.300.vec.normalized.txt"
+        }
+    }
+}

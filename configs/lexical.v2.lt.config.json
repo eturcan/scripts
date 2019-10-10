@@ -1,0 +1,98 @@
+{
+    "args": [
+        ["edi-nmt", "umd-nmt", "umd-smt"],
+        [
+            ["edi-nmt.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt.stem_match", ["sentence", "sum"]],
+            ["umd-nmt.exact_match", ["sentence", "sum"]],
+            ["umd-nmt.stem_match", ["sentence", "sum"]],
+            ["umd-smt.exact_match", ["sentence", "sum"]],
+            ["umd-smt.stem_match", ["sentence", "sum"]]
+        ],
+        {
+            "edi-nmt": [
+                ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt.stem_match", ["sentence", "sum"]]
+            ],
+            "umd-nmt": [
+                ["umd-nmt.exact_match", ["sentence", "sum"]], 
+                ["umd-nmt.stem_match", ["sentence", "sum"]]
+            ],
+            "umd-smt": [
+                ["umd-smt.exact_match", ["sentence", "sum"]], 
+                ["umd-smt.stem_match", ["sentence", "sum"]]
+            ]
+        }
+
+    ],
+    "kwargs": {
+        "exact_matches": {
+            "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
+        },
+        "stem_matches": {
+            "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
+        },
+        "default_args": [
+            ["edi-nmt", "umd-nmt", "umd-smt"],
+            [
+                ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                ["umd-nmt.exact_match", ["sentence", "sum"]], 
+                ["umd-smt.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt.stem_match", ["sentence", "sum"]],
+                ["umd-nmt.stem_match", ["sentence", "sum"]],
+                ["umd-smt.stem_match", ["sentence", "sum"]],
+                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
+                ["psq", []],
+                ["psqemb.ft300", ["sentence", "max"]],
+                ["queryrel", ["query_content"]],
+                ["queryrel", ["semantic_constraint"]]
+            ],
+            {
+                "edi-nmt": [
+                    ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                    ["edi-nmt.stem_match", ["sentence", "sum"]],
+                    ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                    ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]]
+                ],
+                "umd-nmt": [
+                    ["umd-nmt.exact_match", ["sentence", "sum"]], 
+                    ["umd-nmt.stem_match", ["sentence", "sum"]],
+                    ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                    ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
+                ],
+                "umd-smt": [
+                    ["umd-smt.exact_match", ["sentence", "sum"]], 
+                    ["umd-smt.stem_match", ["sentence", "sum"]],
+                    ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                    ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
+                ]
+            }
+        ],
+        "default_kwargs": {
+            "exact_matches": {
+                "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
+                "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
+                "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
+            },
+            "stem_matches": {
+                "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
+                "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
+                "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
+            },
+            "soft_matches": {
+                "edi-nmt": ["edi-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+                "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+                "umd-smt": ["umd-smt.glove42Bsim.content_semcons", ["word", "sims"]]
+            }
+        }
+    }
+}

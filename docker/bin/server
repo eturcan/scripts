@@ -1,6 +1,39 @@
 #!/bin/bash
 
+
+CONFIGS=/app/scripts/configs
 rm -f /outputs/logs-latest/*
+
+if [[ -d /experiment ]]; then
+
+    experiment_config=`ls /experiment/*.json`
+    new_doc_config=/app/config/doc.server.config.json
+    lang=$(cat $experiment_config | jq .query_processor.target_language | \
+        sed -e 's/"//g')
+
+    # Setup doc server config based on experiment json.
+    experiment_config $experiment_config /NIST-data $new_doc_config
+    echo "Deriving doc server config from experiment config $experiment_config"
+    export DOCSERVER_CONFIG=$new_doc_config
+    echo "Setting new doc server config: $DOCSERVER_CONFIG"
+
+    # Setup annotator config based on language code of experiment json.
+    export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.submission.op1.v1.0.json
+
+    echo
+    echo "Setting new annotation config: $ANNOTATION_CONFIG"
+    echo
+
+    if [[ $lang == "lt" ]]; then
+        USE_QUERYREL="True"
+    else
+        USE_QUERYREL="False"
+    fi
+
+else
+    echo "Using default document server config: $DOCSERVER_CONFIG"
+    echo "Using default annotation server config: $ANNOTATION_CONFIG"
+fi
 
 start_morph_server () {
     cwd=`pwd`
@@ -88,18 +121,6 @@ sumpsq $PSQ_PORT $query_jsons \
     ( tail -f -n1 /outputs/logs-latest/psq.out.log & ) \
         | grep -q "Waiting for client request on port $PSQ_PORT.."
 }
-if [[ -d /experiment ]]; then
-
-    experiment_config=`ls /experiment/*.json`
-    new_doc_config=/app/config/doc.server.config.json
-    experiment_config $experiment_config /NIST-data $new_doc_config
-    echo "Deriving doc server config from experiment config $experiment_config"
-    export DOCSERVER_CONFIG=$new_doc_config
-    echo "Setting new doc server config: $DOCSERVER_CONFIG"
-
-else
-    echo "Using default document server config: $DOCSERVER_CONFIG"
-fi
 
 mkdir -p /outputs/logs-latest
 
@@ -123,10 +144,12 @@ echo "Staring PSQ server:"
     start_psq_server
 echo "PSQ server running."
 echo 
-echo "Starting queryrel server:"
-    start_queryrel_server
-echo "Queryrel server running."
-echo
+if [[ $USE_QUERYREL == "True" ]]; then
+    echo "Starting queryrel server:"
+        start_queryrel_server
+    echo "Queryrel server running."
+    echo
+fi
 echo "Starting annotation server:"
     start_annotation_server
 echo "Annotation server running."

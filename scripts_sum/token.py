@@ -6,12 +6,13 @@ def merge_ints(morph_tokens):
 
     for i, token in itr:
         if token.word == "<" and i + 2 < len(morph_tokens):
-            if morph_tokens[i + 1].word in ["int", "num"] \
+            if morph_tokens[i + 1].word in ["int", "num", "unk", "hes"] \
                     and morph_tokens[i + 2].word == ">":
+                newstem = "<" + morph_tokens[i + 1].word + ">"
                 new_tokens.append(
                     Token('<' + morph_tokens[i + 1].word + '>', 
                           pos='OTHER', tense='NA', 
-                          number='NA', stem='<int>', suffix='', prefix=''))
+                          number='NA', stem=newstem, suffix='', prefix=''))
                 next(itr)
                 next(itr)
         else:

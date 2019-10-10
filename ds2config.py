@@ -21,7 +21,6 @@ def main():
 def proc_ds(config):
 
     config = config[config.index("[corpus_"):]
-    #print(config[:25])
     
     corpora = {}
 
