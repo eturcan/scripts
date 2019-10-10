@@ -57,7 +57,9 @@ def generate_image():
     markup = data["markup"]
     if args.debug:
         markup += "<br/><p>Debug: {} {} {}</p>".format(
-            data["query_id"], data["document_id"], data["query_string"])
+            data["query_id"], data["document_id"], 
+            data["query_string"].replace("<", "&lt;").replace(">", "&gt;"))
+        markup += "<br/>" + data["instructions"]
 
     css_data = " <style>\n{}\n </style>".format(args.css.read_text())
     html = (
@@ -75,8 +77,10 @@ def generate_image():
     args.img.parent.mkdir(exist_ok=True, parents=True)
     options = {
         'encoding': 'UTF-8', 
-        'crop-h': 768, 
         'quiet': "", 
         'xvfb': ""
     }
+    if not args.debug:
+        options['crop-h'] = 768
+
     imgkit.from_string(html, str(args.img), options=options)

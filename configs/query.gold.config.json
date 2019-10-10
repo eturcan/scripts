@@ -4,6 +4,65 @@
         "period": "OP1",
         "group": "QUERY1",
         "path": "2B/QUERY1/query_list.tsv"
+    },
+    {
+        "lang": "2S",
+        "period": "OP1",
+        "group": "QUERY1",
+        "path": "2S/QUERY1/query_list.tsv"
+    },
+    {
+        "lang": "1A",
+        "period": "BASE",
+        "group": "QUERY1",
+        "path": "1A/QUERY1/query_list.tsv"
+    },
+    {
+        "lang": "1A",
+        "period": "BASE",
+        "group": "QUERY2",
+        "path": "1A/QUERY2/query_list.tsv"
+    },
+    {
+        "lang": "1A",
+        "period": "BASE",
+        "group": "QUERY3",
+        "path": "1A/QUERY3/query_list.tsv"
+    },
+    {
+        "lang": "1B",
+        "period": "BASE",
+        "group": "QUERY1",
+        "path": "1B/QUERY1/query_list.tsv"
+    },
+    {
+        "lang": "1B",
+        "period": "BASE",
+        "group": "QUERY2",
+        "path": "1B/QUERY2/query_list.tsv"
+    },
+    {
+        "lang": "1B",
+        "period": "BASE",
+        "group": "QUERY3",
+        "path": "1B/QUERY3/query_list.tsv"
+    },
+    {
+        "lang": "1S",
+        "period": "BASE",
+        "group": "QUERY1",
+        "path": "1S/QUERY1/query_list.tsv"
+    },
+    {
+        "lang": "1S",
+        "period": "BASE",
+        "group": "QUERY2",
+        "path": "1S/QUERY2/query_list.tsv"
+    },
+    {
+        "lang": "1S",
+        "period": "BASE",
+        "group": "QUERY3",
+        "path": "1S/QUERY3/query_list.tsv"
     }        
-
 ]

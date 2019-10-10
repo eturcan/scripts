@@ -3,22 +3,19 @@
 queryids=$(echo -e "$1" | cut -f1)
 docids=$(echo -e "$1" | cut -f2)
 
-if [[ -d /experiment ]]; then
-
-    experiment_config=`ls /experiment/*.json`
-    lang=$(cat $experiment_config | jq .query_processor.target_language | \
-        sed -e 's/"//g')
-
-    export CONCEPT_CONFIG=/app/scripts/configs/concept.v2.$lang.config.json
-else
-    export CONCEPT_CONFIG=/app/scripts/configs/concept.v2.default.config.json
-fi
-
 summarize () {
     query_id=$1
     doc_id=$2
     output_dir=$3
+    lang=`doc_client $DOC_PORT lang $doc_id`
     nc=`num_components $QUERY_PORT $query_id`
+
+    if [[ $GOLD_SUM == "True" ]]; then
+        CONCEPT_CONFIG=/app/scripts/configs/concept.v2.$lang.gold.config.json
+
+    else
+        CONCEPT_CONFIG=/app/scripts/configs/concept.v2.$lang.config.json
+    fi
 
     if [ `is_conceptual $QUERY_PORT $query_id 1` == "True" ]; then
 

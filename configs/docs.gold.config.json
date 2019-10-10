@@ -2,28 +2,231 @@
     {
         "lang": "2B",
         "name": "2B-ANALYSIS",
-        "index": "2B/index.txt",
+        "index": "2B/ANALYSIS/index.txt",
         "text": {
-            "source": "2B/text/src",
-            "sentence_segmentation": "2B/text/src",
-            "source_morphology": "2B/text/src_morphology",
+            "source": "2B/ANALYSIS/text/src",
+            "sentence_segmentation": "2B/ANALYSIS/text/src",
+            "source_morphology": "2B/ANALYSIS/text/src_morphology",
             "translations": [
                 {
                     "name": "gold",
-                    "path": "2B/text/translation",
-                    "morph": "2B/text/translation_morphology"
+                    "path": "2B/ANALYSIS/text/translation",
+                    "morph": "2B/ANALYSIS/text/translation_morphology"
                 }
             ]
         },
         "audio": {
-            "source": "2B/audio/src",
-            "asr": "2B/audio/asr",
-            "asr_morphology": "2B/audio/transcript_morphology",
+            "source": "2B/ANALYSIS/audio/src",
+            "asr": "2B/ANALYSIS/audio/asr",
+            "asr_morphology": "2B/ANALYSIS/audio/transcript_morphology",
             "translations": [
                 {
                     "name": "gold",
-                    "path": "2B/audio/translation",
-                    "morph": "2B/audio/translation_morphology"
+                    "path": "2B/ANALYSIS/audio/translation",
+                    "morph": "2B/ANALYSIS/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "2S",
+        "name": "2S-ANALYSIS",
+        "index": "2S/ANALYSIS/index.txt",
+        "text": {
+            "source": "2S/ANALYSIS/text/src",
+            "sentence_segmentation": "2S/ANALYSIS/text/src",
+            "source_morphology": "2S/ANALYSIS/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "2S/ANALYSIS/text/translation",
+                    "morph": "2S/ANALYSIS/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2S/ANALYSIS/audio/src",
+            "asr": "2S/ANALYSIS/audio/asr",
+            "asr_morphology": "2S/ANALYSIS/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "2S/ANALYSIS/audio/translation",
+                    "morph": "2S/ANALYSIS/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1A",
+        "name": "1A-ANALYSIS1",
+        "index": "1A/ANALYSIS1/index.txt",
+        "text": {
+            "source": "1A/ANALYSIS1/text/src",
+            "sentence_segmentation": "1A/ANALYSIS1/text/src",
+            "source_morphology": "1A/ANALYSIS1/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1A/ANALYSIS1/text/translation",
+                    "morph": "1A/ANALYSIS1/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1A/ANALYSIS1/audio/src",
+            "asr": "1A/ANALYSIS1/audio/asr",
+            "asr_morphology": "1A/ANALYSIS1/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1A/ANALYSIS1/audio/translation",
+                    "morph": "1A/ANALYSIS1/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1A",
+        "name": "1A-ANALYSIS2",
+        "index": "1A/ANALYSIS2/index.txt",
+        "text": {
+            "source": "1A/ANALYSIS2/text/src",
+            "sentence_segmentation": "1A/ANALYSIS2/text/src",
+            "source_morphology": "1A/ANALYSIS2/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1A/ANALYSIS2/text/translation",
+                    "morph": "1A/ANALYSIS2/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1A/ANALYSIS2/audio/src",
+            "asr": "1A/ANALYSIS2/audio/asr",
+            "asr_morphology": "1A/ANALYSIS2/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1A/ANALYSIS2/audio/translation",
+                    "morph": "1A/ANALYSIS2/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1B",
+        "name": "1B-ANALYSIS1",
+        "index": "1B/ANALYSIS1/index.txt",
+        "text": {
+            "source": "1B/ANALYSIS1/text/src",
+            "sentence_segmentation": "1B/ANALYSIS1/text/src",
+            "source_morphology": "1B/ANALYSIS1/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1B/ANALYSIS1/text/translation",
+                    "morph": "1B/ANALYSIS1/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1B/ANALYSIS1/audio/src",
+            "asr": "1B/ANALYSIS1/audio/asr",
+            "asr_morphology": "1B/ANALYSIS1/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1B/ANALYSIS1/audio/translation",
+                    "morph": "1B/ANALYSIS1/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1B",
+        "name": "1B-ANALYSIS2",
+        "index": "1B/ANALYSIS2/index.txt",
+        "text": {
+            "source": "1B/ANALYSIS2/text/src",
+            "sentence_segmentation": "1B/ANALYSIS2/text/src",
+            "source_morphology": "1B/ANALYSIS2/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1B/ANALYSIS2/text/translation",
+                    "morph": "1B/ANALYSIS2/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1B/ANALYSIS2/audio/src",
+            "asr": "1B/ANALYSIS2/audio/asr",
+            "asr_morphology": "1B/ANALYSIS2/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1B/ANALYSIS2/audio/translation",
+                    "morph": "1B/ANALYSIS2/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1S",
+        "name": "1S-ANALYSIS1",
+        "index": "1S/ANALYSIS1/index.txt",
+        "text": {
+            "source": "1S/ANALYSIS1/text/src",
+            "sentence_segmentation": "1S/ANALYSIS1/text/src",
+            "source_morphology": "1S/ANALYSIS1/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1S/ANALYSIS1/text/translation",
+                    "morph": "1S/ANALYSIS1/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1S/ANALYSIS1/audio/src",
+            "asr": "1S/ANALYSIS1/audio/asr",
+            "asr_morphology": "1S/ANALYSIS1/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1S/ANALYSIS1/audio/translation",
+                    "morph": "1S/ANALYSIS1/audio/translation_morphology"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "1S",
+        "name": "1S-ANALYSIS2",
+        "index": "1S/ANALYSIS2/index.txt",
+        "text": {
+            "source": "1S/ANALYSIS2/text/src",
+            "sentence_segmentation": "1S/ANALYSIS2/text/src",
+            "source_morphology": "1S/ANALYSIS2/text/src_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1S/ANALYSIS2/text/translation",
+                    "morph": "1S/ANALYSIS2/text/translation_morphology"
+                }
+            ]
+        },
+        "audio": {
+            "source": "1S/ANALYSIS2/audio/src",
+            "asr": "1S/ANALYSIS2/audio/asr",
+            "asr_morphology": "1S/ANALYSIS2/audio/transcript_morphology",
+            "translations": [
+                {
+                    "name": "gold",
+                    "path": "1S/ANALYSIS2/audio/translation",
+                    "morph": "1S/ANALYSIS2/audio/translation_morphology"
                 }
             ]
         }

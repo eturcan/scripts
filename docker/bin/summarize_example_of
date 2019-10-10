@@ -11,21 +11,21 @@ summarize () {
     nc=`num_components $QUERY_PORT $query_id`
 
     if [[ $GOLD_SUM == "True" ]]; then
-        LEXICAL_CONFIG=/app/scripts/configs/lexical.v2.$lang.gold.config.json
+        CONCEPT_CONFIG=/app/scripts/configs/concept.v2.$lang.gold.config.json
+
     else
-        LEXICAL_CONFIG=/app/scripts/configs/lexical.v2.$lang.config.json
+        CONCEPT_CONFIG=/app/scripts/configs/concept.v2.$lang.config.json
     fi
 
-    if [ `is_lexical $QUERY_PORT $query_id 1` == "True" ] && \
-        [ `is_morph $QUERY_PORT $query_id 1` == "False" ]; then
+    if [ `is_example_of $QUERY_PORT $query_id 1` == "True" ]; then
 
          echo "$query_id $doc_id $output_dir 1 / $nc"
         annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
             "$output_dir/annotations/$query_id.$doc_id.c1.pkl"
-        generate_markup summarkup.generators.lexicalv2.LexicalV2 \
+        generate_markup summarkup.generators.conceptv2.ConceptV2 \
             $output_dir/annotations/$query_id.$doc_id.c1.pkl \
             $output_dir/markup/$query_id.$doc_id.c1.json \
-            --args $LEXICAL_CONFIG \
+            --args $CONCEPT_CONFIG \
             --quiet
         generate_image scripts/configs/summary_style.v2.css \
             $output_dir/markup/$query_id.$doc_id.c1.json \
@@ -34,15 +34,14 @@ summarize () {
     fi
 
     if [ "$nc" == "2" ] && \
-        [ `is_lexical $QUERY_PORT $query_id 2` == "True" ] && \
-        [ `is_morph $QUERY_PORT $query_id 2` == "False" ]; then
+        [ `is_example_of $QUERY_PORT $query_id 2` == "True" ]; then
          echo "$query_id $doc_id $output_dir 2 / $nc"
         annotate_material $ANNOTATION_PORT $query_id $doc_id 2 \
             $output_dir/annotations/$query_id.$doc_id.c2.pkl
-        generate_markup summarkup.generators.lexicalv2.LexicalV2 \
+        generate_markup summarkup.generators.conceptv2.ConceptV2 \
             $output_dir/annotations/$query_id.$doc_id.c2.pkl \
             $output_dir/markup/$query_id.$doc_id.c2.json \
-            --args $LEXICAL_CONFIG \
+            --args $CONCEPT_CONFIG \
             --quiet
         generate_image scripts/configs/summary_style.v2.css \
             $output_dir/markup/$query_id.$doc_id.c2.json \
@@ -55,9 +54,10 @@ summarize () {
 export -f summarize
 
 if [[ $2 != "" ]]; then
-    output_dir=/outputs/$2/simple
+    output_dir=/outputs/$2/example_of
 else
-    output_dir=/outputs/simple
+    output_dir=/outputs/example_of
 fi
 
+reload_annotators $ANNOTATION_PORT
 parallel --link -j16 summarize ::: "$queryids" ::: "$docids" ::: $output_dir

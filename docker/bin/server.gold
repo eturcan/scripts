@@ -1,44 +1,5 @@
 #!/bin/bash
 
-if [[ $GOLD_SUM == "True" ]]; then
-    server.gold
-    exit
-fi
-
-CONFIGS=/app/scripts/configs
-rm -f /outputs/logs-latest/*
-
-if [[ -d /experiment ]]; then
-
-    experiment_config=`ls /experiment/*.json`
-    new_doc_config=/app/config/doc.server.config.json
-    lang=$(cat $experiment_config | jq .query_processor.target_language | \
-        sed -e 's/"//g')
-
-    # Setup doc server config based on experiment json.
-    experiment_config $experiment_config /NIST-data $new_doc_config
-    echo "Deriving doc server config from experiment config $experiment_config"
-    export DOCSERVER_CONFIG=$new_doc_config
-    echo "Setting new doc server config: $DOCSERVER_CONFIG"
-
-    # Setup annotator config based on language code of experiment json.
-    export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.submission.op1.v1.0.json
-
-    echo
-    echo "Setting new annotation config: $ANNOTATION_CONFIG"
-    echo
-
-    if [[ $lang == "lt" ]]; then
-        USE_QUERYREL="True"
-    else
-        USE_QUERYREL="False"
-    fi
-
-else
-    echo "Using default document server config: $DOCSERVER_CONFIG"
-    echo "Using default annotation server config: $ANNOTATION_CONFIG"
-fi
-
 start_morph_server () {
     cwd=`pwd`
     morph_dir=`dirname $SCRIPTS_MORPH`
@@ -67,24 +28,6 @@ start_query_server () {
         2> >(tee /outputs/logs-latest/query.err.log >&2) &
     sleep 1
     ( tail -f -n1 /outputs/logs-latest/query.out.log & ) | grep -q "Waiting for client request on port $QUERY_PORT.."
-}
-
-start_annotation_server () {
-
-    if [[ $VERBOSE_SUM != "" ]]; then
-        VERBOSE="--verbose"
-    else
-        VERBOSE=""
-    fi
-
-echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNOTATION_CONFIG $VERBOSE"
-    annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS \
-        $ANNOTATION_CONFIG $VERBOSE \
-        > >(tee /outputs/logs-latest/ann.out.log) \
-        2> >(tee /outputs/logs-latest/ann.err.log >&2) &
-    sleep 1
-    ( tail -f -n1 /outputs/logs-latest/ann.out.log & ) \
-        | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
 }
 
 start_queryrel_server () {
@@ -126,11 +69,48 @@ sumpsq $PSQ_PORT $query_jsons \
         | grep -q "Waiting for client request on port $PSQ_PORT.."
 }
 
+start_annotation_server () {
+
+    if [[ $VERBOSE_SUM != "" ]]; then
+        VERBOSE="--verbose"
+    else
+        VERBOSE=""
+    fi
+
+echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNOTATION_CONFIG $VERBOSE"
+    annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS \
+        $ANNOTATION_CONFIG $VERBOSE \
+        > >(tee /outputs/logs-latest/ann.out.log) \
+        2> >(tee /outputs/logs-latest/ann.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/ann.out.log & ) \
+        | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
+}
+
+CONFIGS=/app/scripts/configs
+rm -f /outputs/logs-latest/*
+
+export QUERYSERVER_CONFIG=$CONFIGS/query.gold.config.json
+export DOCSERVER_CONFIG=$CONFIGS/docs.gold.config.json
+export NIST_DATA=/NIST-data
+export MODELS=/models
+export SCRIPTS_MORPH=/tools/scripts-morph-v6.1.jar
+if [[ $LANG_SUM == "" ]]; then
+    lang="all"
+else
+    lang=$LANG_SUM
+fi
+export ANNOTATION_CONFIG=$CONFIGS/annotator.gold.$lang.json
+if [[ $lang == "lt" ]] || [[ $lang == "all" ]]; then
+    USE_QUERYREL="True"
+else
+    USE_QUERYREL="False"
+fi
+
+
 mkdir -p /outputs/logs-latest
 
-cwd=`pwd`
-morhp_dir=`dirname $SCRIPTS_MORPH`
-echo "Kicking off the summarizer..."
+echo "Starting gold summarizer ($lang)!"
 echo
 echo "Starting English morphological analyzer:"
     start_morph_server

@@ -60,7 +60,7 @@ def get_instructions(query_string, exact_match_list, not_found_list):
         match_word = 'word'
         if num_matches > 1:
             match_word = match_word + 's'
-        line2.append('We found an exact match for the %s <b><font color="%s">%s</font></b> in the document. If it appears in the summary, it is highlighted in yellow.' % (match_word, color, ' '.join(exact_matches)))
+        line2.append('We found an exact match for the %s <b><font color="%s">%s</font></b> in the document. If it appears in the summary, it is underlined and written in <font color="%s">blue</font>.' % (match_word, color, ', '.join(exact_matches), color))
 
     not_found = [word for word in not_found_list if word.lower() in query.lower()]
     num_missing = len(not_found)
@@ -134,7 +134,7 @@ def get_instructions_old(raw_query, exact_match_list, not_found_list):
             match_word = 'word'
             if num_matches > 1:
                 match_word = match_word + 's'
-            line2.append('We found an exact match for the %s <b><font color="%s">%s</font></b> in the document. If it appears in the summary, it is highlighted in yellow.' % (match_word, color, ' '.join(exact_matches)))
+            line2.append('We found an exact match for the %s <b><font color="%s">%s</font></b> in the document. If it appears in the summary, it is underlined and written in <font color="%s">blue</font>.' % (match_word, color, ', '.join(exact_matches), color))
 
         not_found = [word for word in not_found_list if word.lower() in query.lower()]
         num_missing = len(not_found)

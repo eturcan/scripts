@@ -1,0 +1,55 @@
+{
+    "args": [
+        ["gold"],
+        [
+            ["gold.exact_match", ["sentence", "sum"]], 
+            ["gold.stem_match", ["sentence", "sum"]]
+        ],
+        {
+            "gold": [
+                ["gold.exact_match", ["sentence", "sum"]], 
+                ["gold.stem_match", ["sentence", "sum"]]
+            ]
+        }
+    ],
+    "kwargs": {
+        "exact_matches": {
+            "gold": ["gold.exact_match", ["word", "matches"]]
+        },
+        "stem_matches": {
+            "gold": ["gold.stem_match", ["word", "matches"]]
+        },
+        "default_args": [
+            ["gold"],
+            [
+                ["gold.exact_match", ["sentence", "sum"]], 
+                ["gold.stem_match", ["sentence", "sum"]],
+                ["gold.glove6Bsim.content_semcons", ["sentence", "max"]],
+                ["gold.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["psq", []],
+                ["psqemb.ft300", ["sentence", "max"]],
+                ["queryrel", ["query_content"]],
+                ["queryrel", ["semantic_constraint"]]
+            ],
+            {
+                "gold": [
+                    ["gold.exact_match", ["sentence", "sum"]], 
+                    ["gold.stem_match", ["sentence", "sum"]],
+                    ["gold.glove6Bsim.content_semcons", ["sentence", "max"]],
+                    ["gold.glove42Bsim.content_semcons", ["sentence", "max"]]
+                ]
+            }
+        ],
+        "default_kwargs": {
+            "exact_matches": {
+                "gold": ["gold.exact_match", ["word", "matches"]]
+            },
+            "stem_matches": {
+                "gold": ["gold.stem_match", ["word", "matches"]]
+            },
+            "soft_matches": {
+                "gold": ["gold.glove42Bsim.content_semcons", ["word", "sims"]]
+            }
+        }
+    }
+}

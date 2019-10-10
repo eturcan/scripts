@@ -6,10 +6,10 @@
             ["gold.stem_match", ["sentence", "sum"]],
             ["gold.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["gold.glove42Bsim.content_semcons", ["sentence", "max"]],
-            ["goldpsq", []],
-            ["goldpsqemb.ft300", ["sentence", "max"]],
-            ["goldqueryrel", ["query_content"]],
-            ["goldqueryrel", ["semantic_constraint"]]
+            ["psq", []],
+            ["psqemb.ft300", ["sentence", "max"]],
+            ["queryrel", ["query_content"]],
+            ["queryrel", ["semantic_constraint"]]
         ],
         {
             "gold": [
