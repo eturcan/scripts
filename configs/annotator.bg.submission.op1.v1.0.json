@@ -36,6 +36,24 @@
             "args": ["umd-smt"],
             "kwargs": {}
         },
+        "edi-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["edi-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-nmt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-smt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["umd-smt", "glove.42B"],
+            "kwargs": {}
+        },
         "edi-nmt.glove6Bsim.content_semcons": {
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",

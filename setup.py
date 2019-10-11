@@ -38,5 +38,15 @@ setup(
             "ds2config=ds2config:main",
             "normalize_embeddings=normalize_embeddings:main",
         ],
+    },
+    package_data={
+        # And include any *.dat files found in the 'data' subdirectory
+        # of the 'mypkg' package, also:
+            'scripts_sum': [
+                'data/summarySchema_v1.3.1.json',
+                'data/summarySchema_v1.3.2.json',
+            ]                
+        
     }
+
 )

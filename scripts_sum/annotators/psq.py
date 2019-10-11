@@ -40,11 +40,6 @@ class PSQ:
         return {w: psq[w] for w in query_words if w in psq}
 
     def __call__(self, query, doc):
-
-        #if query.example_of:
-        #    print(query, "IS EXAMPLE")
-        if "EXAMPLE_OF" in query.string:
-            return
         tn = TextNormalizer(doc.source_lang)
         try:
             psq = self.get_psq(query)
@@ -55,9 +50,6 @@ class PSQ:
                 return
             else:
                 raise e
- 
-        #print(query.string)
-        #print(" ".join(list(psq.keys())))
 
         scores = []
         for utt in doc.utterances:

@@ -89,36 +89,12 @@
             "class": "EmbeddingSimilarity",
             "args": ["umd-smt", "glove.42B"],
             "kwargs": {}
-        },
-        "queryrel": {
-            "module": "scripts_sum.annotators.queryrel",
-            "class": "QueryRel",
-            "args": [],
-            "kwargs": {}
-        },
-        "psq": {
-            "module": "scripts_sum.annotators.psq",
-            "class": "PSQ",
-            "args": [],
-            "kwargs": {}
-        },
-        "psqemb.ft300": {
-            "module": "scripts_sum.annotators.psq_weighted_embedding_similarity",
-            "class": "PSQWeightedEmbeddingSimilarity",
-            "args": [{"lt": "ft300", "bg": "ft300"}],
-            "kwargs": {}
         }
     },
     "embeddings": {
         "en": {
             "glove.6B": "glove.6B.300d.txt",
             "glove.42B": "glove.42B.300d.txt"
-        },
-        "lt": {
-            "ft300": "emb/lt/cc.lt.300.vec.normalized.txt"
-        },
-        "bg": {
-            "ft300": "emb/bg/cc.bg.300.vec.normalized.txt"
         }
     }
 }

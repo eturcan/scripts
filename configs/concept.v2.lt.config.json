@@ -11,7 +11,7 @@
             ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
             ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
             ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
-            ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["psq", []],
@@ -24,7 +24,7 @@
                 ["edi-nmt.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt.stem_match", ["sentence", "sum"]],
                 ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]]
+                ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "umd-nmt": [
                 ["umd-nmt.exact_match", ["sentence", "sum"]], 

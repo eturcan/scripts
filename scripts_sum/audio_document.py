@@ -60,13 +60,20 @@ class SpeechDocument(AnnotatedDocument):
         num_utt = len(final_asr_lines)
         utterances = []
         for i in range(num_utt):
-            _, spkr, start, stop, src_text = final_asr_lines[i].split("\t")  
+            if "\t" in final_asr_lines:
+                _, spkr, start, stop, src_text = final_asr_lines[i].split("\t")
+            else:
+                _, spkr, start, stop, src_text = final_asr_lines[i].split(" ", 4)
+
             src_tokens = Token.tokens_from_morphology(final_asr_morph[i]) 
             src_utt = Utterance(src_text, src_tokens, speaker=spkr,
                                 offsets=(float(start), float(stop)))
+            
             for token in src_tokens:
                 idx = token_info_pos[spkr]
                 if token.word != asr_tokens[spkr][idx]["token"]:
+                    print(token.word, asr_tokens[spkr][idx]["token"] )
+                    print([t.word for t in src_tokens])
                     raise RuntimeError("Bad ctm-utt alignment")
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1

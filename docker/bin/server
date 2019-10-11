@@ -33,11 +33,19 @@ if [[ -d /experiment ]]; then
     else
         USE_QUERYREL="False"
     fi
-
 else
+    export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
+    export DOCSERVER_CONFIG=$CONFIGS/docs.latest.config.json
+    export USE_QUERYREL="True"
     echo "Using default document server config: $DOCSERVER_CONFIG"
     echo "Using default annotation server config: $ANNOTATION_CONFIG"
 fi
+
+export NIST_DATA=/NIST-data
+export MODELS=/models
+export SCRIPTS_MORPH=/tools/scripts-morph-v6.1.jar
+export QUERYSERVER_CONFIG=$CONFIGS/query.latest.config.json
+
 
 start_morph_server () {
     cwd=`pwd`

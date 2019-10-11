@@ -2,40 +2,23 @@
     "args": [
         ["edi-nmt", "umd-nmt", "umd-smt"],
         [
-            ["edi-nmt.exact_match", ["sentence", "sum"]], 
-            ["edi-nmt.stem_match", ["sentence", "sum"]],
-            ["umd-nmt.exact_match", ["sentence", "sum"]],
-            ["umd-nmt.stem_match", ["sentence", "sum"]],
-            ["umd-smt.exact_match", ["sentence", "sum"]],
-            ["umd-smt.stem_match", ["sentence", "sum"]]
+            "edi-nmt.morph_match",
+            "umd-nmt.morph_match",
+            "umd-smt.morph_match"
         ],
         {
             "edi-nmt": [
-                ["edi-nmt.exact_match", ["sentence", "sum"]], 
-                ["edi-nmt.stem_match", ["sentence", "sum"]]
+                ["edi-nmt.morph_match", ["match_score"]]
             ],
             "umd-nmt": [
-                ["umd-nmt.exact_match", ["sentence", "sum"]], 
-                ["umd-nmt.stem_match", ["sentence", "sum"]]
+                ["umd-nmt.morph_match", ["match_score"]]
             ],
             "umd-smt": [
-                ["umd-smt.exact_match", ["sentence", "sum"]], 
-                ["umd-smt.stem_match", ["sentence", "sum"]]
+                ["umd-smt.morph_match", ["match_score"]]
             ]
         }
-
     ],
     "kwargs": {
-        "exact_matches": {
-            "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
-            "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
-            "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
-        },
-        "stem_matches": {
-            "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
-            "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
-            "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
-        },
         "default_args": [
             ["edi-nmt", "umd-nmt", "umd-smt"],
             [
@@ -76,6 +59,7 @@
                     ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
                 ]
             }
+
         ],
         "default_kwargs": {
             "exact_matches": {
@@ -93,6 +77,7 @@
                 "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
                 "umd-smt": ["umd-smt.glove42Bsim.content_semcons", ["word", "sims"]]
             }
+
         }
     }
 }

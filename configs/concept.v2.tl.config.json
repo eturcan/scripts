@@ -1,30 +1,56 @@
 {
     "args": [
-        ["gold"],
+        ["edi-nmt", "umd-nmt", "umd-smt"],
         [
-            ["gold.exact_match", ["sentence", "sum"]], 
-            ["gold.stem_match", ["sentence", "sum"]],
-            ["gold.glove6Bsim.content_semcons", ["sentence", "max"]],
-            ["gold.glove42Bsim.content_semcons", ["sentence", "max"]]
+            ["edi-nmt.exact_match", ["sentence", "sum"]], 
+            ["umd-nmt.exact_match", ["sentence", "sum"]], 
+            ["umd-smt.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt.stem_match", ["sentence", "sum"]],
+            ["umd-nmt.stem_match", ["sentence", "sum"]],
+            ["umd-smt.stem_match", ["sentence", "sum"]],
+            ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
         ],
         {
-            "gold": [
-                ["gold.exact_match", ["sentence", "sum"]], 
-                ["gold.stem_match", ["sentence", "sum"]],
-                ["gold.glove6Bsim.content_semcons", ["sentence", "max"]],
-                ["gold.glove42Bsim.content_semcons", ["sentence", "max"]]
+            "edi-nmt": [
+                ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt.stem_match", ["sentence", "sum"]],
+                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
+            ],
+            "umd-nmt": [
+                ["umd-nmt.exact_match", ["sentence", "sum"]], 
+                ["umd-nmt.stem_match", ["sentence", "sum"]],
+                ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
+            ],
+            "umd-smt": [
+                ["umd-smt.exact_match", ["sentence", "sum"]], 
+                ["umd-smt.stem_match", ["sentence", "sum"]],
+                ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
             ]
         }
     ],
     "kwargs": {
         "exact_matches": {
-            "gold": ["gold.exact_match", ["word", "matches"]]
+            "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
         },
         "stem_matches": {
-            "gold": ["gold.stem_match", ["word", "matches"]]
+            "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
         },
         "soft_matches": {
-            "gold": ["gold.glove42Bsim.content_semcons", ["word", "sims"]]
+            "edi-nmt": ["edi-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+            "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+            "umd-smt": ["umd-smt.glove42Bsim.content_semcons", ["word", "sims"]]
         }
     }
 }

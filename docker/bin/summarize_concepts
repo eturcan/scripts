@@ -2,6 +2,11 @@
 
 queryids=$(echo -e "$1" | cut -f1)
 docids=$(echo -e "$1" | cut -f2)
+if [[ $3 != "" ]]; then
+    thr=$3
+else
+    thr=16
+fi
 
 summarize () {
     query_id=$1
@@ -59,4 +64,4 @@ else
     output_dir=/outputs/conceptual
 fi
 
-parallel --link -j16 summarize ::: "$queryids" ::: "$docids" ::: $output_dir
+parallel --link -j$thr summarize ::: "$queryids" ::: "$docids" ::: $output_dir

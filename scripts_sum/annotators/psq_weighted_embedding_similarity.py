@@ -99,11 +99,6 @@ class PSQWeightedEmbeddingSimilarity:
         return source_embeddings, mask
 
     def __call__(self, query, doc):
-        #if query.example_of:
-        #    print(query, "IS EXAMPLE")
-        if "EXAMPLE_OF" in query.string:
-            return
-
         lang = get_iso(doc.source_lang)
         if lang not in self.lang2emb_map:
             from warnings import warn

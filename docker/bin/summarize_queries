@@ -19,48 +19,81 @@ make_args () {
 
 get_markup_gen () {
     if [ `is_example_of $1 $2 $3` == "True" ]; then
-        return "summarkup.generators.exampleofv1.ExampleOfV1"
+        echo "summarkup.generators.conceptv2.ConceptV2"
     elif [ `is_morph $1 $2 $3` == "True" ]; then
-        return "summarkup.generators.morphv1.MorphV1"
+        echo "summarkup.generators.morphv1.MorphV1"
     elif [ `is_conceptual $1 $2 $3` == "True" ]; then
-        return "summarkup.generators.conceptv1.ConceptV1"
-    elif [ `is_lexical $1 $2 $3` == "True" ] \
-            && [ `is_simple $1 $2 $3` == "True" ]; then
-        return "summarkup.generators.lexicalv1.LexicalV1"
-    elif [ `is_lexical $1 $2 $3` == "True" ] \
-            && [ `is_simple $1 $2 $3` == "False" ]; then
-        return "summarkup.generators.lexicalmultiwordv1.LexicalMultiWordV1"
+        echo "summarkup.generators.conceptv2.ConceptV2"
+    elif [ `is_lexical $1 $2 $3` == "True" ]; then
+        echo "summarkup.generators.lexicalv2.LexicalV2"
     else
-        return "NONE"
+        echo "NONE"
     fi
 }
 
+export -f get_markup_gen
+
+get_markup_config () {
+    gen=$1
+    lang=$2
+
+    if [[ $gen == "summarkup.generators.conceptv2.ConceptV2" ]]; then
+        echo "/app/scripts/configs/concept.v2.$lang.config.json"
+    elif [[ $gen == "summarkup.generators.lexicalv2.LexicalV2" ]]; then
+        echo "/app/scripts/configs/lexical.v2.$lang.config.json"
+    elif [[ $gen == "summarkup.generators.morphv1.MorphV1" ]]; then
+        echo "/app/scripts/configs/morph.v1.$lang.config.json"
+    else
+        echo "NONE"
+    fi
+
+
+}
+export -f get_markup_config
+
 summarize () {
+    query_id=$1
+    doc_id=$2
     output_dir=$4
+    lang=`doc_client $DOC_PORT lang $doc_id`
     nc=`num_components $QUERY_PORT $1`
-        echo "$1 $2 $3 1"
-        annotate_material $ANNOTATION_PORT $1 $2 1 \
-            "$output_dir/annotations/$1/$1.$2.c1.pkl"
-        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            $output_dir/annotations/$1/$1.$2.c1.pkl \
-            $output_dir/markup/$1/$1.$2.c1.json \
-            --quiet
-        generate_image scripts/configs/summary_style.v1.css \
-            $output_dir/markup/$1/$1.$2.c1.json \
-            $output_dir/images/$1.$2.c1.png
+    gen1=`get_markup_gen $QUERY_PORT $query_id 1`
+    genargs1=`get_markup_config $gen1 $lang`
+    echo "$1 $2 $3 $4 $lang $gen1 $genargs1"
+    if [[ $DEBUG_SUM == "True" ]]; then
+        dbg="--debug"
+    else
+        dbg=""
+    fi
+    
+    annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
+        "$output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl"
+    generate_markup $gen1 \
+        $output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl \
+        $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
+        --args $genargs1 \
+        --quiet
+        generate_image scripts/configs/summary_style.v2.css \
+            $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
+            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
+            $dbg
 
     if [ "$nc" == "2" ]; then
-
-        echo "$1 $2 $3 2"
-        annotate_material $ANNOTATION_PORT $1 $2 2 \
-            $output_dir/annotations/$1/$1.$2.c2.pkl
-        generate_markup summarkup.generators.conceptv1.ConceptV1 \
-            $output_dir/annotations/$1/$1.$2.c2.pkl \
-            $output_dir/markup/$1/$1.$2.c2.json \
+        gen2=`get_markup_gen $QUERY_PORT $query_id 2`
+        genargs2=`get_markup_config $gen2 $lang`
+        echo "$1 $2 $3 $4 $lang $gen2 $genargs2"
+ 
+        annotate_material $ANNOTATION_PORT $query_id $doc_id 2 \
+            $output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl
+        generate_markup $gen2 \
+            $output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl \
+            $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
+            --args $genargs2 \
             --quiet
-        generate_image scripts/configs/summary_style.v1.css \
-            $output_dir/markup/$1/$1.$2.c2.json \
-            $output_dir/images/$1.$2.c2.png
+        generate_image scripts/configs/summary_style.v2.css \
+            $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
+            $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
+            $dbg
     fi
 
 }

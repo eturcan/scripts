@@ -5,6 +5,7 @@ from datetime import datetime
 import re
 from jsonschema import validate
 from uuid import uuid4
+from scripts_sum.data import get_summary_schema
 
 
 def main():
@@ -19,10 +20,12 @@ def main():
     parser.add_argument("runname", type=str, help="name of run")
     args = parser.parse_args()
     
-    schema = json.loads(
-        Path("scripts/scripts_sum/summarySchema_v1.3.1.json").read_text())
+
+
+    schema = json.loads(get_summary_schema().read_text())
 
     for results_path in args.clir_results_dir.glob("query*"):
+        print(results_path)
         
         src_dir = args.summary_results_dir
         tgt_dir = args.output_directory / results_path.stem
@@ -43,7 +46,8 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                 print("{}\tN\t{}".format(doc_id, score), file=out_fp)
                 continue
 
-            meta_fn = "SCRIPTS.{}.{}.json".format(query_id, doc_id)
+            meta_fn = "SCRIPTS.{}.{}.{}.json".format(
+                run_name, query_id, doc_id)
             meta_path = tgt_dir / meta_fn
             meta = {
                 "team_id": "SCRIPTS",
@@ -54,25 +58,25 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                 "run_name": run_name,
                 "run_date_time": datetime.utcnow().isoformat("T") + "Z",
                 "document_score": float(score),
-                "summary_content": [
-
-                ],
+                "summary_content": {"components": []},
             }
 
             markup_dir = summary_results_dir / "markup" / query_id
-            print(markup_dir)
             for component_path in sorted(markup_dir.glob(
                     "{}.{}.c*.json".format(query_id, doc_id))):
+                comp = component_path.name.split(".")[2]\
+                    .replace("c", "component")
 
                 src_img_path = (
-                    summary_results_dir / "images" / 
+                    summary_results_dir / "images" / query_id /
                     "{}.png".format(component_path.stem)
                 )
-                tgt_img_path = tgt_dir / "{}.png".format(component_path.stem)
+                tgt_img_path = tgt_dir / "SCRIPTS.{}.{}.{}.{}.png".format(
+                    run_name, query_id, doc_id, comp)
 
                 qc = read_component_content(component_path)
                 qc["query_component_image_filename"] = tgt_img_path.name
-                meta["summary_content"].append(qc)
+                meta["summary_content"]["components"].append(qc)
                 tgt_img_path.write_bytes(src_img_path.read_bytes())
 
             validate(instance=meta, schema=schema)
