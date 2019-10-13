@@ -25,6 +25,9 @@ class StemMatcher:
 
     def __call__(self, query, doc):
 
+        if self.translation not in doc.utterances[0]["translations"]:
+            return None
+
         query_forms = self.filter_tokens(query.content.tokens)
         if query.semantic_constraint is not None \
                 and query.semantic_constraint.type == "syn":

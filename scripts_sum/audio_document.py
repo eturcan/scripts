@@ -17,7 +17,10 @@ class SpeechDocument(AnnotatedDocument):
         asr_tokens_path = asr_paths["tokens"]
         asr_tokens = defaultdict(list)
         for line in asr_tokens_path.read_text().strip().split("\n"):
-            spkr, start, dur, tok, conf = line.split()[1:]
+            if "\t" in line:
+                spkr, start, dur, tok, conf = line.split("\t")[1:]
+            else:
+                spkr, start, dur, tok, conf = line.split()[1:]
             for st in tok.replace("_", " _ ").split(" "):
                 asr_tokens[spkr].append({
                     "offsets": (float(start), float(start) + float(dur)),
@@ -60,20 +63,35 @@ class SpeechDocument(AnnotatedDocument):
         num_utt = len(final_asr_lines)
         utterances = []
         for i in range(num_utt):
-            if "\t" in final_asr_lines:
+            
+            if "\t" in final_asr_lines[i]:
                 _, spkr, start, stop, src_text = final_asr_lines[i].split("\t")
             else:
                 _, spkr, start, stop, src_text = final_asr_lines[i].split(" ", 4)
 
             src_tokens = Token.tokens_from_morphology(final_asr_morph[i]) 
+
+            # THIS IS FRAGILE AND WILL BREAK! 
+            if src_tokens[-1].word == ".":
+                src_tokens = src_tokens[:-1]
+
             src_utt = Utterance(src_text, src_tokens, speaker=spkr,
                                 offsets=(float(start), float(stop)))
             
-            for token in src_tokens:
+            for T, token in enumerate(src_tokens, 1):
                 idx = token_info_pos[spkr]
                 if token.word != asr_tokens[spkr][idx]["token"]:
-                    print(token.word, asr_tokens[spkr][idx]["token"] )
-                    print([t.word for t in src_tokens])
+                    
+                    print("ERROR!")
+                    print(asr_tokens_path)
+                    print(asr_path)
+                    print("utt line {}: {}".format(i, " ".join([t.word for t in src_tokens])))
+                    print("ctm expects token {} to be: {}".format(T,
+                        asr_tokens[spkr][idx]["token"]))
+                    print("utt expects token {} to be: {}".format(
+                        T, token.word))
+                    print()                   
+ 
                     raise RuntimeError("Bad ctm-utt alignment")
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1

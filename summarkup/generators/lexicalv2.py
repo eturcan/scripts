@@ -87,11 +87,17 @@ class LexicalV2:
         trans_scores = [dict() for utt in doc.utterances]
         for trans, annotators in self.translation_annotators.items():
             scores = np.array(
-                [self.get_scores(doc, ann) for ann in annotators])
-            scores[scores == float("-inf")] = -1
-            scores = scores.sum(axis=0)
-            for i, score in enumerate(scores):
-                trans_scores[i][trans] = score
+                [
+                    self.get_scores(doc, ann) for ann in annotators
+                    if doc.annotations[ann[0]] is not None
+                ]
+            )
+            # If we dont have a particular translation, skip it.
+            if scores.shape != (0,):            
+                scores[scores == float("-inf")] = -1
+                scores = scores.sum(axis=0)
+                for i, score in enumerate(scores):
+                    trans_scores[i][trans] = score
         
         best_translations = []
         for ts in trans_scores:
@@ -108,6 +114,7 @@ class LexicalV2:
         score_dict = {
             annotator_key(ann): self.get_scores(doc, ann) 
             for ann in self.annotators
+            if doc.annotations[ann[0]] is not None
         }
 
         keys = sorted(score_dict.keys())
@@ -116,14 +123,16 @@ class LexicalV2:
         scores = np.array(scores).sum(axis=0)
 
         if all(scores == 0):
-            return ConceptV2(*self.default_args, **self.default_kwargs)(
+            result = ConceptV2(*self.default_args, **self.default_kwargs)(
                 doc, budget=budget)
+            result[2]["markup"] = "lexicalv2-backoff-conceptv2"
+            return result
             
         markup_lines = []
         found_terms = self.get_found_words(doc, best_translations, query)
         header_line, size = make_word_match_header(query, found_terms)
         markup_lines.append(header_line)
- 
+        meta = {"translation": [], "markup": "lexicalv2"} 
         for idx in ordered_indices:
             if scores[idx] == 0:
                 break
@@ -139,6 +148,7 @@ class LexicalV2:
 
             size += wc
             markup_lines.append(line)
+            meta["translation"].append(trans)
             if size >= budget:
                  break
 
@@ -148,7 +158,7 @@ class LexicalV2:
                             t.word.lower() not in en_stopwords]
         instr = get_instructions(query.string, found_terms, missing_terms)
 
-        return markup, instr, {}
+        return markup, instr, meta
 
 
     def make_utterance_markup(self, utt, budget, exact_matches, close_matches):

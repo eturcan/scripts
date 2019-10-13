@@ -33,11 +33,17 @@ class MorphV1:
         trans_scores = [dict() for utt in doc.utterances]
         for trans, annotators in self.translation_annotators.items():
             scores = np.array(
-                [self.get_mt_scores(doc, ann) for ann in annotators])
-            scores[scores == float("-inf")] = -1
-            scores = scores.sum(axis=0)
-            for i, score in enumerate(scores):
-                trans_scores[i][trans] = score
+                [
+                    self.get_mt_scores(doc, ann) for ann in annotators
+                    if doc.annotations[ann[0]] is not None
+                ]
+            )
+
+            if scores.shape != (0,):
+                scores[scores == float("-inf")] = -1
+                scores = scores.sum(axis=0)
+                for i, score in enumerate(scores):
+                    trans_scores[i][trans] = score
         
         best_translations = []
         for ts in trans_scores:
@@ -51,6 +57,8 @@ class MorphV1:
         for i, utt in enumerate(doc):
             score = 0
             for ann in self.annotators:
+                if doc.annotations[ann] is None:
+                    continue
                 ann = doc.annotations[ann]["annotation"][i]
                 for a in ann:
                     if any([x >= 1 for x in a["match_quality"]]):
@@ -102,6 +110,7 @@ class MorphV1:
         header = "Match found for {}, check number/tense/meaning:".format(" ".join([t.word for t in query.content.tokens]))
         size = len(header.split())
         markup_lines = ["<h1>{}</h1>".format(header)]
+        meta = {"translation": [], "markup": "morphv1"}
         for idx in I:
             score = scores[idx]
             if score == 0:
@@ -130,6 +139,7 @@ class MorphV1:
             line = line.replace("RELEXACT", "rel_close_match")
             line = line.replace("span_class", "span class")
             markup_lines.append("<p>{}</p>".format(line))
+            meta["translation"].append(trans)
             if size >= budget:
                 break
 
@@ -140,9 +150,7 @@ class MorphV1:
 #        
         instructions = get_instructions(
             query.string, found_terms, missing_terms)
-        #return "\n".join(markup_lines), instructions       
-        return "\n".join(markup_lines), instructions, {}
-        return "", "", {}
+        return "\n".join(markup_lines), instructions, meta
 
 #        if query.morphological_constraint.morph.pos != "NN":
 #            return "<p>SKIP</p>"
@@ -194,7 +202,10 @@ class MorphV1:
         matches.sort(key=lambda x: x["exact_morph"], reverse=True)
 
         if len(match_qualities) == 0:
-            return ConceptV1()(doc, budget=budget)
+            result = ConceptV2(*self.default_args, **self.default_kwargs)(
+                doc, budget=budget)
+            result[2]["markup"] = "morph-backoff-conceptv2"
+            return result
 
         found_term_ind = np.array(match_qualities).sum(axis=0)
         found_terms = [q.word

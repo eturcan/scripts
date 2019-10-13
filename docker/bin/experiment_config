@@ -12,14 +12,19 @@ def main():
     parser.add_argument("exp_json", type=Path)
     parser.add_argument("root_dir", type=Path)
     parser.add_argument("output_path", type=Path)
+    parser.add_argument("--no-audio-seg", action="store_true")
     args = parser.parse_args()
 
     data = json.loads(args.exp_json.read_text())
     ds = [str(args.root_dir / x)
           for x in data['data_collection']['data_store_structure']]
     args.output_path.parent.mkdir(exist_ok=True, parents=True)
+    arg_list = ["ds2config"]
+    if args.no_audio_seg:
+        arg_list.append("--no-audio-seg")
+    arg_list.extend(ds)
     args.output_path.write_text(
-        check_output(["ds2config"] + ds).decode("utf8"))
+        check_output(arg_list).decode("utf8"))
 
 if __name__ == "__main__":
     main()

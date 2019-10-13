@@ -7,18 +7,23 @@ import json
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        ("Generate a summarization server config file from one or more data "
+         "structure files."))
+    parser.add_argument("--no-audio-seg", action="store_true",
+        help=("disable use of use the audio segmenter "
+              "and use acoustic segmentation."))
     parser.add_argument("paths", nargs="+", type=Path)
     args = parser.parse_args()
 
     configs = []
     for path in args.paths:
-        for x in proc_ds(path.read_text()):
+        for x in proc_ds(path.read_text(), no_audio_seg=args.no_audio_seg):
             configs.append(x)
     print(json.dumps(configs, indent="    "))
 
 
-def proc_ds(config):
+def proc_ds(config, no_audio_seg=False):
 
     config = config[config.index("[corpus_"):]
     
@@ -51,8 +56,15 @@ def proc_ds(config):
         else:        
             asr = re.search(
                 r"ASR_location=(.*?)\nASR_version=material", sc).groups()[0]
-
             asr_morph = morphs[asr]
+
+            if not no_audio_seg:
+                sent_seg_m = re.search(r"SentSplitter_location=(.*?)\n", sc)
+                if sent_seg_m:
+                    sent_seg = sent_seg_m.groups()[0]
+                    asr = sent_seg
+                    asr_morph = morphs[sent_seg]
+
 
         translations = []
         for mt in re.findall(r"MT_location=(.*?)\n+MT_version=(.*?)\n+MT_source=(.*?)\n", sc):

@@ -62,10 +62,19 @@ summarize () {
     echo "$1 $2 $3 $4 $lang $gen1 $genargs1"
     if [[ $DEBUG_SUM == "True" ]]; then
         dbg="--debug"
+           if [[ `is_relevant $QUERY_PORT $query_id $doc_id` == "True" ]]; then
+                qdlabel="RELEVANT"
+    
+                rcolor="green"
+
+            else
+                qdlabel="NOT RELEVANT"
+                rcolor="red"
+            fi
     else
         dbg=""
     fi
-    
+  
     annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
         "$output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl"
     generate_markup $gen1 \
@@ -77,6 +86,12 @@ summarize () {
             $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
             $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
             $dbg
+
+    if [[ $DEBUG_SUM == "True" ]]; then
+        convert -pointsize 25 -fill $rcolor -draw "text 900,30 \"$qdlabel\"" \
+            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
+            $output_dir/images/$query_id/$query_id.$doc_id.c1.png
+    fi
 
     if [ "$nc" == "2" ]; then
         gen2=`get_markup_gen $QUERY_PORT $query_id 2`

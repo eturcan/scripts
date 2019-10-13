@@ -23,7 +23,15 @@ def main():
         data = json.loads(path.read_text())
         print(data["query_string"])
 
-        markup = data["markup"]
+        def make_replace(meta):
+            idx = -1
+            def replace(x):
+                nonlocal idx
+                idx += 1
+                return '<p><span class="smeta">({})</span> '.format(
+                    meta["translation"][idx])
+            return replace
+        markup = re.sub(r"<p>", make_replace(data["meta"]), data["markup"])
 
         markup = re.sub('<h1 class="(.*?)">(.*?)</h1>', set_header_color, markup)
         markup = re.sub(r'<h1>(.*?)</h1>\n+', 
@@ -42,7 +50,9 @@ def main():
         markup = re.sub('<span class="rel_close">(.*?)</span>', 
             Fore.YELLOW + r'\1' + Style.RESET_ALL,
             markup)
-
+        markup = re.sub('<span class="smeta">(.*?)</span>', 
+            Fore.YELLOW + r'\1' + Style.RESET_ALL,
+            markup)
         markup = re.sub('<span class="relevant">(.*?)</span>', 
             Fore.GREEN + r'\1' + Style.RESET_ALL,
             markup)

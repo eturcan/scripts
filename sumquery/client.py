@@ -214,4 +214,15 @@ def is_example_of():
     qt = client.query_type(args.query_id, args.comp - 1)
     print(qt["example_of"])
 
+def is_relevant():
+    parser = argparse.ArgumentParser(
+        "Check if doc is relevant to query")
+    parser.add_argument("port", type=int)
+    parser.add_argument("query_id")
+    parser.add_argument("doc_id")
+    args = parser.parse_args()
+    client = Client(args.port)
+    rel_list = client.list_relevant(args.query_id)
+    print(args.doc_id in rel_list)
+
 

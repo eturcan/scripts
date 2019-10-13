@@ -85,7 +85,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         query2group = {}
         query2rel = defaultdict(list)
 
-        for config in configs:
+        for config in configs["query_lists"]:
             lang = config["lang"]
             period = config["period"]
             query_group = config["group"]
@@ -123,7 +123,12 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                     for line in fp:
                         qid, docid = line.strip().split("\t")
                         query2rel[qid].append({'part': part, 'id': docid})
-                        
+        for qrel_list in configs["annotations"]:
+            with (self.nist_data / qrel_list).open("r") as fp:
+                fp.readline()
+                for line in fp:
+                    q,d = line.strip().split("\t")
+                    query2rel[q].append(d)
 
         return all_queries, query2lang, query2period, query2group, query2rel
 

@@ -9,17 +9,6 @@ import numpy as np
 #from summarkup.utils import make_relevant_header, detokenize
 from scripts_sum.summary_instructions import get_instructions
 
-#punc = set(string.punctuation)
-translations = ["edi-nmt", "umd-nmt", "umd-smt"]
-annotators = [
-    ["exact_match", ["sentence", "sum"]], 
-    ["stem_match", ["sentence", "sum"]],
-    ["glove42Bsim.content_semcons", ["sentence", "mean"]],
-    ["glove42Bsim.content_semcons", ["sentence", "max"]],
-    ["glove6Bsim.content_semcons", ["sentence", "mean"]],
-    ["glove6Bsim.content_semcons", ["sentence", "max"]],
-]            
-
 
 from nltk.corpus import stopwords
 en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
@@ -114,11 +103,17 @@ class ConceptV2:
         trans_scores = [dict() for utt in doc.utterances]
         for trans, annotators in self.translation_annotators.items():
             scores = np.array(
-                [self.get_scores(doc, ann) for ann in annotators])
-            scores[scores == float("-inf")] = -1
-            scores = scores.sum(axis=0)
-            for i, score in enumerate(scores):
-                trans_scores[i][trans] = score
+                [
+                    self.get_scores(doc, ann) for ann in annotators
+                    if doc.annotations[ann[0]] is not None
+                ]
+            )
+            # If we dont have a particular translation, skip it.
+            if scores.shape != (0,):            
+                scores[scores == float("-inf")] = -1
+                scores = scores.sum(axis=0)
+                for i, score in enumerate(scores):
+                    trans_scores[i][trans] = score
         
         best_translations = []
         for ts in trans_scores:
@@ -134,6 +129,7 @@ class ConceptV2:
         score_dict = {
             annotator_key(ann): self.get_scores(doc, ann) 
             for ann in self.annotators
+            if doc.annotations[ann[0]] is not None
         }
 
         keys = sorted(score_dict.keys())
@@ -143,6 +139,7 @@ class ConceptV2:
         header, size = make_relevant_header(query)
         markup_lines = [header]
 
+        meta = {"translation": [], "markup": "conceptv2"}
         for idx in ordered_indices:
             trans = best_translations[idx]
             utt = doc.utterances[idx]["translations"][trans]
@@ -158,6 +155,7 @@ class ConceptV2:
 
             size += wc
             markup_lines.append(line)
+            meta["translation"].append(trans)
             if size >= budget:
                  break
 
@@ -169,7 +167,7 @@ class ConceptV2:
                             t.word.lower() not in en_stopwords]
         instr = get_instructions(query.string, found_terms, missing_terms)
 
-        return markup, instr, {}
+        return markup, instr, meta
 
 
     def make_utterance_markup(self, utt, budget, exact_matches, close_matches):

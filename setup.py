@@ -24,6 +24,7 @@ setup(
             "query_server=sumquery.server:main",
             "list_queries=sumquery.client:list_queries",
             "list_relevant=sumquery.client:list_relevant",
+            "is_relevant=sumquery.client:is_relevant",
             "num_components=sumquery.client:num_components",
             "is_lexical=sumquery.client:is_lexical",
             "is_simple=sumquery.client:is_simple",

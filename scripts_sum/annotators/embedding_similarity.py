@@ -56,6 +56,9 @@ class EmbeddingSimilarity:
 
     def __call__(self, query, doc):
 
+        if self.translation not in doc.utterances[0]["translations"]:
+            return None
+
         query_tokens = query.content.tokens
         if query.semantic_constraint:
             query_tokens = query_tokens + query.semantic_constraint.tokens

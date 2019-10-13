@@ -25,6 +25,8 @@ class MorphMatcher:
 
     def __call__(self, query, doc):
 
+        if self.translation not in doc.utterances[0]["translations"]:
+            return None
         if query.morphological_constraint is None:
             return None
 

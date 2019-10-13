@@ -3,6 +3,7 @@ from pathlib import Path
 import pickle
 import json
 import imgkit
+import re
 
 
 def generate_markup():
@@ -56,9 +57,21 @@ def generate_image():
     data = json.loads(args.markup.read_text())
     markup = data["markup"]
     if args.debug:
-        markup += "<br/><p>Debug: {} {} {}</p>".format(
+        
+        def make_replace(meta):
+            idx = -1
+            def replace(x):
+                nonlocal idx
+                idx += 1
+                return '<p><span class="smeta">({})</span> '.format(
+                    meta["translation"][idx])
+            return replace
+        markup = re.sub(r"<p>", make_replace(data["meta"]), data["markup"])
+
+        markup += "<br/><p>Debug: {} {} {} {}</p>".format(
             data["query_id"], data["document_id"], 
-            data["query_string"].replace("<", "&lt;").replace(">", "&gt;"))
+            data["query_string"].replace("<", "&lt;").replace(">", "&gt;"),
+            data["meta"]["markup"])
         markup += "<br/>" + data["instructions"]
 
     css_data = " <style>\n{}\n </style>".format(args.css.read_text())
