@@ -63,12 +63,12 @@ summarize () {
     if [[ $DEBUG_SUM == "True" ]]; then
         dbg="--debug"
            if [[ `is_relevant $QUERY_PORT $query_id $doc_id` == "True" ]]; then
-                qdlabel="RELEVANT"
+                qdlabel="REL"
     
                 rcolor="green"
 
             else
-                qdlabel="NOT RELEVANT"
+                qdlabel="NOT REL"
                 rcolor="red"
             fi
     else
@@ -88,7 +88,7 @@ summarize () {
             $dbg
 
     if [[ $DEBUG_SUM == "True" ]]; then
-        convert -pointsize 25 -fill $rcolor -draw "text 900,30 \"$qdlabel\"" \
+        convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
             $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
             $output_dir/images/$query_id/$query_id.$doc_id.c1.png
     fi
@@ -109,6 +109,13 @@ summarize () {
             $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
             $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
             $dbg
+        if [[ $DEBUG_SUM == "True" ]]; then
+            convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
+                $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
+                $output_dir/images/$query_id/$query_id.$doc_id.c2.png
+    fi
+
+
     fi
 
 }
