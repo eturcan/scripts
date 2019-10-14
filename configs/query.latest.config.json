@@ -13,6 +13,18 @@
             "path": "2S/IARPA_MATERIAL_OP1-2S/QUERY1/query_list.tsv"
         },
         {
+            "lang": "2B",
+            "period": "OP1",
+            "group": "QUERY2",
+            "path": "2B/IARPA_MATERIAL_OP1-2B/QUERY2/query_list.tsv"
+        },
+        {
+            "lang": "2S",
+            "period": "OP2",
+            "group": "QUERY2",
+            "path": "2S/IARPA_MATERIAL_OP1-2S/QUERY2/query_list.tsv"
+        },
+        {
             "lang": "1S",
             "period": "BASE",
             "group": "QUERY1",
