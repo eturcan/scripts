@@ -38,11 +38,23 @@ get_markup_config () {
     lang=$2
 
     if [[ $gen == "summarkup.generators.conceptv2.ConceptV2" ]]; then
-        echo "/app/scripts/configs/concept.v2.$lang.config.json"
+        if [[ $GOLD_SUM == "True" ]]; then
+            echo "/app/scripts/configs/concept.v2.$lang.gold.config.json"
+        else
+            echo "/app/scripts/configs/concept.v2.$lang.config.json"
+        fi
     elif [[ $gen == "summarkup.generators.lexicalv2.LexicalV2" ]]; then
-        echo "/app/scripts/configs/lexical.v2.$lang.config.json"
+        if [[ $GOLD_SUM == "True" ]]; then
+            echo "/app/scripts/configs/lexical.v2.$lang.gold.config.json"
+        else
+            echo "/app/scripts/configs/lexical.v2.$lang.config.json"
+        fi
     elif [[ $gen == "summarkup.generators.morphv1.MorphV1" ]]; then
-        echo "/app/scripts/configs/morph.v1.$lang.config.json"
+        if [[ $GOLD_SUM == "True" ]]; then
+            echo "/app/scripts/configs/morph.v1.$lang.gold.config.json"
+        else
+            echo "/app/scripts/configs/morph.v1.$lang.config.json"
+        fi
     else
         echo "NONE"
     fi
