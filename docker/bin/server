@@ -15,18 +15,17 @@ if [[ -d /experiment ]]; then
     lang=$(cat $experiment_config | jq .query_processor.target_language | \
         sed -e 's/"//g')
 
-    echo "Using audio segmentation: $AUDIOSEG_SUM"
+#    echo "Using audio segmentation: $AUDIOSEG_SUM"
 
-    if [[ $AUDIOSEG_SUM != "True" ]]; then
-        audioseg_arg="--no-audio-seg"
-    else
-        audioseg_arg=""
-    fi
+#    if [[ $AUDIOSEG_SUM != "True" ]]; then
+#        audioseg_arg="--no-audio-seg"
+#    else
+#        audioseg_arg=""
+#    fi
 
     # Setup doc server config based on experiment json.
-    echo "experiment_config $experiment_config /NIST-data $new_doc_config $audioseg_arg"
-    experiment_config $experiment_config /NIST-data $new_doc_config \
-        $audioseg_arg
+    echo "experiment_config $experiment_config /NIST-data $new_doc_config"
+    experiment_config $experiment_config /NIST-data $new_doc_config
 
     echo "Deriving doc server config from experiment config $experiment_config"
     export DOCSERVER_CONFIG=$new_doc_config
