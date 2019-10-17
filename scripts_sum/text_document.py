@@ -79,7 +79,30 @@ class TextDocument(AnnotatedDocument):
             src_tokens = Token.tokens_from_morphology(final_src_morph[i])
             src_utt = Utterance(final_sent_segments[i], src_tokens,
                                 offsets=(start, stop))
+
+#            print(">>>>>utttext")
+#            print(src_utt.text)
+#            print(">>>>>excerpt")
+#            print(src_text[start:stop + 1])
+#            print()
             
+            txt = src_text[start:stop + 1]
+            
+            sstart = 0
+            for src_token in src_tokens:
+                m = re.search(re.escape(src_token.word), txt)
+                start_offset = start + sstart + m.start()
+                stop_offset = start + sstart + m.end() - 1
+                txt = txt[m.end():]
+                sstart += m.end()
+#                print(src_token.word, src_text[start_offset:stop_offset+1])
+                if src_token.word != src_text[start_offset:stop_offset+1]:
+                    raise RuntimeError(
+                        "bad byte alignment: doc_id {} line {} path {}".format(
+                            doc_id, i, str(source_path)))
+                src_token._offsets = (start_offset, stop_offset)
+
+
             src_trans = {}
             for name, translation in final_translations.items():
                 if len(final_translation_morphs[name][i]) == 0:

@@ -15,7 +15,9 @@ class PSQ:
 
     def get_psq(self, query):
         tn = TextNormalizer("en")
-        psq = self.psqclient.get_psq(query.id)
+        psq_idf = self.psqclient.get_psq(query.id)
+        psq = psq_idf["psq"]
+        idf = psq_idf["idf"]
 #        print(psq)
 
         
@@ -27,9 +29,6 @@ class PSQ:
             if subword.strip() != '' and subword not in en_stopwords
         ] 
         if query.semantic_constraint is not None:
-#            sc = tn.normalize(query.semantic_constraint.text,
-#                              False, False, False)
-            #query_words += [x for x in sc.split() if x not in en_stopwords]
             query_words += [
                 tn.normalize(subword.strip(), False, False, False)
                 for token in query.semantic_constraint.tokens
@@ -37,7 +36,12 @@ class PSQ:
                 for subword in token.word.lower().split("-")
                 if subword.strip() != '' and subword not in en_stopwords
             ]
-        return {w: psq[w] for w in query_words if w in psq}
+
+        return {
+            w: {k: v * idf[w] for k,v in psq[w].items()} 
+            for w in query_words 
+            if w in psq and (psq[w] is not None) and (idf[w] is not None)
+        }
 
     def __call__(self, query, doc):
         tn = TextNormalizer(doc.source_lang)
@@ -52,25 +56,32 @@ class PSQ:
                 raise e
 
         scores = []
+        offsets = []
         for utt in doc.utterances:
             norm_tokens = [
                 tn.normalize(t.word, False, False, False) 
                 for t in utt["source"].tokens
             ]
             sentence_score = 0
-            for t in norm_tokens:
+            for i, t in enumerate(norm_tokens):
                 for q, translations in psq.items():
                     if translations is None:
                         from warnings import warn
                         warn("{} has empty psq translation.".format(q))
                         continue
                     if t in translations:
+                        offsets.append([
+                            utt["source"].tokens[i].offsets,
+                            translations[t]
+                        ])
+                            
                         sentence_score += translations[t]
             scores.append(sentence_score)
        
         meta = {
             "query": query.string,
             "type": "PSQ",
-            "args": {}
+            "args": {},
+            "offsets": offsets,
         } 
         return {"annotation": scores, "meta": meta}   

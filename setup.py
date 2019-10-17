@@ -5,7 +5,8 @@ setup(
     version='0.1',
     packages=['scripts_sum', 'sumquery', 'sumdoc', 'sumannotate', 
               'summarkup', 'sumpsq'],
-    py_modules=["package_summaries", "ds2config", "normalize_embeddings"],
+    py_modules=["package_summaries", "ds2config", "normalize_embeddings",
+                "make_source_evidence"],
    # license='Creative Commons Attribution-Noncommercial-Share Alike license',
    # long_description=open('README.txt').read(),
     install_requires=["nltk", "numpy", "colorama", "sklearn", "jsonschema",
@@ -14,6 +15,7 @@ setup(
     zip_safe=False,
     entry_points={
         "console_scripts": [
+            "source-evidence=make_source_evidence:main",
             "sumpsq=sumpsq.server:sumpsq_server",
             "get_psq=sumpsq.client:get_psq",
             "annotation_server=sumannotate.server:main",

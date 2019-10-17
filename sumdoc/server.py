@@ -80,6 +80,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             with audio_metadata.open("r") as fp:
                 did2audtype = {}
                 for line in fp:
+                    if line.strip() == "":
+                        continue
                     wav, audtype = line.strip().split("\t")[:2]
                     did2audtype[wav[:-4]] = audtype
                     

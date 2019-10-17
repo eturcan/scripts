@@ -83,17 +83,23 @@ class MorphV1:
     def get_found_words(self, doc, translations, query):
 
         query_words = [t.word.lower() for t in query.content.tokens]
+        query_stems = [t.stem.lower() for t in query.content.tokens]
         if query.semantic_constraint is not None:
             query_words += [
                 t.word.lower() for t in query.semantic_constraint.tokens
             ]
+            query_stems += [
+                t.stem.lower() for t in query.semantic_constraint.tokens
+            ]
         query_words = set([t for t in query_words if t not in en_stopwords])
+        query_stems = set([t for t in query_stems if t not in en_stopwords])
         found_words = set()
         for utt, trans in zip(doc.utterances, translations):
             for token in utt["translations"][trans].tokens:
-                token = token.word.lower()
-                if token in query_words:
-                    found_words.add(token)
+                tokenstr = token.word.lower()
+                tstem = token.stem.lower()
+                if tokenstr in query_words or tstem in query_stems:
+                    found_words.add(tokenstr)
         return found_words
 
     def __call__(self, doc, budget=100):
@@ -110,13 +116,16 @@ class MorphV1:
         header = "Match found for {}, check number/tense/meaning:".format(" ".join([t.word for t in query.content.tokens]))
         size = len(header.split())
         markup_lines = ["<h1>{}</h1>".format(header)]
-        meta = {"translation": [], "markup": "morphv1"}
+        meta = {"translation": [], "markup": "morphv1",
+                "utterance_ids": [], "source_offsets": [],
+                "mode": doc.mode, "source_md5": doc.md5} 
         for idx in I:
             score = scores[idx]
             if score == 0:
                 break
             trans = best_translations[idx]
             sent = doc.utterances[idx]["translations"][trans]
+            src_utt = doc.utterances[idx]["source"]
             tokens = [token.word for token in sent.tokens]
             mname = self.translation_annotators[trans][0][0]
             for m in doc.annotations[mname]["annotation"][idx]:
@@ -140,6 +149,8 @@ class MorphV1:
             line = line.replace("span_class", "span class")
             markup_lines.append("<p>{}</p>".format(line))
             meta["translation"].append(trans)
+            meta["utterance_ids"].append(int(idx))
+            meta["source_offsets"].append(src_utt.offsets)
             if size >= budget:
                 break
 

@@ -16,6 +16,7 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, port, query_data_paths):
         self.port = port
         self._cache = {}
+        self._idf_cache = {}
         for path in query_data_paths:
             self.import_data_from_json(path)
         super(PSQServer, self).__init__(("127.0.0.1", port), PSQRequestHandler)
@@ -23,6 +24,7 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def import_data_from_json(self, path):
         data = json.loads(path.read_text())
         query_id = data["query_id"]
+        self._idf_cache[query_id] = data["english"]["idf"]
         found = 0
         for query in data["queries"]:
             if query["type"] in PSQ_NAMES:
@@ -60,7 +62,12 @@ class PSQRequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
         query_id = pickle.loads(self._receive())
         if query_id in self.server._cache:
-            self._send(pickle.dumps(self.server._cache[query_id]))
+            self._send(
+                pickle.dumps({
+                    "psq": self.server._cache[query_id], 
+                    "idf": self.server._idf_cache[query_id]
+                })
+            )
         else:
             self._send(pickle.dumps(
                 RuntimeError("Bad query id: {}".format(query_id))))

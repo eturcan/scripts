@@ -16,8 +16,16 @@ class QueryComponent:
                                        "EN", morph_path)
         query_content_tokens = Token.tokens_from_morphology(content_morph)
         query_content_utt = Utterance(query_content, query_content_tokens)
-        return QueryComponent(query_string, query_id, component_num,
-                              num_components, query_content_utt)
+        qc = QueryComponent(query_string, query_id, component_num,
+                            num_components, query_content_utt)
+        if qc.semantic_constraint:
+            sc = qc.semantic_constraint
+            sc_morph = get_morphology(sc.text, morph_port, "EN", morph_path)
+            sc_tokens = Token.tokens_from_morphology(sc_morph)
+            sc_utt = Utterance(sc.text, sc_tokens)
+            qc.semantic_constraint._utterance = sc_utt
+
+        return qc
 
     def __init__(self, query_string, query_id, component_num, num_components,
                  query_content):

@@ -41,6 +41,8 @@ def generate_markup():
         "total_components": doc.annotations["QUERY"].num_components,
         "instructions": instr,
         "meta": mmeta,
+        "source_md5": doc.md5,
+        "mode": doc.mode,
     })
     args.output_path.parent.mkdir(exist_ok=True, parents=True)
     args.output_path.write_text(output)

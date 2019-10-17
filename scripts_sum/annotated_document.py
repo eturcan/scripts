@@ -1,5 +1,6 @@
 import numpy as np
 import json
+import hashlib
 
 
 class AnnotatedDocument:
@@ -14,7 +15,15 @@ class AnnotatedDocument:
         self._translations = tuple(self.utterances[0]["translations"])
         self._annotations = {}
         self._token_annotations = {}
+        self._md5 = None
         
+    @property
+    def md5(self):
+        if self._md5 is None:
+            with self.source_path.open("rb") as fp:
+                self._md5 = hashlib.md5(fp.read()).hexdigest()
+        return self._md5        
+
     @property
     def id(self):
         return self._id

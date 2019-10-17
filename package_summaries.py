@@ -18,6 +18,8 @@ def main():
                         help="path to write package")
     parser.add_argument("systemlabel", type=str, help="name of system")
     parser.add_argument("runname", type=str, help="name of run")
+    parser.add_argument("timestamp", type=str)
+
     args = parser.parse_args()
     
 
@@ -30,16 +32,18 @@ def main():
         src_dir = args.summary_results_dir
         tgt_dir = args.output_directory / results_path.stem
         make_query_dir(results_path, tgt_dir, args.summary_results_dir,
-                       args.systemlabel, args.runname, schema)        
+                       args.systemlabel, args.runname, schema, args.timestamp)        
 
 def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
-                   run_name, schema):
+                   run_name, schema, timestamp):
 
     query_id = results_path.stem
     tgt_dir.mkdir(exist_ok=True, parents=True)
     manifest = tgt_dir / "{}.tsv".format(query_id)
     with results_path.open("r") as in_fp, manifest.open("w") as out_fp:
         for line in in_fp:
+            if line.strip() == "":
+                continue
             doc_id, summarize, score = line.strip().split("\t")
 
             if summarize == "N":
@@ -56,7 +60,7 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                 "uuid": str(uuid4()),
                 "sys_label": system_label,
                 "run_name": run_name,
-                "run_date_time": datetime.utcnow().isoformat("T") + "Z",
+                "run_date_time": timestamp,
                 "document_score": float(score),
                 "summary_content": {"components": []},
             }

@@ -85,17 +85,25 @@ class ConceptV2:
     def get_found_words(self, doc, translations, query):
 
         query_words = [t.word.lower() for t in query.content.tokens]
+        query_stems = [t.stem.lower() for t in query.content.tokens]
         if query.semantic_constraint is not None:
             query_words += [
                 t.word.lower() for t in query.semantic_constraint.tokens
             ]
+            query_stems += [
+                t.stem.lower() for t in query.semantic_constraint.tokens
+            ]
+
         query_words = set([t for t in query_words if t not in en_stopwords])
+        query_stems = set([t for t in query_stems if t not in en_stopwords])
+
         found_words = set()
         for utt, trans in zip(doc.utterances, translations):
             for token in utt["translations"][trans].tokens:
-                token = token.word.lower()
-                if token in query_words:
-                    found_words.add(token)
+                tokenstr = token.word.lower()
+                tstem = token.stem.lower()
+                if tokenstr in query_words or tstem in query_stems:
+                    found_words.add(tokenstr)
         return found_words
 
     def get_best_translations(self, doc):
@@ -139,10 +147,13 @@ class ConceptV2:
         header, size = make_relevant_header(query)
         markup_lines = [header]
 
-        meta = {"translation": [], "markup": "conceptv2"}
+        meta = {"translation": [], "markup": "conceptv2",
+                "utterance_ids": [], "source_offsets": [], 
+                "mode": doc.mode, "source_md5": doc.md5} 
         for idx in ordered_indices:
             trans = best_translations[idx]
             utt = doc.utterances[idx]["translations"][trans]
+            src_utt = doc.utterances[idx]["source"]
 
             exact_matches = self.get_exact_matches(doc, idx, trans)
             stem_matches = self.get_stem_matches(doc, idx, trans)
@@ -156,6 +167,8 @@ class ConceptV2:
             size += wc
             markup_lines.append(line)
             meta["translation"].append(trans)
+            meta["utterance_ids"].append(int(idx))
+            meta["source_offsets"].append(src_utt.offsets)
             if size >= budget:
                  break
 

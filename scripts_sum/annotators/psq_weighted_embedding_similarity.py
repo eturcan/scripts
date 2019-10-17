@@ -28,7 +28,7 @@ class PSQWeightedEmbeddingSimilarity:
     def get_query_embeddings(self, query, lang):
 
         tn = TextNormalizer("en")
-        psq = self.psq_client.get_psq(query.id) 
+        psq = self.psq_client.get_psq(query.id)["psq"]
 #        print(psq)
         query2emb = {}
  
