@@ -25,22 +25,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -69,22 +114,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -113,22 +203,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -157,22 +292,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -201,22 +381,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -245,22 +470,67 @@
                 }
             ]
         },
+        "audio_metadata": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/src",
-            "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
-                    "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/asr_store/material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-sw-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "asr_morphology": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/mt_store/umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1",
+                        "morph": "1A/IARPA_MATERIAL_BASE-1A/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_audio-sentence-splitter-v1.0_material-asr-sw-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -289,27 +559,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -338,27 +653,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/ANALYSIS2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -387,27 +747,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -436,27 +841,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL1/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -485,27 +935,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL2/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -534,27 +1029,72 @@
                 }
             ]
         },
+        "audio_metadata": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/src",
-            "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/asr_store/material-asr-tl-v7.1",
-            "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
-                    "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/asr_store/material-asr-tl-v7.1",
+                "asr_morphology": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_material-asr-tl-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.4_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-tl-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-tl-v7.1",
+                        "morph": "1B/IARPA_MATERIAL_BASE-1B/EVAL3/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.7_material-asr-tl-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -583,27 +1123,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -632,27 +1217,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/ANALYSIS2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -681,27 +1311,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/DEV/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -730,27 +1405,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL1/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -779,27 +1499,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL2/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -828,27 +1593,72 @@
                 }
             ]
         },
+        "audio_metadata": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/metadata/metadata.tsv",
         "audio": {
             "source": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/src",
-            "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/asr_store/material-asr-so-v7.1",
-            "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
-            "translations": [
-                {
-                    "name": "edi-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-smt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
-                },
-                {
-                    "name": "umd-nmt",
-                    "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
-                    "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/asr_store/material-asr-so-v7.1",
+                "asr_morphology": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_material-asr-so-v7.1",
+                "translations": [
+                    {
+                        "name": "edi-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/scriptsmt-systems-v9_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_scriptsmt-systems-v9_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-smt-v2.7_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-smt-v2.7_material-asr-so-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/mt_store/umd-nmt-v4.4_material-asr-so-v7.1",
+                        "morph": "1S/IARPA_MATERIAL_BASE-1S/EVAL3/audio/morphology_store/material-scripts-morph-v5.1_umd-nmt-v4.4_material-asr-so-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -877,22 +1687,67 @@
                 }
             ]
         },
+        "audio_metadata": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/metadata/metadata.tsv",
         "audio": {
             "source": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/src",
-            "asr": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-            "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-                    "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-                    "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/asr_store/material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-smt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-smt-v2.8_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-nmt-v4.6_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-bg-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/asr_store/material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-smt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-smt-v2.8_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-nmt-v4.6_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-bg-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -921,22 +1776,67 @@
                 }
             ]
         },
+        "audio_metadata": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/metadata/metadata.tsv",
         "audio": {
             "source": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/src",
-            "asr": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-            "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-                    "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
-                    "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/asr_store/material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-smt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-smt-v2.8_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-nmt-v4.6_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-bg-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/asr_store/material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-smt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-smt-v2.8_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-nmt-v4.6_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-bg-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1",
+                        "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-bg-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -965,22 +1865,67 @@
                 }
             ]
         },
+        "audio_metadata": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/metadata/metadata.tsv",
         "audio": {
             "source": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/src",
-            "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-            "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/asr_store/material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-nmt-v4.6_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-smt-v2.8_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-lt-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/asr_store/material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-nmt-v4.6_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-smt-v2.8_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-lt-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
+                    }
+                ]
+            }
         }
     },
     {
@@ -1009,22 +1954,67 @@
                 }
             ]
         },
+        "audio_metadata": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/metadata/metadata.tsv",
         "audio": {
             "source": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/src",
-            "asr": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-            "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-            "translations": [
-                {
-                    "name": "umd-nmt",
-                    "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-                    "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
-                },
-                {
-                    "name": "edi-nmt",
-                    "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
-                    "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
-                }
-            ]
+            "TB": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/asr_store/material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-nmt-v4.6_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-smt-v2.8_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-lt-v7.1"
+                    }
+                ]
+            },
+            "NB": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/asr_store/material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-nmt-v4.6_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "umd-smt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-smt-v2.8_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-smt-v2.8_material-asr-lt-v7.1"
+                    }
+                ]
+            },
+            "CS": {
+                "asr": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/sentSplitter_store/audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                "translations": [
+                    {
+                        "name": "umd-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_umd-nmt-v4.6_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
+                    },
+                    {
+                        "name": "edi-nmt",
+                        "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1",
+                        "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_audio-sentence-splitter-v1.0_material-asr-lt-v7.1"
+                    }
+                ]
+            }
         }
     }
 ]

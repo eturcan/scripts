@@ -70,15 +70,30 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         
     def load_dataset(self, config):
         index_path = self.nist_data / config["index"]
-        text_source_dir = self.nist_data / config["text"]["source"]  
-        audio_source_dir = self.nist_data / config["audio"]["source"]  
+        if "text" in config:
+            text_source_dir = self.nist_data / config["text"]["source"]  
+        else:
+            text_source_dir = None
+        if "audio" in config:
+            audio_source_dir = self.nist_data / config["audio"]["source"]  
+            audio_metadata = self.nist_data / config["audio_metadata"]
+            with audio_metadata.open("r") as fp:
+                did2audtype = {}
+                for line in fp:
+                    wav, audtype = line.strip().split("\t")[:2]
+                    did2audtype[wav[:-4]] = audtype
+                    
+        else:
+            audio_source_dir = None
         with index_path.open("r") as fp:
             fp.readline() # consume header
             for line in fp:
                 doc_id = line.strip()
-                if (text_source_dir / "{}.txt".format(doc_id)).exists():
+                if text_source_dir and \
+                        (text_source_dir / "{}.txt".format(doc_id)).exists():
                     mode = "text"
-                elif (audio_source_dir / "{}.wav".format(doc_id)).exists():
+                elif audio_source_dir and \
+                        (audio_source_dir / "{}.wav".format(doc_id)).exists():
                     mode = "audio"
                 else:
                     raise Exception(
@@ -86,6 +101,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                 assert doc_id not in self.doc_cache
                 self.doc_cache[doc_id] = {"ds": config["name"], "mode": mode,
                                           "lang": config["lang"]}
+                if mode == "audio":
+                    self.doc_cache[doc_id]["audio_type"] = did2audtype[doc_id]
 
     def validate_doc(self, doc_id):
         if doc_id not in self.doc_cache:
@@ -121,28 +138,29 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         }
 
     def retrieve_audio_paths(self, ds_id, doc_id):
+        at = self.doc_cache[doc_id]["audio_type"]
         ds = self.ds_cache[ds_id]["audio"]
         return {
             "source": self.nist_data / ds["source"] / "{}.wav".format(doc_id),
             "asr": {
                 "utterances": (
-                    self.nist_data / ds["asr"] / "{}.utt".format(doc_id)
+                    self.nist_data / ds[at]["asr"] / "{}.utt".format(doc_id)
                 ),
                 "tokens": (
-                    self.nist_data / ds["asr"] / "{}.ctm".format(doc_id)
+                    self.nist_data / ds[at]["asr"] / "{}.ctm".format(doc_id)
                 ),
             },
             "translations": {
                 x["name"]: self.nist_data / x["path"] / "{}.txt".format(doc_id)
-                for x in ds["translations"]
+                for x in ds[at]["translations"]
             },
             "translation_morphology": {
                 x["name"]: (
                     self.nist_data / x["morph"] / "{}.txt".format(doc_id))
-                for x in ds["translations"]
+                for x in ds[at]["translations"]
             },
             "asr_morphology": (
-                self.nist_data / ds["asr_morphology"] 
+                self.nist_data / ds[at]["asr_morphology"] 
                 / "{}.txt".format(doc_id)
             ),
         }
