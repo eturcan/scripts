@@ -120,20 +120,34 @@ class PSQWeightedEmbeddingSimilarity:
         annotations = []
         for utt in doc:
             utt_embs, utt_mask = self.embed_source(utt, lang)
-            sims = cosine_similarity(utt_embs, query_emb).reshape(-1)
-            sims = np.ma.masked_where(utt_mask, sims)
-            sims.fill_value = float("-inf")
-            annotations.append({
-                "sentence": { 
-                    "min": unpack_masked_constant(sims.min()),
-                    "max": unpack_masked_constant(sims.max()),
-                    "mean": unpack_masked_constant(sims.mean()),
-                },
-                "word": {
-                    "sims": sims.filled().reshape(-1, 1).tolist(), 
-                },
+            if query_emb.shape != ():
+                sims = cosine_similarity(utt_embs, query_emb).reshape(-1)
+                sims = np.ma.masked_where(utt_mask, sims)
+                sims.fill_value = float("-inf")
+                annotations.append({
+                    "sentence": { 
+                        "min": unpack_masked_constant(sims.min()),
+                        "max": unpack_masked_constant(sims.max()),
+                        "mean": unpack_masked_constant(sims.mean()),
+                    },
+                    "word": {
+                        "sims": sims.filled().reshape(-1, 1).tolist(), 
+                    },
 
-            })
+                })
+            else:
+                annotations.append({
+                    "sentence": { 
+                        "min": float("nan"),
+                        "max": float("nan"),
+                        "mean": float("nan"),
+                    },
+                    "word": {
+                        "sims": [[float("nan")]] * utt_embs.shape[0]
+                    },
+
+                })
+
         meta = {
             "query": query.string,
             "type": "PSQWeightedEmbeddingSimilarity", 
