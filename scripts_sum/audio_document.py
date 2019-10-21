@@ -80,7 +80,7 @@ class SpeechDocument(AnnotatedDocument):
             
             for T, token in enumerate(src_tokens, 1):
                 idx = token_info_pos[spkr]
-                if token.word != asr_tokens[spkr][idx]["token"]:
+                if token.word.lower() != asr_tokens[spkr][idx]["token"].lower():
                     
                     print("ERROR!")
                     print(asr_tokens_path)
