@@ -146,11 +146,17 @@ args=`make_args "$1" $clir_dir`
 if [ "$args" == "" ]; then                                                     
     exit                                                                   
 fi 
+tmpfile=$(mktemp /tmp/summarize-queries.XXXXXX)
+echo "$args" > $tmpfile
+split -l 10000 $tmpfile $tmpfile-
+rm $tmpfile
 
-parallel --link -j$2 summarize \
-    ::: `echo "$args" | cut -d " " -f1` \
-    ::: `echo "$args" | cut -d " " -f2` \
-    ::: `echo "$args" | cut -d " " -f3` \
-    ::: $output_dir
-    
-
+for path in `ls $tmpfile-*`; do
+    args=`cat $path`
+    parallel --link -j$2 summarize \
+        ::: `echo "$args" | cut -d " " -f1` \
+        ::: `echo "$args" | cut -d " " -f2` \
+        ::: `echo "$args" | cut -d " " -f3` \
+        ::: $output_dir
+    rm $path
+done
