@@ -114,6 +114,10 @@ class PSQWeightedEmbeddingSimilarity:
                 return
             else:
                 raise e
+        except IndexError as e:
+                from warnings import warn
+                warn("No psq for {}.".format(lang))
+                return
             
         query_emb = query_embeddings["AVG"]
 
