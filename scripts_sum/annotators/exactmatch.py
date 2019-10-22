@@ -49,7 +49,7 @@ class ExactMatcher:
                 matches.append([1 if qf == utt_form else 0 
                                 for qf in query_forms])
             matches = np.array(matches)
-            if matches.shape[0] != 0:
+            if len(query_forms) > 0 and matches.shape[0] != 0:
                 annotations.append({
                     "sentence": {
                         "sum": matches.sum(), 

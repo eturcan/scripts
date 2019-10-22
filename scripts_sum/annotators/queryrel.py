@@ -22,13 +22,18 @@ class QueryRel:
             for text in texts
         ]
         
-        query_content_scores = self.queryrel_client.get_relevance(
-            query_content_inputs)
-        query_content_scores = [
-            x if x == x else 0.0
-            for x in query_content_scores
-        ]
-        
+        try:
+            query_content_scores = self.queryrel_client.get_relevance(
+                query_content_inputs)
+            query_content_scores = [
+                x if x == x else 0.0
+                for x in query_content_scores
+            ]
+        except ValueError as e:
+                query_content_scores = [
+                    0.0
+                    for x in texts
+                ]
         if query.semantic_constraint is not None:
 
             sc = query.semantic_constraint.text
@@ -36,14 +41,19 @@ class QueryRel:
                 {"src": text, "query": sc}
                 for text in texts
             ]
-            sc_scores = self.queryrel_client.get_relevance(
-                sc_inputs)
+            try: 
+                sc_scores = self.queryrel_client.get_relevance(
+                    sc_inputs)
+                sc_scores = [
+                    x if x == x else 0.0
+                    for x in sc_scores
+                ]
+            except ValueError as e:
+                    sc_scores = [
+                        0.0
+                        for x in texts
+                    ]
 
-            sc_scores = [
-                x if x == x else 0.0
-                for x in sc_scores
-            ]
- 
         else:
             sc_scores = [float("nan")] * len(texts)
 

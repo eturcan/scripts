@@ -45,7 +45,7 @@ class StemMatcher:
                 matches.append([1 if qf == utt_form else 0 
                                 for qf in query_forms])
             
-            if len(matches) > 0:
+            if len(query_forms) > 0 and len(matches) > 0:
                 matches = np.array(matches)
                 annotations.append({
                     "sentence": {
