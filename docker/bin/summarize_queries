@@ -86,18 +86,27 @@ summarize () {
     else
         dbg=""
     fi
+
+    
   
-    annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
-        "$output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl"
-    generate_markup $gen1 \
-        $output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl \
-        $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
-        --args $genargs1 \
-        --quiet
+    if [[ ! -f "$output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl" ]]; then
+
+        annotate_material $ANNOTATION_PORT $query_id $doc_id 1 \
+            "$output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl"
+    fi
+    if [[ ! -f $output_dir/markup/$query_id/$query_id.$doc_id.c1.json ]]; then
+        generate_markup $gen1 \
+            $output_dir/annotations/$query_id/$query_id.$doc_id.c1.pkl \
+            $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
+            --args $genargs1 \
+            --quiet
+    fi
+    if [[ ! -f $output_dir/images/$query_id/$query_id.$doc_id.c1.png ]]; then 
         generate_image scripts/configs/summary_style.v2.css \
             $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
             $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
             $dbg
+    fi
 
     if [[ $DEBUG_SUM == "True" ]]; then
         convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
@@ -110,17 +119,24 @@ summarize () {
         genargs2=`get_markup_config $gen2 $lang`
         echo "$1 $2 $3 $4 $lang $gen2 $genargs2"
  
-        annotate_material $ANNOTATION_PORT $query_id $doc_id 2 \
-            $output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl
+        if [[ ! -f "$output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl" ]]; then
+            annotate_material $ANNOTATION_PORT $query_id $doc_id 2 \
+                $output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl
+        fi
+        
+        if [[ ! -f "$output_dir/markup/$query_id/$query_id.$doc_id.c2.json" ]]; then 
         generate_markup $gen2 \
             $output_dir/annotations/$query_id/$query_id.$doc_id.c2.pkl \
             $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
             --args $genargs2 \
             --quiet
+        fi
+        if [[ ! -f "$output_dir/images/$query_id/$query_id.$doc_id.c2.png" ]]; then
         generate_image scripts/configs/summary_style.v2.css \
             $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
             $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
             $dbg
+        fi
         if [[ $DEBUG_SUM == "True" ]]; then
             convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
                 $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
@@ -142,7 +158,10 @@ else
     output_dir=/outputs/
 fi
 
-args=`make_args "$1" $clir_dir`
+
+args=`python scripts/make_args.py $QUERY_PORT /clir/ /outputs $1 `
+#exit
+#args=`make_args "$1" $clir_dir`
 if [ "$args" == "" ]; then                                                     
     exit                                                                   
 fi 

@@ -9,27 +9,27 @@ TIMESTAMP=`python -c "from datetime import datetime; print(datetime.utcnow().iso
 python scripts/package_summaries.py /clir /outputs/ \
     /outputs/packages/$run_name scriptssumop1 $run_name $TIMESTAMP
 
-for line in `ls /outputs/packages/$run_name/*/*.tsv`; do
-    queryid=`basename $line | cut -d "." -f1`
-    lines="`cat $line | grep "Y" | cut -f1,3`"
-    while read -r line2; do
-        docid=`echo "$line2" | cut -f1`
-        score=`echo "$line2" | cut -f2`
-        if [[ $docid != "" ]]; then
-            python scripts/make_source_evidence.py --score $score \
-                --run-name $run_name --timestamp $TIMESTAMP \
-                --sys-label scriptssumop1 \
-            --annotations /outputs/annotations/$queryid/$queryid.$docid.*.pkl \
-            --markup-files /outputs/markup/$queryid/$queryid.$docid.*.json \
-           --output /outputs/source-language-evidence/$run_name/$queryid/SCRIPTS.sourceLanguageEvidence.$queryid.$docid.json 
-                
-        fi
-    done <<< "$lines"
-    
-done
-
-cd /outputs/source-language-evidence/$run_name
-tar -zcf /outputs/source-language-evidence/$run_name.sourceLanguageEvidence.tar.gz query*
-
+#for line in `ls /outputs/packages/$run_name/*/*.tsv`; do
+#    queryid=`basename $line | cut -d "." -f1`
+#    lines="`cat $line | grep "Y" | cut -f1,3`"
+#    while read -r line2; do
+#        docid=`echo "$line2" | cut -f1`
+#        score=`echo "$line2" | cut -f2`
+#        if [[ $docid != "" ]]; then
+#            python scripts/make_source_evidence.py --score $score \
+#                --run-name $run_name --timestamp $TIMESTAMP \
+#                --sys-label scriptssumop1 \
+#            --annotations /outputs/annotations/$queryid/$queryid.$docid.*.pkl \
+#            --markup-files /outputs/markup/$queryid/$queryid.$docid.*.json \
+#           --output /outputs/source-language-evidence/$run_name/$queryid/SCRIPTS.sourceLanguageEvidence.$queryid.$docid.json 
+#                
+#        fi
+#    done <<< "$lines"
+#    
+#done
+#
+#cd /outputs/source-language-evidence/$run_name
+#tar -zcf /outputs/source-language-evidence/$run_name.sourceLanguageEvidence.tar.gz query*
+#
 cd  /outputs/packages/$run_name
 tar -zcf /outputs/packages/$run_name.tar.gz query*

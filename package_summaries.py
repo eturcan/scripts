@@ -31,8 +31,9 @@ def main():
         
         src_dir = args.summary_results_dir
         tgt_dir = args.output_directory / results_path.stem
-        make_query_dir(results_path, tgt_dir, args.summary_results_dir,
-                       args.systemlabel, args.runname, schema, args.timestamp)        
+        if not tgt_dir.exists():
+            make_query_dir(results_path, tgt_dir, args.summary_results_dir,
+                           args.systemlabel, args.runname, schema, args.timestamp)        
 
 def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                    run_name, schema, timestamp):
