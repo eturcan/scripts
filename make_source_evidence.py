@@ -13,36 +13,41 @@ def main():
     parser.add_argument("--sys-label")
     parser.add_argument("--run-name")
     parser.add_argument("--timestamp")
+    parser.add_argument("--psq", choices=["true", "false"])
     parser.add_argument("--annotations", nargs="+", type=Path)
     parser.add_argument("--markup-files", nargs="+", type=Path)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
     offset_list = []
-    for path in args.annotations:
 
-        psq_offsets = []
-        doc = pickle.loads(path.read_bytes())
-        for offsets in doc.annotations["psq"]["meta"]['offsets']:
-            psq_offsets.append({
-                "start_offset": offsets[0][0],
-                "end_offset": offsets[0][1],
-                "query_component": doc.annotations["QUERY"].string,
-                "score": offsets[1]
-            })
-        psq_offsets.sort(key=lambda x: x["score"], reverse=True)
-        for i, chunk in enumerate(np.array_split(psq_offsets, 3)):
-            for c in chunk:
-                c["score"] = 3 - i
-                offset_list.append(c)
+    if args.psq == "true":
+        for path in args.annotations:
+
+            psq_offsets = []
+            doc = pickle.loads(path.read_bytes())
+            for offsets in doc.annotations["psq"]["meta"]['offsets']:
+                psq_offsets.append({
+                    "start_offset": offsets[0][0],
+                    "end_offset": offsets[0][1],
+                    "query_component": doc.annotations["QUERY"].string,
+                    "score": offsets[1]
+                })
+            psq_offsets.sort(key=lambda x: x["score"], reverse=True)
+            for i, chunk in enumerate(np.array_split(psq_offsets, 3)):
+                for c in chunk:
+                    c["score"] = 3 - i
+                    offset_list.append(c)
 
     for path in args.markup_files:
         mu_dat = json.loads(path.read_text())
-        for start_offset, end_offset in mu_dat["meta"]["source_offsets"]:
-            o = {"start_offset": start_offset, "end_offset": end_offset,
-                 "score": 3, "query_component": mu_dat["query_string"]}
-            offset_list.append(o) 
+        for i, (start_offset, end_offset) in enumerate(
+                mu_dat["meta"]["source_offsets"]):
 
+            o = {"start_offset": start_offset, "end_offset": end_offset,
+                 "score": max(3 - i, 1), 
+                 "query_component": mu_dat["query_string"]}
+            offset_list.append(o) 
    
 
     result = {

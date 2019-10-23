@@ -97,5 +97,6 @@ def generate_image():
     }
     if not args.debug:
         options['crop-h'] = 768
+        options['crop-w'] = 1024
 
     imgkit.from_string(html, str(args.img), options=options)
