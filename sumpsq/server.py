@@ -8,8 +8,9 @@ from io import BytesIO
 PSQ_NAMES = set([
 #    "PSQ_SMT-BUILD+ParaCrawl-en2lt-word-to-word-v1",
 #    "PSQ_tokenized_normalized+berk_part_flat",
-    "PSQ_tokenized_normalized+berk_part_flat_keep_syn",   
-    "PSQ_tokenized_normalized+berk_part_flat_keep_exampleof",
+#    "PSQ_tokenized_normalized+berk_part_flat_keep_syn",   
+#    "PSQ_tokenized_normalized+berk_part_flat_keep_exampleof",
+    "PSQ_tokenized-normalized+panlex+opus+berk_part_flat_CDF097",
 ])
 
 class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -33,7 +34,7 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
                 for k, v in query["translations"].items():
                     self._cache[query_id][k] = v
                 found += 1
-        if found < 2:
+        if found < 1:
             from warnings import warn
             warn("No PSQ for path: {}".format(path.parent))
 

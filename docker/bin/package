@@ -32,4 +32,4 @@ python scripts/package_summaries.py /clir /outputs/ \
 #tar -zcf /outputs/source-language-evidence/$run_name.sourceLanguageEvidence.tar.gz query*
 #
 cd  /outputs/packages/$run_name
-tar -zcf /outputs/packages/$run_name.tar.gz query*
+tar -zcf /outputs/packages/$run_name.tgz query*

@@ -1,0 +1,118 @@
+[
+    {
+        "lang": "2S",
+        "name": "2S-ANALYSIS",
+        "index": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/index.txt",
+        "text": {
+            "source": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/src",
+            "sentence_segmentation": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/sentSplitter_store/sent-split-v3.0",
+            "source_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/morphology_store/material-scripts-morph-v6.1_sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/mt_store/scriptsmt-systems-v9_sent-split-v3.0",
+                    "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/text/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_sent-split-v3.0"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/src",
+            "asr": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/asr_store/material-asr-bg-v7.1",
+            "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                    "morph": "2S/IARPA_MATERIAL_OP1-2S/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "2S",
+        "name": "2S-DEV",
+        "index": "2S/IARPA_MATERIAL_OP1-2S/DEV/index.txt",
+        "text": {
+            "source": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/src",
+            "sentence_segmentation": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/sentSplitter_store/sent-split-v3.0",
+            "source_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/morphology_store/material-scripts-morph-v6.1_sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/mt_store/scriptsmt-systems-v9_sent-split-v3.0",
+                    "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/text/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_sent-split-v3.0"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/src",
+            "asr": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/asr_store/material-asr-bg-v7.1",
+            "asr_morphology": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-bg-v7.1",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-bg-v7.1",
+                    "morph": "2S/IARPA_MATERIAL_OP1-2S/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-bg-v7.1"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "2B",
+        "name": "2B-ANALYSIS",
+        "index": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/index.txt",
+        "text": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/src",
+            "sentence_segmentation": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/sentSplitter_store/sent-split-v3.0",
+            "source_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v6.1_sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/mt_store/scriptsmt-systems-v9_sent-split-v3.0",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/text/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_sent-split-v3.0"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/src",
+            "asr": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/asr_store/material-asr-lt-v7.1",
+            "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/ANALYSIS/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                }
+            ]
+        }
+    },
+    {
+        "lang": "2B",
+        "name": "2B-DEV",
+        "index": "2B/IARPA_MATERIAL_OP1-2B/DEV/index.txt",
+        "text": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/DEV/text/src",
+            "sentence_segmentation": "2B/IARPA_MATERIAL_OP1-2B/DEV/text/sentSplitter_store/sent-split-v3.0",
+            "source_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/text/morphology_store/material-scripts-morph-v6.1_sent-split-v3.0",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/text/mt_store/scriptsmt-systems-v9_sent-split-v3.0",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/text/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_sent-split-v3.0"
+                }
+            ]
+        },
+        "audio": {
+            "source": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/src",
+            "asr": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/asr_store/material-asr-lt-v7.1",
+            "asr_morphology": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_material-asr-lt-v7.1",
+            "translations": [
+                {
+                    "name": "edi-nmt",
+                    "path": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/mt_store/scriptsmt-systems-v9_material-asr-lt-v7.1",
+                    "morph": "2B/IARPA_MATERIAL_OP1-2B/DEV/audio/morphology_store/material-scripts-morph-v6.1_scriptsmt-systems-v9_material-asr-lt-v7.1"
+                }
+            ]
+        }
+    }
+]

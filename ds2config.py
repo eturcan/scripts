@@ -47,7 +47,6 @@ def get_text_config(meta, sc, use_mt):
         morph[2]: Path(morph[0])
         for morph in re.findall(r"Morpohological_Analysis_location=(.*?)\n+Morpohological_(?:Analyzer|Analysis)_version=(.*?)\n+Morpohological_(?:Analyzer|Analysis)_source=(.*?)\n", sc)
     }
- 
     src = re.search(r"source_location=(.*?)\n", sc).groups()[0]
     sent_seg = re.search(r"SentSplitter_location=(.*?)\n", sc).groups()[0]
     src_morph = morphs[sent_seg]
@@ -67,6 +66,7 @@ def get_text_config(meta, sc, use_mt):
 
             if mtname in use_mt:
                 mtpath = meta["corpus_prefix"] / mt[0]
+               
                 mtmorphpath = meta["corpus_prefix"] / morphs[mt[0]]
                 translations.append(
                     {"name": mtname, "path": str(mtpath), 

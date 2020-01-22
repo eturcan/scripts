@@ -1,6 +1,12 @@
 {
     "query_lists": [
         {
+            "lang": "2C",
+            "period": "OP1",
+            "group": "QUERY1",
+            "path": "2C/IARPA_MATERIAL_OP1-2C/QUERY1/query_list.tsv"
+        },
+        {
             "lang": "2B",
             "period": "OP1",
             "group": "QUERY1",

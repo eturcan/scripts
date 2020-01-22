@@ -98,6 +98,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                         (audio_source_dir / "{}.wav".format(doc_id)).exists():
                     mode = "audio"
                 else:
+                    continue
                     raise Exception(
                         "Could not find source for doc id: {}".format(doc_id))
                 assert doc_id not in self.doc_cache

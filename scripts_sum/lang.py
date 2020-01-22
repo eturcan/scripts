@@ -11,6 +11,8 @@ MATERIAL2ISO = {
     '1b': 'tl',
     '1S': 'so',
     '1s': 'so',
+    '2C': 'ps',
+    '2c': 'ps',
 }
 
 ISO2MATERIAL = {
@@ -19,6 +21,7 @@ ISO2MATERIAL = {
     'sw': '1A',
     'tl': '1B',
     'so': '1S',
+    'ps': '2C',
 }
 
 def is_iso(code):
