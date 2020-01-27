@@ -1,0 +1,42 @@
+{
+    "args": [
+        ["edi-nmt"],
+        [
+            "edi-nmt.morph_match"
+        ],
+        {
+            "edi-nmt": [
+                ["edi-nmt.morph_match", ["match_score"]]
+            ]
+        }
+    ],
+    "kwargs": {
+        "default_args": [
+            ["edi-nmt"],
+            [
+                ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt.stem_match", ["sentence", "sum"]],
+                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]]
+            ],
+            {
+                "edi-nmt": [
+                    ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                    ["edi-nmt.stem_match", ["sentence", "sum"]],
+                    ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]]
+                ]
+            }
+        ],
+        "default_kwargs": {
+            "exact_matches": {
+                "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]]
+            },
+            "stem_matches": {
+                "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]]
+            },
+            "soft_matches": {
+                "edi-nmt": ["edi-nmt.glove42Bsim.content_semcons", ["word", "sims"]]
+            }
+
+        }
+    }
+}

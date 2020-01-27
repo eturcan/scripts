@@ -12,6 +12,12 @@
             "args": ["edi-nmt"],
             "kwargs": {}
         },
+        "edi-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["edi-nmt", "glove.42B"],
+            "kwargs": {}
+        },
         "edi-nmt.glove42Bsim.content_semcons": {
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",

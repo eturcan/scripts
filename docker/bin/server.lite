@@ -1,14 +1,7 @@
 #!/bin/bash
 
-if [[ $GOLD_SUM == "True" ]]; then
-    server.gold
-    exit
-fi
+echo "Running lite server."
 
-if [[ $LITE_SUM == "True" ]]; then
-    server.lite
-    exit
-fi
 
 CONFIGS=/app/scripts/configs
 rm -f /outputs/logs-latest/*
@@ -20,14 +13,6 @@ if [[ -d /experiment ]]; then
     lang=$(cat $experiment_config | jq .query_processor.target_language | \
         sed -e 's/"//g')
 
-#    echo "Using audio segmentation: $AUDIOSEG_SUM"
-
-#    if [[ $AUDIOSEG_SUM != "True" ]]; then
-#        audioseg_arg="--no-audio-seg"
-#    else
-#        audioseg_arg=""
-#    fi
-
     # Setup doc server config based on experiment json.
     echo "experiment_config $experiment_config /NIST-data $new_doc_config"
     experiment_config $experiment_config /NIST-data $new_doc_config
@@ -36,29 +21,15 @@ if [[ -d /experiment ]]; then
     export DOCSERVER_CONFIG=$new_doc_config
     echo "Setting new doc server config: $DOCSERVER_CONFIG"
 
-    # Setup annotator config based on language code of experiment json.
-    export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.submission.op1.v1.0.json
-
-    echo
-    echo "Setting new annotation config: $ANNOTATION_CONFIG"
-    echo
-
-    if [[ $lang == "lt" ]]; then
-        USE_QUERYREL="True"
-    else
-        USE_QUERYREL="False"
-    fi
 else
-    if [[ $ANNOTATION_CONFIG == "" ]]; then
-        export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
-    fi
     if [[ $DOCSERVER_CONFIG == "" ]]; then
         export DOCSERVER_CONFIG=$CONFIGS/docs.latest.config.json
     fi
-    export USE_QUERYREL="True"
     echo "Using default document server config: $DOCSERVER_CONFIG"
-    echo "Using default annotation server config: $ANNOTATION_CONFIG"
 fi
+
+export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.lite.json
+echo "Using annotation server config: $ANNOTATION_CONFIG"
 
 export NIST_DATA=/NIST-data
 export MODELS=/models
@@ -114,45 +85,6 @@ echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNO
         | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
 }
 
-start_queryrel_server () {
-
-qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
-qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
-qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/modelv2.pkl"
-
-echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
-queryrel_server $QUERYREL_PORT $qrel_args \
-        > >(tee /outputs/logs-latest/qrel.out.log) \
-        2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
-
-    sleep 1
-    ( tail -f -n1 /outputs/logs-latest/qrel.out.log & ) \
-        | grep -q "Query relevance server started on port $QUERYREL_PORT"
-}
-
-start_psq_server () {
-
-argstr=""
-query_jsons=""
-if compgen -G "/query-*" > /dev/null; then
-    query_jsons="$query_jsons `ls /query-*/query*`"
-    argstr="$argstr /query-*/query*"
-fi
-
-if [[ -d /query ]]; then
-    query_jsons="$query_jsons `ls /query/query*`"
-    argstr="$argstr /query/query*"
-fi
-echo ">>  sumpsq $PSQ_PORT $argstr"
-sumpsq $PSQ_PORT $query_jsons \
-        > >(tee /outputs/logs-latest/psq.out.log) \
-        2> >(tee /outputs/logs-latest/psq.err.log >&2) &
-
-    sleep 1
-    ( tail -f -n1 /outputs/logs-latest/psq.out.log & ) \
-        | grep -q "Waiting for client request on port $PSQ_PORT.."
-}
-
 mkdir -p /outputs/logs-latest
 
 cwd=`pwd`
@@ -171,16 +103,6 @@ echo "Starting query server:"
     start_query_server
 echo "Query server running."
 echo
-echo "Staring PSQ server:"
-    start_psq_server
-echo "PSQ server running."
-echo 
-if [[ $USE_QUERYREL == "True" ]]; then
-    echo "Starting queryrel server:"
-        start_queryrel_server
-    echo "Queryrel server running."
-    echo
-fi
 echo "Starting annotation server:"
     start_annotation_server
 echo "Annotation server running."
