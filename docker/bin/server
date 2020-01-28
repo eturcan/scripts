@@ -87,9 +87,9 @@ start_doc_server () {
 }
 
 start_query_server () {
-    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA $QUERYSERVER_CONFIG &"
+    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA $QUERYSERVER_CONFIG /query &"
     query_server $QUERY_PORT $MORPH_PORT $NIST_DATA \
-        $QUERYSERVER_CONFIG \
+        $QUERYSERVER_CONFIG /query \
         > >(tee /outputs/logs-latest/query.out.log) \
         2> >(tee /outputs/logs-latest/query.err.log >&2) &
     sleep 1

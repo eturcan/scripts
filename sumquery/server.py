@@ -67,7 +67,8 @@ class RequestHandler(socketserver.BaseRequestHandler):
         return query 
 
 class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
-    def __init__(self, port, nist_data, morph_port, config, threads=8):
+    def __init__(self, port, nist_data, morph_port, config, 
+                 query_proc_dir, threads=8):
         super(Server, self).__init__(("127.0.0.1", port), RequestHandler)
         self.port = port
         self.nist_data = nist_data
@@ -77,6 +78,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             self._M_q2group, self._M_q2rel = \
             self.read_material_query_manifests(config)
         self.morph_port = morph_port
+        self.query_proc_dir = query_proc_dir
 
     def read_material_query_manifests(self, configs):
         all_queries = {}
@@ -136,9 +138,18 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         if query_id in self.cache:
             return self.cache[query_id]
 
-        query_string = self._M_queries[query_id]
-        query = process_query(query_string, self.morph_port, query_id=query_id)
-        self.cache[query_id] = query
+        if query_id in self._M_queries:
+            query_string = self._M_queries[query_id]
+            query = process_query(query_string, self.morph_port, 
+                                  query_id=query_id)
+            self.cache[query_id] = query
+        else:
+            query_data = json.loads(
+                (self.query_proc_dir / query_id).read_text())
+            query_string = query_data["IARPA_query"]
+            query = process_query(query_string, self.morph_port, 
+                                  query_id=query_id)
+            self.cache[query_id] = query
         return query 
 
     def list_queries(self, lang=None, group=None, tsv=False, 
@@ -222,7 +233,10 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         return rel
 
     def num_components(self, query_id):
-        return 2 if "," in self._M_queries[query_id] else 1
+        if query_id in self._M_queries:
+            return 2 if "," in self._M_queries[query_id] else 1
+        query_data = json.loads((self.query_proc_dir / query_id).read_text())
+        return 2 if "," in query_data["IARPA_query"] else 1
 
     def start(self):
         with self:
@@ -231,7 +245,12 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             self.serve_forever()
 
     def query_type_from_id(self, query_id, component):
-        query_string = self._M_queries[query_id].split(",")[component]
+        if query_id in self._M_queries:
+            query_string = self._M_queries[query_id].split(",")[component]
+        else:
+            query_string = json.loads(
+                (self.query_proc_dir / query_id).read_text())["IARPA_query"]\
+                .split(",")[component]
         return self.get_query_type(query_string)
 
     def get_query_type(self, query_string):
@@ -294,10 +313,13 @@ def main():
     parser.add_argument("morph_port", type=int, help="morph server port")
     parser.add_argument("nist_data", type=Path, help="path to NIST-data dir")
     parser.add_argument("config", type=Path, help="config path")
+    parser.add_argument("query_processor", type=Path, 
+                        help="path to query processor directory")
     parser.add_argument("-t", "--threads", default=8, 
                         help="number of handler threads")
     args = parser.parse_args()
     server = Server(args.port, args.nist_data, args.morph_port, 
                     json.loads(args.config.read_text()),
+                    args.query_processor,
                     threads=args.threads)
     server.start()
