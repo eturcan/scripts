@@ -75,6 +75,7 @@ summarize () {
     doc_id=$2
     output_dir=$4
     lang=`doc_client $DOC_PORT lang $doc_id`
+
     nc=`num_components $QUERY_PORT $1`
     gen1=`get_markup_gen $QUERY_PORT $query_id 1`
     genargs1=`get_markup_config $gen1 $lang`
@@ -108,19 +109,19 @@ summarize () {
             --args $genargs1 \
             --quiet
     fi
-    if [[ ! -f $output_dir/images/$query_id/$query_id.$doc_id.c1.png ]]; then 
-        generate_image scripts/configs/summary_style.v2.css \
-            $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
-            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
-            $dbg
-    fi
-
-    if [[ $DEBUG_SUM == "True" ]]; then
-        convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
-            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
-            $output_dir/images/$query_id/$query_id.$doc_id.c1.png
-    fi
-
+#    if [[ ! -f $output_dir/images/$query_id/$query_id.$doc_id.c1.png ]]; then 
+#        generate_image scripts/configs/summary_style.v2.css \
+#            $output_dir/markup/$query_id/$query_id.$doc_id.c1.json \
+#            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
+#            $dbg
+#    fi
+#
+#    if [[ $DEBUG_SUM == "True" ]]; then
+#        convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
+#            $output_dir/images/$query_id/$query_id.$doc_id.c1.png \
+#            $output_dir/images/$query_id/$query_id.$doc_id.c1.png
+#    fi
+#
     if [ "$nc" == "2" ]; then
         gen2=`get_markup_gen $QUERY_PORT $query_id 2`
         genargs2=`get_markup_config $gen2 $lang`
@@ -138,17 +139,18 @@ summarize () {
             --args $genargs2 \
             --quiet
         fi
-        if [[ ! -f "$output_dir/images/$query_id/$query_id.$doc_id.c2.png" ]]; then
-        generate_image scripts/configs/summary_style.v2.css \
-            $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
-            $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
-            $dbg
-        fi
-        if [[ $DEBUG_SUM == "True" ]]; then
-            convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
-                $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
-                $output_dir/images/$query_id/$query_id.$doc_id.c2.png
-    fi
+         
+#        if [[ ! -f "$output_dir/images/$query_id/$query_id.$doc_id.c2.png" ]]; then
+#        generate_image scripts/configs/summary_style.v2.css \
+#            $output_dir/markup/$query_id/$query_id.$doc_id.c2.json \
+#            $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
+#            $dbg
+#        fi
+#        if [[ $DEBUG_SUM == "True" ]]; then
+#            convert -pointsize 25 -fill $rcolor -draw "text 850,30 \"$qdlabel\"" \
+#                $output_dir/images/$query_id/$query_id.$doc_id.c2.png \
+#                $output_dir/images/$query_id/$query_id.$doc_id.c2.png
+#    fi
 
 
     fi
