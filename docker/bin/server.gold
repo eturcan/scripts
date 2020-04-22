@@ -32,9 +32,7 @@ start_query_server () {
 
 start_queryrel_server () {
 
-qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
-qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
-qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/modelv2.pkl"
+qrel_args="$lang /artifacts"
 
 echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
 queryrel_server $QUERYREL_PORT $qrel_args \

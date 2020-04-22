@@ -11,8 +11,8 @@ class QueryRel:
         self.queryrel_client = QueryRelClient(port)
 
     def __call__(self, query, doc):
-
-        if get_iso(doc.source_lang) != "lt":
+        print("QueryRel Annotator has been called!!")
+        if get_iso(doc.source_lang) not in ["lt", "ps"]:
             return 
 
         query_content = query.content.text

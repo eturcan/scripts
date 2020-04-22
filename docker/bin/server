@@ -43,7 +43,8 @@ if [[ -d /experiment ]]; then
     echo "Setting new annotation config: $ANNOTATION_CONFIG"
     echo
 
-    if [[ $lang == "lt" ]]; then
+    queryrel_langs=(lt ps)
+    if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
         USE_QUERYREL="True"
     else
         USE_QUERYREL="False"
@@ -116,9 +117,7 @@ echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNO
 
 start_queryrel_server () {
 
-qrel_args="/models/queryrel/en_embed.npy /models/queryrel/lt_embed.npy"
-qrel_args="$qrel_args /models/queryrel/en_vocab.pkl" 
-qrel_args="$qrel_args /models/queryrel/lt_vocab.pkl /models/queryrel/modelv2.pkl"
+qrel_args="$lang /models/queryrel_artifacts"
 
 echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
 queryrel_server $QUERYREL_PORT $qrel_args \
@@ -135,13 +134,15 @@ start_psq_server () {
 argstr=""
 query_jsons=""
 if compgen -G "/query-*" > /dev/null; then
+    echo "in compgen"
     query_jsons="$query_jsons `ls /query-*/query*`"
     argstr="$argstr /query-*/query*"
 fi
 
 if [[ -d /query ]]; then
-    query_jsons="$query_jsons `ls /query/query*`"
-    argstr="$argstr /query/query*"
+    echo "in /query"
+    query_jsons="$query_jsons `find /query/ -type f ! -name "*.*"`"
+    argstr="$argstr find /query/ -type f ! -name "*.*""
 fi
 echo ">>  sumpsq $PSQ_PORT $argstr"
 sumpsq $PSQ_PORT $query_jsons \

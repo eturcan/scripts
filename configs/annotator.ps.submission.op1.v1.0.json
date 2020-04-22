@@ -1,5 +1,11 @@
 {
     "annotators": {
+        "edi-nmt.exact_match": {
+            "module": "scripts_sum.annotators.exactmatch",
+            "class": "ExactMatcher",
+            "args": ["edi-nmt"],
+            "kwargs": {}
+        },
         "umd-nmt.exact_match": {
             "module": "scripts_sum.annotators.exactmatch",
             "class": "ExactMatcher",
@@ -10,6 +16,12 @@
             "module": "scripts_sum.annotators.exactmatch",
             "class": "ExactMatcher",
             "args": ["umd-smt"],
+            "kwargs": {}
+        },
+        "edi-nmt.stem_match": {
+            "module": "scripts_sum.annotators.stemmatch",
+            "class": "StemMatcher",
+            "args": ["edi-nmt"],
             "kwargs": {}
         },
         "umd-nmt.stem_match": {
@@ -24,6 +36,12 @@
             "args": ["umd-smt"],
             "kwargs": {}
         },
+        "edi-nmt.morph_match": {
+            "module": "scripts_sum.annotators.morphmatch",
+            "class": "MorphMatcher",
+            "args": ["edi-nmt", "glove.42B"],
+            "kwargs": {}
+        },
         "umd-nmt.morph_match": {
             "module": "scripts_sum.annotators.morphmatch",
             "class": "MorphMatcher",
@@ -34,6 +52,18 @@
             "module": "scripts_sum.annotators.morphmatch",
             "class": "MorphMatcher",
             "args": ["umd-smt", "glove.42B"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove6Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.6B"],
+            "kwargs": {}
+        },
+        "edi-nmt.glove42Bsim.content_semcons": {
+            "module": "scripts_sum.annotators.embedding_similarity",
+            "class": "EmbeddingSimilarity",
+            "args": ["edi-nmt", "glove.42B"],
             "kwargs": {}
         },
         "umd-nmt.glove6Bsim.content_semcons": {
@@ -63,6 +93,12 @@
         "psq": {
             "module": "scripts_sum.annotators.psq",
             "class": "PSQ",
+            "args": [],
+            "kwargs": {}
+        },
+	"queryrel": {
+            "module": "scripts_sum.annotators.queryrel",
+            "class": "QueryRel",
             "args": [],
             "kwargs": {}
         }
