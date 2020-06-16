@@ -4,6 +4,7 @@ import re
 from pprint import pprint
 from scripts_sum.lang import get_material
 import json
+import warnings
 
 
 def main():
@@ -62,16 +63,18 @@ def get_text_config(meta, sc, use_mt):
             elif mt[1].startswith("umd-smt"):
                 mtname = "umd-smt"
             else:
-                raise Exception("Bad mt name")
+                #raise Exception("Bad mt name")
+                warnings.warn("MT NAME NOT RECOGNIZED: {} -- SKIPPING".format(mt[1]))
+                continue
 
             if mtname in use_mt:
                 mtpath = meta["corpus_prefix"] / mt[0]
-               
+
                 mtmorphpath = meta["corpus_prefix"] / morphs[mt[0]]
                 translations.append(
                     {"name": mtname, "path": str(mtpath), 
                      "morph": str(mtmorphpath)})
-        
+
     corpus = {
         "source": str(meta["corpus_prefix"] / src),
         "sentence_segmentation": str(meta["corpus_prefix"] / sent_seg),
@@ -103,7 +106,9 @@ def get_audio_config(meta, sc, use_mt):
             elif mt[1].startswith("umd-smt"):
                 mtname = "umd-smt"
             else:
-                raise Exception("Bad mt name")
+                #raise Exception("Bad mt name")
+                warnings.warn("MT NAME NOT RECOGNIZED: {} -- SKIPPING".format(mt[1]))
+                continue
 
             if mtname in use_mt:
                 mtpath = meta["corpus_prefix"] / mt[0]

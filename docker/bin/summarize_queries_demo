@@ -1,0 +1,13 @@
+#!/bin/bash
+
+clir_output_file=$1
+num_procs=$2
+python scripts/summarize_queries_demo.py \
+	--clir_output_file $clir_output_file \
+	--output_dir /outputs \
+	--input_dir /outputs/clir_output/ \
+	--doc_port $DOC_PORT \
+	--query_port $QUERY_PORT \
+	--annotation_port $ANNOTATION_PORT \
+	--psq_port $PSQ_PORT \
+	--num_procs $num_procs 

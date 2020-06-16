@@ -1,6 +1,10 @@
 #!/bin/bash
 
 rm -f /outputs/logs-latest/*
+export NIST_DATA=/NIST-data
+export MODELS=/models
+export SCRIPTS_MORPH=/tools/scripts-morph-v6.1.jar
+export QUERYSERVER_CONFIG=$CONFIGS/query.latest.config.json
 
 start_morph_server () {
     cwd=`pwd`

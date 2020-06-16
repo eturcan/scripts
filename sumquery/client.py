@@ -2,6 +2,7 @@ import socket
 import json
 import pickle
 from io import BytesIO
+from time import sleep
 import argparse
 
 
@@ -25,7 +26,11 @@ class Client:
 
     def object(self, query_id):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(("127.0.0.1", self.port))
+        #client.connect(("127.0.0.1", self.port))
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting object for {}".format(address, query_id))
         request = {
             "type": "material_object",
             "query_id": query_id, 
@@ -45,7 +50,11 @@ class Client:
                 multi_word=False, no_multi_word=False,
                 morph=False, no_morph=False):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(("127.0.0.1", self.port))
+        #client.connect(("127.0.0.1", self.port))
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting query list".format(address))
         request = {
             "type": "list_queries",
             "lang": lang,
@@ -71,7 +80,11 @@ class Client:
 
     def list_relevant(self, query_id):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(("127.0.0.1", self.port))
+        #client.connect(("127.0.0.1", self.port))
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting relevant docs for {}".format(address, query_id))
         request = {
             "type": "list_relevant",
             "query_id": query_id,
@@ -83,7 +96,11 @@ class Client:
 
     def num_components(self, query_id):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(("127.0.0.1", self.port))
+        #client.connect(("127.0.0.1", self.port))
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting num components for {}".format(address, query_id))
         request = {
             "type": "num_components",
             "query_id": query_id,
@@ -95,7 +112,11 @@ class Client:
 
     def query_type(self, query_id, component):
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(("127.0.0.1", self.port))
+        #client.connect(("127.0.0.1", self.port))
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting query type for {}".format(address, query_id))
         request = {
             "type": "query_type",
             "query_id": query_id,
@@ -105,6 +126,20 @@ class Client:
         query_type = pickle.loads(self._receive(client))
         client.close()
         return query_type
+
+    def add_query_str(self, query_id, query_str):
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        address = ("127.0.0.1", self.port)
+        success = connect_with_retries(client, address)
+        if success != 0:
+            raise Exception("Connection attempt to {} failed while requesting query type for {}".format(address, query_id))
+        request = {
+            "type": "add_query_str",
+            "query_str": query_str,
+            "query_id": query_id
+        }
+        client.sendall(json.dumps(request).encode())
+        client.close()
 
 
 def list_queries():
@@ -226,3 +261,14 @@ def is_relevant():
     print(args.doc_id in rel_list)
 
 
+def connect_with_retries(client, address, max_attempts=25, timeout=10):
+    attempt = 1
+    success = client.connect_ex(address)
+
+    if success != 0:
+        while success !=0 and attempt <= max_attempts:
+            sleep(10)
+            success = client.connect_ex(address)
+            attempt += 1
+
+    return success

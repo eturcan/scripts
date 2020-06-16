@@ -47,12 +47,16 @@ class RequestHandler(socketserver.BaseRequestHandler):
             self._send(
                 pickle.dumps(
                     self.server.list_relevant_docs(msg["query_id"])))
-        
+
         elif msg["type"] == "query_type":
             self._send(
                 pickle.dumps(
                     self.server.query_type_from_id(msg["query_id"],
                                                    msg["component"])))
+
+        elif msg['type'] == 'add_query_str':
+            print('Adding query: {}'.format(msg['query_str']))
+            self.server.add_query_str(msg['query_id'], msg['query_str'])
 
     def process_material_query(self, msg):
         lang, query_id = msg["language"], msg["query_id"]
@@ -243,6 +247,9 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             print("Waiting for client request on port {}..".format(
                 self.port), flush=True)
             self.serve_forever()
+
+    def add_query_str(self, query_id, query_str):
+        self._M_queries[query_id] = query_str
 
     def query_type_from_id(self, query_id, component):
         if query_id in self._M_queries:

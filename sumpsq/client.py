@@ -32,12 +32,23 @@ class PSQClient:
     def get_psq(self, query_id):
         connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         connection.connect(("127.0.0.1", self.port))
-        self._send(connection, pickle.dumps(query_id)) 
+        request = {'type': 'get_psq', 'query_id': query_id}
+        connection.sendall(json.dumps(request).encode()) 
         result = pickle.loads(self._receive(connection))
         connection.close()
         if isinstance(result, RuntimeError):
             raise result
         return result
+
+    def add_psq(self, query_id, psq_dict, idf_dict):
+        connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        connection.connect(("127.0.0.1", self.port))
+        request = {'type': 'add_psq', 'query_id': query_id,
+                   'psq_dict':psq_dict, 'idf_dict':idf_dict}
+        connection.sendall(json.dumps(request).encode())
+        result = pickle.loads(self._receive(connection))
+
+        assert result == 'SUCCESS'
 
 
 def get_psq():

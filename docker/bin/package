@@ -5,10 +5,10 @@ run_name=$1
 cd $SCRIPTS
 cd ..
 
-scripts/docker/bin/make_images.sh 4
+#scripts/docker/bin/make_images.sh 4
 
 TIMESTAMP=`python -c "from datetime import datetime; print(datetime.utcnow().isoformat('T') + 'Z')"`
-python scripts/package_summaries.py /clir /outputs/ \
+python scripts/package_summaries_new.py /clir /outputs/ \
     /outputs/packages/$run_name scriptssumop1 $run_name $TIMESTAMP
 
 #for line in `ls /outputs/packages/$run_name/*/*.tsv`; do

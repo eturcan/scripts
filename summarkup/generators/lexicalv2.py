@@ -20,13 +20,14 @@ def annotator_key(ann):
 class LexicalV2:
 
     def __init__(self, translations, annotators, translation_annotators,
-                 exact_matches=None,
-                 stem_matches=None, default_args=None, default_kwargs=None):
+                 exact_matches=None, stem_matches=None, cutoffs=None,
+                 default_args=None, default_kwargs=None):
         self.translations = translations
         self.annotators = annotators
         self.translation_annotators = translation_annotators
         self.exact_matches = exact_matches
         self.stem_matches = stem_matches
+        self.cutoffs = cutoffs
         self.default_args = default_args if default_args else []
         self.default_kwargs = default_kwargs if default_kwargs else {}
 
@@ -43,27 +44,27 @@ class LexicalV2:
     def get_exact_matches(self, doc, idx, trans):
         if trans not in self.exact_matches:
             return set()
-        
+
         ann_name = self.exact_matches[trans]
         ann = doc.annotations[ann_name[0]]["annotation"]
         scores = np.array(apply_getter(ann[idx], ann_name[1]))
         if scores.ndim == 2:
             scores = scores.sum(axis=1)
-        
-        utt = doc.utterances[idx]["translations"][trans]    
+
+        utt = doc.utterances[idx]["translations"][trans]
         return set([t for t, s in zip(utt.tokens, scores) if s > 0.])
 
     def get_stem_matches(self, doc, idx, trans):
         if trans not in self.stem_matches:
             return set()
-        
+
         ann_name = self.stem_matches[trans]
         ann = doc.annotations[ann_name[0]]["annotation"]
         scores = np.array(apply_getter(ann[idx], ann_name[1]))
         if scores.ndim == 2:
             scores = scores.sum(axis=1)
-        
-        utt = doc.utterances[idx]["translations"][trans]    
+
+        utt = doc.utterances[idx]["translations"][trans]
         return set([t for t, s in zip(utt.tokens, scores) if s > 0.])
 
     def get_found_words(self, doc, translations, query):
@@ -99,12 +100,12 @@ class LexicalV2:
                 ]
             )
             # If we dont have a particular translation, skip it.
-            if scores.shape != (0,):            
+            if scores.shape != (0,):
                 scores[scores == float("-inf")] = -1
                 scores = scores.sum(axis=0)
                 for i, score in enumerate(scores):
                     trans_scores[i][trans] = score
-        
+
         best_translations = []
         for ts in trans_scores:
             best_trans = sorted(ts, key=lambda x: ts[x], reverse=True)[0]
@@ -128,12 +129,12 @@ class LexicalV2:
         ordered_indices, points = merge_scores(scores, return_points=True)
         scores = np.array(scores).sum(axis=0)
 
-        if all(scores == 0):
+        if all(scores <= 0):
             result = ConceptV2(*self.default_args, **self.default_kwargs)(
                 doc, budget=budget)
             result[2]["markup"] = "lexicalv2-backoff-conceptv2"
             return result
-            
+
         markup_lines = []
         found_terms = self.get_found_words(doc, best_translations, query)
         header_line, size = make_word_match_header(query, found_terms)
@@ -141,7 +142,7 @@ class LexicalV2:
         meta = {"translation": [], "markup": "lexicalv2",
                 "utterance_ids": [], "source_offsets": [],
                 "mode": doc.mode, "source_md5": doc.md5} 
-        
+
         for idx in ordered_indices:
             if scores[idx] == 0:
                 break
@@ -153,7 +154,11 @@ class LexicalV2:
             stem_matches = self.get_stem_matches(doc, idx, trans)
             close_matches = stem_matches - exact_matches
 
-            line, wc = self.make_utterance_markup(utt, budget - size, 
+            if self.cutoffs is not None:
+                max_length = min(self.cutoffs[doc.mode][trans], budget - size)
+            else:
+                max_length = budget - size
+            line, wc = self.make_utterance_markup(utt, max_length,
                 exact_matches, close_matches)
 
             size += wc
@@ -161,7 +166,7 @@ class LexicalV2:
             meta["translation"].append(trans)
             meta["utterance_ids"].append(int(idx))
             meta["source_offsets"].append(src_utt.offsets)
-            
+
             if size >= budget:
                  break
 
@@ -177,21 +182,54 @@ class LexicalV2:
     def make_utterance_markup(self, utt, budget, exact_matches, close_matches):
 
         line_items = []
+        matches = []
         for token in utt.tokens:
             if token in exact_matches:
                 line_items.append(
                     '<span_class="[EXACTREL]">' + token.word + '</span>')
+                matches.append(1)
             elif token in close_matches:
                 line_items.append( 
                    '<span_class="[REL]">' + token.word + '</span>')
+                matches.append(1)
             else:
                 line_items.append(token.word)
+                matches.append(0)
 
-        line = detokenize(" ".join(line_items))
+        l, r = None, None
+        new_line_items = line_items
+        if len(line_items) > budget:
+            match_inds = [i for i in range(len(matches)) if matches[i]==1]
+            if len(match_inds) > 0:
+                l = match_inds[0]
+                r = match_inds[-1]
+
+                if r-l+1 > budget:
+                    new_line_items = line_items
+                    l, r = None, None
+                else:
+                    new_line_items = line_items[l:r+1]
+                    while len(new_line_items) < budget:
+                        if l > 0:
+                            l = l-1
+                            new_line_items.insert(0, line_items[l])
+                            if len(new_line_items) == budget:
+                                break
+                        if r < len(line_items)-1:
+                            r = r+1
+                            new_line_items.append(line_items[r])
+
+        line = detokenize(" ".join(new_line_items))
         wc = len(line.split())
         if wc > budget:
             wc = budget
             line = " ".join(line.split()[:wc]) + "..."
+
+        if l is not None and l > 0:
+            line = '...'+line
+        if r is not None and r < len(line_items):
+            if not line.endswith('...'):
+                line = line + '...'
 
         line = re.sub(r"span_class", "span class", line)
         line = re.sub(r"\[EXACTREL\]", "rel_exact_match", line)

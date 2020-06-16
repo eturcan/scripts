@@ -1,0 +1,190 @@
+#!/bin/bash
+
+if [[ $GOLD_SUM == "True" ]]; then
+    server.gold
+    exit
+fi
+
+if [[ $LITE_SUM == "True" ]]; then
+    server.lite
+    exit
+fi
+
+CONFIGS=/app/scripts/configs
+rm -f /outputs/logs-latest/*
+
+if [[ -d /experiment ]]; then
+
+    experiment_config=`ls /experiment/*.json`
+    new_doc_config=/app/config/doc.server.config.json
+    lang=$(cat $experiment_config | jq .query_processor.target_language | \
+        sed -e 's/"//g')
+
+#    echo "Using audio segmentation: $AUDIOSEG_SUM"
+
+#    if [[ $AUDIOSEG_SUM != "True" ]]; then
+#        audioseg_arg="--no-audio-seg"
+#    else
+#        audioseg_arg=""
+#    fi
+
+    # Setup doc server config based on experiment json.
+    echo "experiment_config $experiment_config /NIST-data $new_doc_config"
+    experiment_config $experiment_config /NIST-data $new_doc_config
+
+    echo "Deriving doc server config from experiment config $experiment_config"
+    export DOCSERVER_CONFIG=$new_doc_config
+    echo "Setting new doc server config: $DOCSERVER_CONFIG"
+
+    # Setup annotator config based on language code of experiment json.
+    export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.demo.op1.v1.0.json
+
+    echo
+    echo "Setting new annotation config: $ANNOTATION_CONFIG"
+    echo
+
+    queryrel_langs=(lt ps)
+    if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
+        USE_QUERYREL="True"
+    else
+        USE_QUERYREL="False"
+    fi
+else
+    if [[ $ANNOTATION_CONFIG == "" ]]; then
+        export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
+    fi
+    if [[ $DOCSERVER_CONFIG == "" ]]; then
+        export DOCSERVER_CONFIG=$CONFIGS/docs.latest.config.json
+    fi
+    export USE_QUERYREL="True"
+    echo "Using default document server config: $DOCSERVER_CONFIG"
+    echo "Using default annotation server config: $ANNOTATION_CONFIG"
+fi
+
+export NIST_DATA=/NIST-data
+export MODELS=/models
+export SCRIPTS_MORPH=/tools/scripts-morph-v6.1.jar
+export QUERYSERVER_CONFIG=$CONFIGS/query.latest.config.json
+
+
+start_morph_server () {
+    cwd=`pwd`
+    morph_dir=`dirname $SCRIPTS_MORPH`
+    cd $morph_dir
+    echo ">>  java -jar $SCRIPTS_MORPH $MORPH_PORT EN &"
+    java -jar $SCRIPTS_MORPH $MORPH_PORT EN \
+        > >(tee /outputs/logs-latest/morph.out.log) \
+        2> >(tee /outputs/logs-latest/morph.err.log >&2) &
+    cd $cwd
+}
+
+start_doc_server () {
+    echo ">>  doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG &"
+    doc_server $DOC_PORT $NIST_DATA $DOCSERVER_CONFIG \
+        > >(tee /outputs/logs-latest/doc.out.log) \
+        2> >(tee /outputs/logs-latest/doc.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/doc.out.log & ) | grep -q "Waiting for client request on port $DOC_PORT.."
+}
+
+start_query_server () {
+    echo ">>  query_server $QUERY_PORT $MORPH_PORT $NIST_DATA $QUERYSERVER_CONFIG /query &"
+    query_server $QUERY_PORT $MORPH_PORT $NIST_DATA \
+        $QUERYSERVER_CONFIG /query \
+        > >(tee /outputs/logs-latest/query.out.log) \
+        2> >(tee /outputs/logs-latest/query.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/query.out.log & ) | grep -q "Waiting for client request on port $QUERY_PORT.."
+}
+
+start_annotation_server () {
+
+    if [[ $VERBOSE_SUM != "" ]]; then
+        VERBOSE="--verbose"
+    else
+        VERBOSE=""
+    fi
+
+echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNOTATION_CONFIG $VERBOSE"
+    annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS \
+        $ANNOTATION_CONFIG $VERBOSE \
+        > >(tee /outputs/logs-latest/ann.out.log) \
+        2> >(tee /outputs/logs-latest/ann.err.log >&2) &
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/ann.out.log & ) \
+        | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
+}
+
+start_queryrel_server () {
+
+qrel_args="$lang /models/queryrel_artifacts"
+
+echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
+queryrel_server $QUERYREL_PORT $qrel_args \
+        > >(tee /outputs/logs-latest/qrel.out.log) \
+        2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/qrel.out.log & ) \
+        | grep -q "Query relevance server started on port $QUERYREL_PORT"
+}
+
+start_psq_server () {
+
+argstr=""
+query_jsons=""
+if compgen -G "/query-*" > /dev/null; then
+    echo "in compgen"
+    query_jsons="$query_jsons `ls /query-*/query*`"
+    argstr="$argstr /query-*/query*"
+fi
+
+if [[ -d /query ]]; then
+    echo "in /query"
+    query_jsons="$query_jsons `find /query/ -type f ! -name "*.*"`"
+    argstr="$argstr find /query/ -type f ! -name "*.*""
+fi
+echo ">>  sumpsq $PSQ_PORT $argstr"
+sumpsq $PSQ_PORT $query_jsons \
+        > >(tee /outputs/logs-latest/psq.out.log) \
+        2> >(tee /outputs/logs-latest/psq.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/psq.out.log & ) \
+        | grep -q "Waiting for client request on port $PSQ_PORT.."
+}
+
+mkdir -p /outputs/logs-latest
+
+cwd=`pwd`
+morhp_dir=`dirname $SCRIPTS_MORPH`
+echo "Kicking off the summarizer..."
+echo
+echo "Starting English morphological analyzer:"
+    start_morph_server
+echo "English morphological analyzer running."
+echo
+echo "Starting document server:"
+    start_doc_server
+echo "Document server running."
+echo
+echo "Starting query server:"
+    start_query_server
+echo "Query server running."
+echo
+#echo "Staring PSQ server:"
+#    start_psq_server
+#echo "PSQ server running."
+#echo 
+#if [[ $USE_QUERYREL == "True" ]]; then
+#    echo "Starting queryrel server:"
+#        start_queryrel_server
+#    echo "Queryrel server running."
+#    echo
+#fi
+echo "Starting annotation server:"
+    start_annotation_server
+echo "Annotation server running."
+echo
+echo "Summarization server is ready."
+while true; do sleep 9999999; done

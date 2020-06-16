@@ -6,16 +6,19 @@ import imgkit
 import re
 
 
-def generate_markup():
+def generate_markup(args_str=None):
     parser = argparse.ArgumentParser("Generate markup for annotated document.")
-    parser.add_argument("markup_module", 
+    parser.add_argument("markup_module",
                         help="markup class that generates the actual markup")
     parser.add_argument("annotated_document", type=Path,
                         help="path to annotated doc pkl file")
     parser.add_argument("output_path", type=Path, help="path to write markup")
     parser.add_argument("--args", type=Path, default=None)
     parser.add_argument("--quiet", action="store_true")
-    args = parser.parse_args()
+    if not args_str:
+        args = parser.parse_args()
+    else:
+        args = parser.parse_args(args_str.split())
 
     module_str, class_str = args.markup_module.rsplit(".", 1)
     mod = __import__(module_str, fromlist=[class_str])
@@ -28,7 +31,7 @@ def generate_markup():
 
     with args.annotated_document.open("rb") as fp:
         doc = pickle.load(fp)
-    
+
     markup, instr, mmeta = markup_generator(doc)
     if not args.quiet:
         print(markup)

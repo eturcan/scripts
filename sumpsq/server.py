@@ -38,6 +38,10 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
             from warnings import warn
             warn("No PSQ for path: {}".format(path.parent))
 
+    def add_psq(self, query_id, psq_dict, idf_dict):
+        self._cache[query_id] = psq_dict
+        self._idf_cache[query_id] = idf_dict
+
 class PSQRequestHandler(socketserver.BaseRequestHandler):
 
     def _send(self, some_bytes):
@@ -46,33 +50,26 @@ class PSQRequestHandler(socketserver.BaseRequestHandler):
         self.request.sendall(bytes([size_length]) + message_size)
         self.request.sendall(some_bytes)
 
-    def _receive(self):
-
-        sz_length = int.from_bytes(self.request.recv(1), byteorder='little')
-        message_size = int(self.request.recv(sz_length).decode())
-        
-        input_buffer = BytesIO(b' ' * message_size)
-        read = 0
-        while read < message_size:
-            some_bytes = self.request.recv(16384)
-            input_buffer.write(some_bytes)
-            read += len(some_bytes)
-        input_buffer.seek(0)
-        return input_buffer.getvalue()
-
     def handle(self):
-        query_id = pickle.loads(self._receive())
-        if query_id in self.server._cache:
-            self._send(
-                pickle.dumps({
-                    "psq": self.server._cache[query_id], 
-                    "idf": self.server._idf_cache[query_id]
-                })
-            )
-        else:
-            self._send(pickle.dumps(
-                RuntimeError("Bad query id: {}".format(query_id))))
-        
+        data = self.request.recv(4096)
+        msg = json.loads(data.decode())
+        if msg['type'] == 'add_psq':
+            self.server.add_psq(msg['query_id'], msg['psq_dict'],
+                                msg['idf_dict'])
+            self._send(pickle.dumps('SUCCESS'))
+        elif msg['type'] == 'get_psq':
+            query_id = msg['query_id']
+            if query_id in self.server._cache:
+                self._send(
+                    pickle.dumps({
+                        "psq": self.server._cache[query_id], 
+                        "idf": self.server._idf_cache[query_id]
+                    })
+                )
+            else:
+                self._send(pickle.dumps(
+                    RuntimeError("Bad query id: {}".format(query_id))))
+
 def sumpsq_server():
     import argparse
     parser = argparse.ArgumentParser("Start PSQ server.")

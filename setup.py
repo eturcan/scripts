@@ -48,8 +48,8 @@ setup(
             'scripts_sum': [
                 'data/summarySchema_v1.3.1.json',
                 'data/summarySchema_v1.3.2.json',
-            ]                
-        
+            ]
+
     }
 
 )
