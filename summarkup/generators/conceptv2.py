@@ -25,13 +25,14 @@ class ConceptV2:
 
     def __init__(self, translations, annotators, translation_annotators,
                  exact_matches=None,
-                 stem_matches=None, soft_matches=None):
+                 stem_matches=None, soft_matches=None, header=False):
         self.translations = translations
         self.annotators = annotators
         self.translation_annotators = translation_annotators
         self.exact_matches = exact_matches
         self.stem_matches = stem_matches
         self.soft_matches = soft_matches
+        self.header = header
 
     def get_scores(self, doc, annotator):
         anns = doc.annotations[annotator[0]]["annotation"]
@@ -144,8 +145,12 @@ class ConceptV2:
         scores = [score_dict[key] for key in keys]
         ordered_indices, points = merge_scores(scores, return_points=True)
 
-        header, size = make_relevant_header(query)
-        markup_lines = [header]
+        if self.header:
+            header, size = make_relevant_header(query)
+            markup_lines = [header]
+        else:
+            markup_lines = []
+            size = 0
 
         meta = {"translation": [], "markup": "conceptv2",
                 "utterance_ids": [], "source_offsets": [], 
