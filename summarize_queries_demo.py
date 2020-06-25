@@ -20,7 +20,6 @@ class RequestProcessor(Process):
                  annotation_port, output_dir):
         super(RequestProcessor, self).__init__()
 
-        init = timer()
         self.request_queue = request_queue
         self.output_dir = output_dir
         self.doc_client = DocClient(doc_port)
@@ -82,7 +81,7 @@ class RequestProcessor(Process):
                 f'{req.query_id}.{req.doc_id}.c{c+1}.json'
             )
 
-            if True: #not markup_file.exists():
+            if not markup_file.exists():
                 args_str = " ".join([
                     markup_gen, str(ann_file), str(markup_file),
                     '--args', str(markup_config), '--quiet',
@@ -92,96 +91,10 @@ class RequestProcessor(Process):
 
         print('done processing {}: {}'.format(req.doc_id, timer()-start))
 
-class EvidenceProcessor(Process):
-    def __init__(self, request_queue, output_dir):
-        super(EvidenceProcessor, self).__init__()
-
-        init = timer()
-        self.request_queue = request_queue
-        self.output_dir = output_dir
-
-    def run(self):
-        while not self.request_queue.empty():
-            req = self.request_queue.get()
-            self._process(req)
-        return True
-
-    def _process(self, request):
-
-        start = timer()
-#        print("Processing evidence:", request)
-        summary_path = (
-            self.output_dir / 'markup' / request.query_id / 
-            f"{request.query_id}.{request.doc_id}.c1.json"
-        )
-#        print(summary_path, summary_path.exists())
-        with summary_path.open('r') as fp:
-            summary = json.load(fp)
-#        print(summary)
-        doc_path = (
-            self.output_dir / 'annotations' / request.query_id / 
-            f"{request.query_id}.{request.doc_id}.c1.pkl"
-        )
-
-        with doc_path.open('rb') as fp:
-            doc = pickle.load(fp)
-        
-        utt_ids = set(summary['meta']['utterance_ids'])
-        
-        translations = doc.utterances[0]['translations'].keys()
-
-        evidence = {
-            "translations": {}
-        }
-
-        for tr in translations:
-            strings = []
-        
-#            print()
-#            print(tr)
-            for i, utt in enumerate(doc.utterances):
-                strings.append(
-                    "<p>" + ('<span class="hl">' if i in utt_ids else '') + 
-                    utt['translations'][tr].text 
-                    + ('</span>' if i in utt_ids else '') +  '</p>')
-#            print("\n".join(strings))
-            evidence['translations'][tr] = "\n".join(strings)
-
-        strings = []
-#        print()
-#        print("SOURCE")
-        for i, utt in enumerate(doc.utterances):
-
-
-            strings.append(
-
-
-
-                "<p>" + ('<span class="hl">' if i in utt_ids else '') + 
-                "  " + (utt['source'].speaker) + "   " + 
-                utt['source'].text 
-                + ('</span>' if i in utt_ids else '') +  '</p>')
-        print("\n".join(strings))
-
-#        print()
-        evidence['source'] = "\n".join(strings)
-        
-        output = (
-            self.output_dir / "evidence" / request.query_id / 
-            f'{request.query_id}.{request.doc_id}.c1.json')
-        output.parent.mkdir(exist_ok=True, parents=True)
-        with output.open('w') as fp:
-            print(json.dumps(evidence), file=fp)
-        print('done processing {}: {}'.format(request.doc_id, timer()-start))
- 
-           
-
 def main(args):
     start = timer()
 
     summary_queue = Queue()
-    evidence_queue = Queue()
-
 
     query_client = QueryClient(args.query_port)
     #psq_client = PSQClient(args.psq_port)
@@ -216,22 +129,8 @@ def main(args):
 
     print('Summarizer setup time: {}'.format(timer()-start))
 
-#    while evidence_queue.qsize() <= min(3, len(clir_output['results'])):
-#        pass
-#    
-#    evidence_processes = []
-#    #for i in range(args.num_procs):
-#    for i in range(1):
-#        e = EvidenceProcessor(evidence_queue, args.output_dir)
-#        evidence_processes.append(e)
-#        e.start()
-
     for p in processes:
         p.join()
-
-#    for e in evidence_processes:
-#        e.join()
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
