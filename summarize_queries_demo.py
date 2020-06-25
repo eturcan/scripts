@@ -1,6 +1,7 @@
 import argparse
 import os
 import json
+import pickle
 from multiprocessing import Process, Queue
 from collections import namedtuple
 from pathlib import Path
@@ -15,7 +16,8 @@ from summarkup.cli import generate_markup
 Request = namedtuple('Request', ['query_id', 'doc_id', 'score'])
 
 class RequestProcessor(Process):
-    def __init__(self, request_queue, doc_port, query_port, annotation_port, output_dir):
+    def __init__(self, request_queue, doc_port, query_port, 
+                 annotation_port, output_dir):
         super(RequestProcessor, self).__init__()
 
         init = timer()
@@ -44,12 +46,13 @@ class RequestProcessor(Process):
             return None
 
     def _get_markup_config(self, markup_gen, lang):
+        prefix = Path("/", "app", "scripts", "configs")
         if markup_gen == 'summarkup.generators.conceptv2.ConceptV2':
-            return '/app/scripts/configs/concept.v2.{}.config.demo.json'.format(lang)
+            return prefix / f'concept.v2.{lang}.config.demo.json'
         elif markup_gen == 'summarkup.generators.lexicalv2.LexicalV2':
-            return '/app/scripts/configs/lexical.v2.{}.config.demo.json'.format(lang)
+            return prefix / f'lexical.v2.{lang}.config.demo.json'
         elif markup_gen == 'summarkup.generators.morphv1.MorphV1':
-            return '/app/scripts/configs/morph.v1.{}.config.demo.json'.format(lang)
+            return prefix / f'morph.v1.{lang}.config.demo.json'
         else:
             return None
 
@@ -63,38 +66,123 @@ class RequestProcessor(Process):
             markup_gen = self._get_markup_gen(qtype)
             markup_config = self._get_markup_config(markup_gen, lang)
 
-            ann_file = os.path.join(self.output_dir, 'annotations', req.query_id,
-                                    '{}.{}.c{}.pkl'.format(req.query_id,
-                                                           req.doc_id, c+1))
+            ann_file = (
+                self.output_dir / 'annotations' / req.query_id /
+                f'{req.query_id}.{req.doc_id}.c{c+1}.pkl'
+            )
 
-            if not os.path.exists(ann_file):
-                self.annotation_client.annotate_material(req.query_id,
-                                                         req.doc_id, c,
-                                                         Path(ann_file))
+            if not ann_file.exists():
+                self.annotation_client.annotate_material(
+                    req.query_id,
+                    req.doc_id, c,
+                    ann_file)
 
-            markup_file = os.path.join(self.output_dir, 'markup', req.query_id,
-                                       '{}.{}.c{}.json'.format(req.query_id,
-                                                               req.doc_id,
-                                                               c+1))
+            markup_file = (
+                self.output_dir / 'markup' / req.query_id /
+                f'{req.query_id}.{req.doc_id}.c{c+1}.json'
+            )
 
-            if not os.path.exists(markup_file):
-                #command = 'generate_markup {} {} {} --args {} --quiet'.format(markup_gen,
-                #                                                              Path(ann_file),
-                #                                                              Path(markup_file),
-                #                                                              markup_config)
-                #os.system(command)
-                args_str = '{} {} {} --args {} --quiet'.format(markup_gen,
-                                                               Path(ann_file),
-                                                               Path(markup_file),
-                                                               markup_config)
+            if True: #not markup_file.exists():
+                args_str = " ".join([
+                    markup_gen, str(ann_file), str(markup_file),
+                    '--args', str(markup_config), '--quiet',
+                    "--evidence"
+                ])
                 generate_markup(args_str)
 
         print('done processing {}: {}'.format(req.doc_id, timer()-start))
 
+class EvidenceProcessor(Process):
+    def __init__(self, request_queue, output_dir):
+        super(EvidenceProcessor, self).__init__()
+
+        init = timer()
+        self.request_queue = request_queue
+        self.output_dir = output_dir
+
+    def run(self):
+        while not self.request_queue.empty():
+            req = self.request_queue.get()
+            self._process(req)
+        return True
+
+    def _process(self, request):
+
+        start = timer()
+#        print("Processing evidence:", request)
+        summary_path = (
+            self.output_dir / 'markup' / request.query_id / 
+            f"{request.query_id}.{request.doc_id}.c1.json"
+        )
+#        print(summary_path, summary_path.exists())
+        with summary_path.open('r') as fp:
+            summary = json.load(fp)
+#        print(summary)
+        doc_path = (
+            self.output_dir / 'annotations' / request.query_id / 
+            f"{request.query_id}.{request.doc_id}.c1.pkl"
+        )
+
+        with doc_path.open('rb') as fp:
+            doc = pickle.load(fp)
+        
+        utt_ids = set(summary['meta']['utterance_ids'])
+        
+        translations = doc.utterances[0]['translations'].keys()
+
+        evidence = {
+            "translations": {}
+        }
+
+        for tr in translations:
+            strings = []
+        
+#            print()
+#            print(tr)
+            for i, utt in enumerate(doc.utterances):
+                strings.append(
+                    "<p>" + ('<span class="hl">' if i in utt_ids else '') + 
+                    utt['translations'][tr].text 
+                    + ('</span>' if i in utt_ids else '') +  '</p>')
+#            print("\n".join(strings))
+            evidence['translations'][tr] = "\n".join(strings)
+
+        strings = []
+#        print()
+#        print("SOURCE")
+        for i, utt in enumerate(doc.utterances):
+
+
+            strings.append(
+
+
+
+                "<p>" + ('<span class="hl">' if i in utt_ids else '') + 
+                "  " + (utt['source'].speaker) + "   " + 
+                utt['source'].text 
+                + ('</span>' if i in utt_ids else '') +  '</p>')
+        print("\n".join(strings))
+
+#        print()
+        evidence['source'] = "\n".join(strings)
+        
+        output = (
+            self.output_dir / "evidence" / request.query_id / 
+            f'{request.query_id}.{request.doc_id}.c1.json')
+        output.parent.mkdir(exist_ok=True, parents=True)
+        with output.open('w') as fp:
+            print(json.dumps(evidence), file=fp)
+        print('done processing {}: {}'.format(request.doc_id, timer()-start))
+ 
+           
 
 def main(args):
     start = timer()
-    request_queue = Queue()
+
+    summary_queue = Queue()
+    evidence_queue = Queue()
+
+
     query_client = QueryClient(args.query_port)
     #psq_client = PSQClient(args.psq_port)
 
@@ -115,27 +203,43 @@ def main(args):
 
     print('Num relevant docs: {}'.format(len(clir_output['results'])))
     for result in clir_output['results']:
-        request_queue.put(Request(query_id=query_id, doc_id=result['id'],
+        summary_queue.put(Request(query_id=query_id, doc_id=result['id'],
                                   score=result['score']))
 
     processes = []
     for i in range(args.num_procs):
-        p = RequestProcessor(request_queue, args.doc_port, args.query_port,
+        p = RequestProcessor(summary_queue,
+                             args.doc_port, args.query_port,
                              args.annotation_port, args.output_dir)
         processes.append(p)
         p.start()
 
     print('Summarizer setup time: {}'.format(timer()-start))
 
+#    while evidence_queue.qsize() <= min(3, len(clir_output['results'])):
+#        pass
+#    
+#    evidence_processes = []
+#    #for i in range(args.num_procs):
+#    for i in range(1):
+#        e = EvidenceProcessor(evidence_queue, args.output_dir)
+#        evidence_processes.append(e)
+#        e.start()
+
     for p in processes:
         p.join()
+
+#    for e in evidence_processes:
+#        e.join()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--clir_output_file', required=True, help='query ids to summarize')
     parser.add_argument('--input_dir', default='/outputs/clir_output/', help='output dir')
-    parser.add_argument('--output_dir', default='/outputs', help='output dir')
+    parser.add_argument('--output_dir', default=Path('/outputs'), 
+                        type=Path,
+                        help='output dir')
     parser.add_argument('--doc_port', type=int, required=True, help='document server port')
     parser.add_argument('--query_port', type=int, required=True, help='query server port')
     parser.add_argument('--annotation_port', type=int, required=True, help='annotation server port')

@@ -6,6 +6,53 @@ import imgkit
 import re
 
 
+def make_evidence(doc, meta):
+    translations = doc.utterances[0]['translations'].keys()
+    evidence = {
+        "translations": {}
+    }
+
+    utt_ranks = {i: r for r, i in enumerate(meta['utterance_ids'], 1)}
+    utt_ids = set(meta['utterance_ids'])
+    for tr in translations:
+        strings = []
+        for i, utt in enumerate(doc.utterances):
+            units = ['<p>']
+            speaker = utt['source'].speaker
+            if speaker and speaker != "1": 
+                units.append(f'<span class="speaker speaker-{speaker}>')
+                units.append(f"({speaker})</span> ")
+            if i in utt_ranks:
+                r = utt_ranks[i]
+                units.append(f'<span class="extract extract-{r}>')
+            units.append(utt['translations'][tr].text)
+            if i in utt_ranks:
+                units.append("</span>")
+            units.append("</p>")
+            strings.append("".join(units))
+        html = "\n".join(strings)
+        evidence['translations'][tr] = html
+
+    strings = []
+    for i, utt in enumerate(doc.utterances):
+        units = ['<p>']
+        speaker = utt['source'].speaker
+        if speaker and speaker != "1": 
+            units.append(f'<span class="speaker speaker-{speaker}>')
+            units.append(f"({speaker})</span> ")
+        if i in utt_ranks:
+            r = utt_ranks[i]
+            units.append(f'<span class="extract extract-{r}>')
+        units.append(utt['source'].text)
+        if i in utt_ranks:
+            units.append("</span>")
+        units.append("</p>")
+        strings.append("".join(units))
+    html = "\n".join(strings)
+    evidence['source'] = html
+        
+    return evidence  
+
 def generate_markup(args_str=None):
     parser = argparse.ArgumentParser("Generate markup for annotated document.")
     parser.add_argument("markup_module",
@@ -15,6 +62,7 @@ def generate_markup(args_str=None):
     parser.add_argument("output_path", type=Path, help="path to write markup")
     parser.add_argument("--args", type=Path, default=None)
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--evidence", action='store_true')
     if not args_str:
         args = parser.parse_args()
     else:
@@ -33,9 +81,16 @@ def generate_markup(args_str=None):
         doc = pickle.load(fp)
 
     markup, instr, mmeta = markup_generator(doc)
+    
+    if args.evidence:
+        evidence = make_evidence(doc, mmeta)
+    else:
+        evidence = None
+
     if not args.quiet:
         print(markup)
-    output = json.dumps({
+
+    output = {
         "markup": markup,
         "document_id": doc.id,
         "query_string": doc.annotations["QUERY"].string,
@@ -46,7 +101,12 @@ def generate_markup(args_str=None):
         "meta": mmeta,
         "source_md5": doc.md5,
         "mode": doc.mode,
-    })
+    }
+    
+    if evidence:
+        output['evidence'] = evidence
+    output = json.dumps(output)
+
     args.output_path.parent.mkdir(exist_ok=True, parents=True)
     args.output_path.write_text(output)
 
