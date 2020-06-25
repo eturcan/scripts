@@ -20,11 +20,11 @@ def make_evidence(doc, meta):
             units = ['<p>']
             speaker = utt['source'].speaker
             if speaker and speaker != "1": 
-                units.append(f'<span class="speaker speaker-{speaker}>')
+                units.append(f'<span class="speaker speaker-{speaker}">')
                 units.append(f"({speaker})</span> ")
             if i in utt_ranks:
                 r = utt_ranks[i]
-                units.append(f'<span class="extract extract-{r}>')
+                units.append(f'<span class="extract extract-{r}">')
             units.append(utt['translations'][tr].text)
             if i in utt_ranks:
                 units.append("</span>")
@@ -38,11 +38,11 @@ def make_evidence(doc, meta):
         units = ['<p>']
         speaker = utt['source'].speaker
         if speaker and speaker != "1": 
-            units.append(f'<span class="speaker speaker-{speaker}>')
+            units.append(f'<span class="speaker speaker-{speaker}">')
             units.append(f"({speaker})</span> ")
         if i in utt_ranks:
             r = utt_ranks[i]
-            units.append(f'<span class="extract extract-{r}>')
+            units.append(f'<span class="extract extract-{r}">')
         units.append(utt['source'].text)
         if i in utt_ranks:
             units.append("</span>")
