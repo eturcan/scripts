@@ -11,9 +11,9 @@ def main():
     parser = argparse.ArgumentParser(
         ("Generate a summarization server config file from one or more data "
          "structure files."))
-#    parser.add_argument("--no-audio-seg", action="store_true",
-#        help=("disable use of use the audio segmenter "
-#              "and use acoustic segmentation."))
+    parser.add_argument("--no-audio-seg", action="store_true",
+        help=("disable use of use the audio segmenter "
+              "and use acoustic segmentation."))
     parser.add_argument("--use-mt", nargs="+", default=None,
                         choices=["umd-smt", "umd-nmt", "edi-nmt"])
     parser.add_argument("paths", nargs="+", type=Path)
@@ -21,7 +21,7 @@ def main():
 
     configs = []
     for path in args.paths:
-        for x in proc_ds(path.read_text(), #no_audio_seg=args.no_audio_seg,
+        for x in proc_ds(path.read_text(), no_audio_seg=args.no_audio_seg,
                          use_mt=args.use_mt):
             configs.append(x)
     print(json.dumps(configs, indent="    "))
@@ -84,7 +84,7 @@ def get_text_config(meta, sc, use_mt):
 
     return corpus
 
-def get_audio_config(meta, sc, use_mt):
+def get_audio_config(meta, sc, use_mt, no_audio_seg):
 
     morphs = {
         morph[2]: Path(morph[0])
@@ -124,7 +124,7 @@ def get_audio_config(meta, sc, use_mt):
     }
 
     seg_m = re.search(r"SentSplitter_location=(.*?)\n", sc)
-    if seg_m:
+    if seg_m and not no_audio_seg:
         asr_seg = seg_m.groups()[0]
         asr_seg_morph = morphs[asr_seg]
         seg_translations = []
@@ -137,7 +137,8 @@ def get_audio_config(meta, sc, use_mt):
                 elif mt[1].startswith("umd-smt"):
                     mtname = "umd-smt"
                 else:
-                    raise Exception("Bad mt name")
+                    warnings.warn("MT NAME NOT RECOGNIZED: {} -- SKIPPING".format(mt[1]))
+                    continue
 
                 if mtname in use_mt:
                     mtpath = meta["corpus_prefix"] / mt[0]
@@ -153,12 +154,12 @@ def get_audio_config(meta, sc, use_mt):
         }
 
         return {"source": str(meta["corpus_prefix"] / src),
-                "TB": corpus, "NB": corpus, "CS": corpus2}
+                "TB": corpus2, "NB": corpus2, "CS": corpus2}
 
     return {"source": str(meta["corpus_prefix"] / src),
             "TB": corpus, "NB": corpus, "CS": corpus}
 
-def proc_ds(config, use_mt=None):
+def proc_ds(config, use_mt=None, no_audio_seg=False):
 
     if use_mt is None:
         use_mt = ["umd-smt", "umd-nmt", "edi-nmt"]
@@ -173,7 +174,7 @@ def proc_ds(config, use_mt=None):
         if meta["mode"] == "text":
             corpus = get_text_config(meta, sc, use_mt)
         else:
-            corpus = get_audio_config(meta, sc, use_mt)
+            corpus = get_audio_config(meta, sc, use_mt, no_audio_seg)
 
         langpart = meta["lang"] + "-" + Path(meta["name"]).name
         index = Path(meta["name"]) / "index.txt"
