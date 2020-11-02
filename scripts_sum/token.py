@@ -52,6 +52,9 @@ class Token:
     def word(self):
         return self._word
 
+    def set_word(self, word):
+        self._word = word
+
     @property
     def prefix(self):
         return self._prefix

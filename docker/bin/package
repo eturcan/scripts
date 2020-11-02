@@ -5,7 +5,7 @@ run_name=$1
 cd $SCRIPTS
 cd ..
 
-#scripts/docker/bin/make_images.sh 4
+scripts/docker/bin/make_images.py
 
 TIMESTAMP=`python -c "from datetime import datetime; print(datetime.utcnow().isoformat('T') + 'Z')"`
 python scripts/package_summaries_new.py /clir /outputs/ \

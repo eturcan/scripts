@@ -1,0 +1,134 @@
+#!/usr/bin/env python
+import argparse
+import json
+import os
+from multiprocessing import Pool
+
+
+def copy_helper(pair):
+    src, dest = pair
+    if not os.path.exists(dest):
+        os.symlink(src, dest)
+
+
+def process_text(text_config, corpus, nist_data, experiment_dir):
+    new_translations = []
+    for translation in text_config['translations']:
+        system = translation['name']
+        mt_path = os.path.join(nist_data, translation['path'])
+        morph_path = os.path.join(nist_data, translation['morph'])
+
+        mt_files = [x for x in os.listdir(mt_path) if x.endswith('top')]
+        morph_files = [x for x in os.listdir(morph_path) if x.endswith('top')]
+
+        assert len(morph_files) == len(mt_files)
+        if len(mt_files) == 0:
+            # system does not have n-best
+            continue
+
+        # create directories for n-best (limit to 5-best for now)
+        # numbering starts with 2 since the best translation is already in the MT system path
+        paths = {i: os.path.join(experiment_dir, 'nbest', corpus, 'text', '{}-{}'.format(system,i)) for i in range(2, 6)}
+        for n, path in paths.items():
+            os.makedirs(os.path.join(path, 'mt'), exist_ok=True)
+            os.makedirs(os.path.join(path, 'morph'), exist_ok=True)
+
+        # Copy MT Files
+        pairs = []
+        for mt_file in mt_files:
+            doc_id, n, _ = mt_file.split('.')
+            pairs.append((os.path.join(mt_path, mt_file), os.path.join(paths[int(n)], 'mt', '{}.txt'.format(doc_id))))
+        with Pool() as pool:    
+            pool.map(copy_helper, pairs)
+
+        # Copy morphology files
+        pairs = []
+        for morph_file in morph_files:
+            doc_id, n, _ = morph_file.split('.')
+            pairs.append((os.path.join(morph_path, morph_file), os.path.join(paths[int(n)], 'morph', '{}.txt'.format(doc_id))))
+        with Pool() as pool:
+            pool.map(copy_helper, pairs)
+
+        for n, path in paths.items():
+            new_translations.append({
+                'name': '{}-{}'.format(system, n),
+                'path': os.path.join(path, 'mt'),
+                'morph': os.path.join(path, 'morph')
+            })
+
+    text_config['translations'].extend(new_translations)
+
+
+def process_audio(audio_config, corpus, nist_data, experiment_dir):
+    for genre in ['TB', 'NB', 'CS']:
+        new_translations = []
+        config = audio_config[genre]
+        for translation in config['translations']:
+            system = translation['name']
+            mt_path = os.path.join(nist_data, translation['path'])
+            morph_path = os.path.join(nist_data, translation['morph'])
+
+            mt_files = [x for x in os.listdir(mt_path) if x.endswith('top')]
+            morph_files = [x for x in os.listdir(morph_path) if x.endswith('top')]
+
+            assert len(morph_files) == len(mt_files)
+            if len(mt_files) == 0:
+                # system does not have n-best
+                continue
+
+            # create directories for n-best (limit to 5-best for now)
+            # numbering starts with 2 since the best translation is already in the MT system path
+            paths = {i: os.path.join(experiment_dir, 'nbest', corpus, 'audio', genre, '{}-{}'.format(system,i)) for i in range(2, 6)}
+            for n, path in paths.items():
+                os.makedirs(os.path.join(path, 'mt'), exist_ok=True)
+                os.makedirs(os.path.join(path, 'morph'), exist_ok=True)
+
+            # Copy MT Files
+            pairs = []
+            for mt_file in mt_files:
+                doc_id, n, _ = mt_file.split('.')
+                pairs.append((os.path.join(mt_path, mt_file), os.path.join(paths[int(n)], 'mt', '{}.txt'.format(doc_id))))
+            with Pool() as pool:
+                pool.map(copy_helper, pairs)
+
+            # Copy morphology files
+            pairs = []
+            for morph_file in morph_files:
+                doc_id, n, _ = morph_file.split('.')
+                pairs.append((os.path.join(morph_path, morph_file), os.path.join(paths[int(n)], 'morph', '{}.txt'.format(doc_id))))
+            with Pool() as pool:
+                pool.map(copy_helper, pairs)
+
+            for n, path in paths.items():
+                new_translations.append({
+                    'name': '{}-{}'.format(system, n),
+                    'path': os.path.join(path, 'mt'),
+                    'morph': os.path.join(path, 'morph')
+                })
+
+        config['translations'].extend(new_translations)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        "Create separate folders for MT nbests if they exist")
+    parser.add_argument("experiment_config", type=str)
+    parser.add_argument("nist_data_dir", type=str)
+    parser.add_argument("experiment_dir", type=str)
+    parser.add_argument("output_path", type=str)
+    args = parser.parse_args()
+
+    nist_data = args.nist_data_dir
+    experiment_dir = args.experiment_dir
+    with open(args.experiment_config) as fin:
+        config = json.load(fin)
+
+    for c in config:
+        process_text(c['text'], c['name'], nist_data, experiment_dir)
+        process_audio(c['audio'], c['name'], nist_data, experiment_dir) 
+
+    with open(args.output_path, 'w') as fout:
+        fout.write(json.dumps(config, indent=4))
+
+if __name__ == "__main__":
+    main()

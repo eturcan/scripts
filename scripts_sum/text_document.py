@@ -17,21 +17,26 @@ TWOSIDED = set(["--", ":", "-", "/" ])
 SPACE_CONSUMING = set(["``", "`", "(", "$"])
 
 
+def _read_text(path):
+    with open(path, newline='\n') as fin:
+        return fin.read()
+
+
 class TextDocument(AnnotatedDocument):
     @staticmethod 
     def new(source_path, segmentation_path, source_morphology_path, 
             translation_paths, translation_morphology_paths, doc_id=None,
             lang=None, relevance_score=None):
 
-        src_text = source_path.read_text()
-        sent_segment_lines = segmentation_path.read_text().split("\n")
-        src_morph_lines = source_morphology_path.read_text().split("\n")
+        src_text = _read_text(source_path)
+        sent_segment_lines = _read_text(segmentation_path).split("\n")
+        src_morph_lines = _read_text(source_morphology_path).split("\n")
         all_translation_lines = {
-            name: path.read_text().split("\n")
+            name: _read_text(path).split("\n")
             for name, path in translation_paths.items()
         }
         all_translation_morph_lines = {
-            name: path.read_text().split("\n")
+            name: _read_text(path).split("\n")
             for name, path in translation_morphology_paths.items()
         }
 
@@ -80,17 +85,20 @@ class TextDocument(AnnotatedDocument):
             src_utt = Utterance(final_sent_segments[i], src_tokens,
                                 offsets=(start, stop))
 
-#            print(">>>>>utttext")
-#            print(src_utt.text)
-#            print(">>>>>excerpt")
-#            print(src_text[start:stop + 1])
-#            print()
-            
+            #print(i)
+            #print(">>>>>utttext")
+            #print(src_utt.text)
+            #print(">>>>>excerpt")
+            #print(src_text[start:stop + 1])
+
             txt = src_text[start:stop + 1]
-            
+
             sstart = 0
             for src_token in src_tokens:
                 m = re.search(re.escape(src_token.word), txt)
+                if m is None:
+                    src_token._offsets = (None, None)
+                    continue
                 start_offset = start + sstart + m.start()
                 stop_offset = start + sstart + m.end() - 1
                 txt = txt[m.end():]

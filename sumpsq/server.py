@@ -10,7 +10,8 @@ PSQ_NAMES = set([
 #    "PSQ_tokenized_normalized+berk_part_flat",
 #    "PSQ_tokenized_normalized+berk_part_flat_keep_syn",   
 #    "PSQ_tokenized_normalized+berk_part_flat_keep_exampleof",
-    "PSQ_tokenized-normalized+panlex+opus+berk_part_flat_CDF097",
+#    "PSQ_tokenized-normalized+panlex+opus+berk_part_flat_CDF097",
+     "PSQ_comb_v3.1_pmf1e-5_part_flat"
 ])
 
 class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -36,7 +37,7 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
                 found += 1
         if found < 1:
             from warnings import warn
-            warn("No PSQ for path: {}".format(path.parent))
+            warn("No PSQ for path: {}".format(path))
 
     def add_psq(self, query_id, psq_dict, idf_dict):
         self._cache[query_id] = psq_dict

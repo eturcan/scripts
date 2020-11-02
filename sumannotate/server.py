@@ -1,9 +1,11 @@
 import json
+import os
 import socketserver
 from pathlib import Path
 import sumdoc.client
 import sumquery.client
 import pickle
+import torch
 from scripts_sum.embeddings import Embeddings
 
 
@@ -28,7 +30,7 @@ class RequestHandler(socketserver.BaseRequestHandler):
             self.request.send(b'reload ok')
 
     def annotate_material(self, query_id, doc_id, component, output_path):
-         
+
         if self.server.verbose:
             print("annotating query-id: {} component {} doc-id {}".format(
                 query_id, component, doc_id))
@@ -47,12 +49,12 @@ class RequestHandler(socketserver.BaseRequestHandler):
                     query_id, component, query_comp.string, doc_id, doc.mode,
                     doc.source_lang, ann_name), file=sys.stderr)
                 raise e
-                
+
         doc.annotate_utterances("QUERY", query_comp)
         output_path.parent.mkdir(exist_ok=True, parents=True)
         with output_path.open("wb") as fp:
             pickle.dump(doc, fp)
-        
+
 class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, port, query_port, doc_port, model_dir, config_path, 
                  threads=8, verbose=False):
@@ -73,6 +75,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
             mod = __import__(ann_config['module'], 
                              fromlist=[ann_config['class']])
             cls = getattr(mod, ann_config['class'])
+            if self.verbose:
+                print("Loading annotator {} of type {}".format(ann_name, cls))
             annotators[ann_name] = cls(
                 *ann_config.get("args", []), 
                 **ann_config.get("kwargs", {}), embeddings=self.embeddings)
@@ -86,8 +90,12 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
                 if self.verbose:
                     print("Loading embeddings: lang={} name={} path={}".format(
                         lang, name, path))
-                embeddings[lang][name] = Embeddings.from_path(
-                    self.model_dir / Path(path))
+                if path.endswith('.txt'):
+                    embeddings[lang][name] = Embeddings.from_path(
+                        self.model_dir / Path(path))
+                else:
+                    with open(os.path.join(self.model_dir, path), 'rb') as fin:
+                        embeddings[lang][name] = torch.load(fin, map_location=torch.device('cpu'))
         return embeddings
 
     def reload_annotators(self):

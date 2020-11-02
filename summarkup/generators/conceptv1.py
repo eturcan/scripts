@@ -13,7 +13,7 @@ annotators = [
     ["glove42Bsim.content_semcons", ["sentence", "max"]],
     ["glove6Bsim.content_semcons", ["sentence", "mean"]],
     ["glove6Bsim.content_semcons", ["sentence", "max"]],
-]            
+]
 
 class ConceptV1:
 
