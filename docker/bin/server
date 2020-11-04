@@ -125,6 +125,7 @@ start_queryrel_server () {
 qrel_args="$lang /models/queryrel_artifacts"
 
 echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
+export PYTHONPATH=$PYTHONPATH:/app/CLIR-Summarization-19/queryrel
 queryrel_server $QUERYREL_PORT $qrel_args \
         > >(tee /outputs/logs-latest/qrel.out.log) \
         2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
