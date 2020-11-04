@@ -20,7 +20,7 @@ def annotator_key(ann):
 class MorphV1:
 
     def __init__(self, translations, annotators, translation_annotators,
-                 header=False,
+                 header=True,
                  default_args=None, default_kwargs=None):
         self.translations = translations
         self.annotators = annotators
