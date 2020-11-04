@@ -9,7 +9,7 @@ class QueryComponent:
     def parse(query_string, query_id, component_num, num_components,
               morph_path, morph_port):
         query_content = re.sub(r"EXAMPLE_OF\((.*?)\)", r"\1", query_string) 
-        query_content = re.sub(r'\[(hyp|evf|syn):(.*?)\]', r'', query_content)
+        query_content = re.sub(r'\[(.*?)\]', r'', query_content)
         query_content = query_content.replace("<", "").replace(">", "") \
             .replace('"', '').replace("+","").strip()
         content_morph = get_morphology(query_content, morph_port,
@@ -40,6 +40,12 @@ class QueryComponent:
         self._phrasal = '"' in query_string
         self._query_content = query_content
         self._example_of = "EXAMPLE_OF" in query_string
+
+        # POS tags currently are ignored by semcons, since semcons specifically look for hyp/evf/syn
+        # look for a one-character component of the constraints (surrounded by [] or ;)
+        # assumption: there is at most one
+        pos = re.findall(r'[\[;](.)[\];]', query_string)
+        self._pos = pos[0] if len(pos) > 0 else None
         
     def embed(self, embed_model, content_words=True, constraint_words=False):
 
