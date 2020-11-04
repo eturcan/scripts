@@ -94,7 +94,13 @@ def get_audio_config(meta, sc, use_mt, no_audio_seg):
     src = re.search(r"source_location=(.*?)\n", sc).groups()[0]
     asr = re.search(
         r"ASR_location=(.*?)\nASR_version=material", sc).groups()[0]
-    asr_morph = morphs[asr]
+    try:
+        asr_morph = morphs[asr]
+    except KeyError:
+        if no_audio_seg:
+            raise KeyError
+        else:
+            asr_morph = None
 
     translations = []
     for mt in re.findall(r"MT_location=(.*?)\n+MT_version=(.*?)\n+MT_source=(.*?)\n", sc):
@@ -119,7 +125,7 @@ def get_audio_config(meta, sc, use_mt, no_audio_seg):
 
     corpus = {
         "asr": str(meta["corpus_prefix"] / asr),
-        "asr_morphology": str(meta["corpus_prefix"] / asr_morph),
+        "asr_morphology": str(meta["corpus_prefix"] / asr_morph) if asr_morph else None,
         "translations": translations,
     }
 
