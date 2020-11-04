@@ -21,7 +21,7 @@ class LexicalV2:
 
     def __init__(self, translations, annotators, translation_annotators,
                  exact_matches=None, stem_matches=None, cutoffs=None,
-                 header=False,
+                 header=True,
                  default_args=None, default_kwargs=None):
         self.translations = translations
         self.annotators = annotators

@@ -42,6 +42,7 @@ class TextDocument(AnnotatedDocument):
 
         final_sent_segments = []
         final_src_morph = []
+        utternace_inds = []
         final_translations = {name: list()
                               for name in all_translation_lines.keys()}
         final_translation_morphs = {
@@ -68,6 +69,8 @@ class TextDocument(AnnotatedDocument):
                 final_translations[name].append(trans[i])
             for name, trans in all_translation_morph_lines.items():
                 final_translation_morphs[name].append(json.loads(trans[i]))
+
+            utternace_inds.append(i)
 
         num_utt = len(final_sent_segments)
         utterances = []   
@@ -125,6 +128,8 @@ class TextDocument(AnnotatedDocument):
             utterances.append({"source": src_utt, "translations": src_trans})
         doc = TextDocument(doc_id, "text", lang, source_path, 
                            relevance_score, utterances)
+        doc.set_utterance_inds(utternace_inds)
+
         return doc    
 
     def annotate_source_term(self, term, info, normalize=True):

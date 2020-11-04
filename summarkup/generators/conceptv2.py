@@ -25,7 +25,7 @@ class ConceptV2:
 
     def __init__(self, translations, annotators, translation_annotators,
                  exact_matches=None,
-                 stem_matches=None, soft_matches=None, header=False):
+                 stem_matches=None, soft_matches=None, header=True):
         self.translations = translations
         self.annotators = annotators
         self.translation_annotators = translation_annotators
