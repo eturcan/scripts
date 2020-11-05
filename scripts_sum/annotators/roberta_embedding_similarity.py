@@ -23,12 +23,13 @@ class RobertaEmbeddingSimilarity:
         return scores
 
     def __call__(self, query, doc):
+        if self.translation_embedding_name not in doc.utterances[0]["translations"]:
+            return None
 
         query_id = query.id
         query_comp = query.num
         doc_id = doc.id
         utterance_inds = doc.utterance_inds
-        print(len(utterance_inds))
 
         doc_emb = self.translation_embeddings[doc_id]
         doc_sents = self.translation_sentences[doc_id]
