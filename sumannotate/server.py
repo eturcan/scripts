@@ -87,8 +87,7 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         for lang, embs in config["embeddings"].items():
             embeddings[lang] = {}
             for name, path in embs.items():
-                if self.verbose:
-                    print("Loading embeddings: lang={} name={} path={}".format(
+                print("Loading embeddings: lang={} name={} path={}".format(
                         lang, name, path))
                 if path.endswith('.txt'):
                     embeddings[lang][name] = Embeddings.from_path(

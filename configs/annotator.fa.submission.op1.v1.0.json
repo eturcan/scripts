@@ -256,10 +256,10 @@
             "ft300": "emb/fa/cc.fa.300.vec.txt"
         },
 	"roberta":{
-	    "edi-nmt": "emb/roberta_embs/fa/edi-nmt.pkl",
-	    "umd-nmt": "emb/roberta_embs/fa/umd-nmt.pkl",
-	    "umd-smt": "emb/roberta_embs/fa/umd-smt.pkl",
-	    "query": "emb/roberta_embs/fa/query1.pkl"
+	    "edi-nmt": "emb/roberta_embs/fa/EVAL/edi-nmt.pkl",
+	    "umd-nmt": "emb/roberta_embs/fa/EVAL/umd-nmt.pkl",
+	    "umd-smt": "emb/roberta_embs/fa/EVAL/umd-smt.pkl",
+	    "query": "emb/roberta_embs/fa/EVAL/query2.pkl"
 	}
     }
 }

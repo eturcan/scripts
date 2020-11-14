@@ -92,7 +92,8 @@ class SpeechDocument(AnnotatedDocument):
                         T, token.word))
                     print()                   
  
-                    raise RuntimeError("Bad ctm-utt alignment")
+                    #raise RuntimeError("Bad ctm-utt alignment")
+                    continue
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1
                  

@@ -30,7 +30,7 @@ if [[ -d /experiment ]]; then
 
     # Setup doc server config based on experiment json.
     echo "experiment_config $experiment_config /NIST-data $new_doc_config"
-    experiment_config $experiment_config /NIST-data $new_doc_config
+    experiment_config $experiment_config /NIST-data $new_doc_config --no-audio-seg
 
     # Setup nbest translations
     new_doc_config_nbest=/app/config/doc.server.config.nbest.json
@@ -107,7 +107,7 @@ start_annotation_server () {
     if [[ $VERBOSE_SUM != "" ]]; then
         VERBOSE="--verbose"
     else
-        VERBOSE="--verbose"
+        VERBOSE=""
     fi
 
 echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNOTATION_CONFIG $VERBOSE"
