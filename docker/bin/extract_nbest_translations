@@ -124,8 +124,14 @@ def main():
         config = json.load(fin)
 
     for c in config:
-        process_text(c['text'], c['name'], nist_data, experiment_dir)
-        process_audio(c['audio'], c['name'], nist_data, experiment_dir) 
+        if 'text' in c:
+            process_text(c['text'], c['name'], nist_data, experiment_dir)
+        else:
+            print('WARNING: No text config found. Skipping ...')
+        if 'audio' in c:
+            process_audio(c['audio'], c['name'], nist_data, experiment_dir)
+        else:
+            print('WARNING: No audio config found. Skipping ...')
 
     with open(args.output_path, 'w') as fout:
         fout.write(json.dumps(config, indent=4))
