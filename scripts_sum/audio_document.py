@@ -82,15 +82,15 @@ class SpeechDocument(AnnotatedDocument):
                 idx = token_info_pos[spkr]
                 if token.word.lower() != asr_tokens[spkr][idx]["token"].lower():
                     
-                    print("ERROR!")
-                    print(asr_tokens_path)
-                    print(asr_path)
-                    print("utt line {}: {}".format(i, " ".join([t.word for t in src_tokens])))
-                    print("ctm expects token {} to be: {}".format(T,
-                        asr_tokens[spkr][idx]["token"]))
-                    print("utt expects token {} to be: {}".format(
-                        T, token.word))
-                    print()                   
+                    #print("ERROR!")
+                    #print(asr_tokens_path)
+                    #print(asr_path)
+                    #print("utt line {}: {}".format(i, " ".join([t.word for t in src_tokens])))
+                    #print("ctm expects token {} to be: {}".format(T,
+                    #    asr_tokens[spkr][idx]["token"]))
+                    #print("utt expects token {} to be: {}".format(
+                    #    T, token.word))
+                    #print()                   
  
                     #raise RuntimeError("Bad ctm-utt alignment")
                     continue

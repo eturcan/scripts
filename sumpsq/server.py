@@ -3,6 +3,7 @@ import json
 import socketserver
 import pickle
 from io import BytesIO
+from multiprocessing import Pool
 
 
 PSQ_NAMES = set([
@@ -19,8 +20,10 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.port = port
         self._cache = {}
         self._idf_cache = {}
-        for path in query_data_paths:
-            self.import_data_from_json(path)
+        #for path in query_data_paths:
+        #    self.import_data_from_json(path)
+        with Pool() as pool:
+            pool.map(self.import_data_from_json, query_data_paths)
         super(PSQServer, self).__init__(("127.0.0.1", port), PSQRequestHandler)
 
     def import_data_from_json(self, path):
