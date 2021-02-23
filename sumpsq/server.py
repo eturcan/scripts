@@ -3,6 +3,7 @@ import json
 import socketserver
 import pickle
 from io import BytesIO
+from multiprocessing import Pool
 
 
 PSQ_NAMES = set([
@@ -10,7 +11,8 @@ PSQ_NAMES = set([
 #    "PSQ_tokenized_normalized+berk_part_flat",
 #    "PSQ_tokenized_normalized+berk_part_flat_keep_syn",   
 #    "PSQ_tokenized_normalized+berk_part_flat_keep_exampleof",
-    "PSQ_tokenized-normalized+panlex+opus+berk_part_flat_CDF097",
+#    "PSQ_tokenized-normalized+panlex+opus+berk_part_flat_CDF097",
+     "PSQ_comb_v3.1_pmf1e-5_part_flat"
 ])
 
 class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -18,8 +20,10 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.port = port
         self._cache = {}
         self._idf_cache = {}
-        for path in query_data_paths:
-            self.import_data_from_json(path)
+        #for path in query_data_paths:
+        #    self.import_data_from_json(path)
+        with Pool() as pool:
+            pool.map(self.import_data_from_json, query_data_paths)
         super(PSQServer, self).__init__(("127.0.0.1", port), PSQRequestHandler)
 
     def import_data_from_json(self, path):
@@ -36,7 +40,7 @@ class PSQServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
                 found += 1
         if found < 1:
             from warnings import warn
-            warn("No PSQ for path: {}".format(path.parent))
+            warn("No PSQ for path: {}".format(path))
 
     def add_psq(self, query_id, psq_dict, idf_dict):
         self._cache[query_id] = psq_dict

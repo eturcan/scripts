@@ -67,8 +67,8 @@ class PSQWeightedEmbeddingSimilarity:
             found_probs = []
 
             if q not in psq or psq[q] is None:
-                from warnings import warn
-                warn("{} has empty psq translation".format(q))
+                #from warnings import warn
+                #warn("{} has empty psq translation".format(q))
                 continue
 
             for v, p in psq[q].items():

@@ -66,6 +66,12 @@
             "args": ["edi-nmt", "glove.42B"],
             "kwargs": {}
         },
+        "edi-nmt.robertasim.content_semcons": {
+            "module": "scripts_sum.annotators.roberta_embedding_similarity",
+            "class": "RobertaEmbeddingSimilarity",
+            "args": ["edi-nmt", "query"],
+            "kwargs": {}
+        },
         "umd-nmt.glove6Bsim.content_semcons": {
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",
@@ -78,6 +84,12 @@
             "args": ["umd-nmt", "glove.42B"],
             "kwargs": {}
         },
+        "umd-nmt.robertasim.content_semcons": {
+            "module": "scripts_sum.annotators.roberta_embedding_similarity",
+            "class": "RobertaEmbeddingSimilarity",
+            "args": ["umd-nmt", "query"],
+            "kwargs": {}
+        },
         "umd-smt.glove6Bsim.content_semcons": {
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",
@@ -88,6 +100,12 @@
             "module": "scripts_sum.annotators.embedding_similarity",
             "class": "EmbeddingSimilarity",
             "args": ["umd-smt", "glove.42B"],
+            "kwargs": {}
+        },
+        "umd-smt.robertasim.content_semcons": {
+            "module": "scripts_sum.annotators.roberta_embedding_similarity",
+            "class": "RobertaEmbeddingSimilarity",
+            "args": ["umd-smt", "query"],
             "kwargs": {}
         },
         "psq": {
@@ -107,6 +125,12 @@
         "en": {
             "glove.6B": "glove.6B.300d.txt",
             "glove.42B": "glove.42B.300d.txt"
-        }
+        },
+	"roberta":{
+	    "edi-nmt": "emb/roberta_embs/ps/edi-nmt.pkl",
+	    "umd-nmt": "emb/roberta_embs/ps/umd-nmt.pkl",
+	    "umd-smt": "emb/roberta_embs/ps/umd-smt.pkl",
+	    "query": "emb/roberta_embs/ps/query2.pkl"
+	}
     }
 }

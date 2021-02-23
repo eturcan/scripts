@@ -30,10 +30,15 @@ if [[ -d /experiment ]]; then
 
     # Setup doc server config based on experiment json.
     echo "experiment_config $experiment_config /NIST-data $new_doc_config"
-    experiment_config $experiment_config /NIST-data $new_doc_config
+    experiment_config $experiment_config /NIST-data $new_doc_config --no-audio-seg
+
+    # Setup nbest translations
+    new_doc_config_nbest=/app/config/doc.server.config.nbest.json
+    echo "extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest" 
+    extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest
 
     echo "Deriving doc server config from experiment config $experiment_config"
-    export DOCSERVER_CONFIG=$new_doc_config
+    export DOCSERVER_CONFIG=$new_doc_config_nbest
     echo "Setting new doc server config: $DOCSERVER_CONFIG"
 
     # Setup annotator config based on language code of experiment json.
@@ -43,7 +48,7 @@ if [[ -d /experiment ]]; then
     echo "Setting new annotation config: $ANNOTATION_CONFIG"
     echo
 
-    queryrel_langs=(lt ps)
+    queryrel_langs=(lt ps fa)
     if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
         USE_QUERYREL="True"
     else
@@ -120,6 +125,7 @@ start_queryrel_server () {
 qrel_args="$lang /models/queryrel_artifacts"
 
 echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
+export PYTHONPATH=$PYTHONPATH:/app/CLIR-Summarization-19/queryrel
 queryrel_server $QUERYREL_PORT $qrel_args \
         > >(tee /outputs/logs-latest/qrel.out.log) \
         2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
@@ -142,9 +148,8 @@ fi
 if [[ -d /query ]]; then
     echo "in /query"
     query_jsons="$query_jsons `find /query/ -type f ! -name "*.*"`"
-    argstr="$argstr find /query/ -type f ! -name "*.*""
+    argstr="$argstr `find /query/ -type f ! -name "*.*"`"
 fi
-echo ">>  sumpsq $PSQ_PORT $argstr"
 sumpsq $PSQ_PORT $query_jsons \
         > >(tee /outputs/logs-latest/psq.out.log) \
         2> >(tee /outputs/logs-latest/psq.err.log >&2) &

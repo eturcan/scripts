@@ -6,16 +6,27 @@ GREEN = '#39FF14'
 PURPLE = '#DA70D6'
 BLUE = '#0080FF'
 
+POS2WORD = {"a": "an adjective", "n": "a noun", "v": "a verb"}
+
 def parse_query_helper(query):
-    constraint, morphological, example = None, None, None
+    constraint, morphological, example, pos = None, None, None, None
     conceptual = False
 
     if '"' in query:
         query = query.replace('"', '')
     
     if '[' in query:
+        # this is either a constraint or a POS (or both)
         start, end = query.find('['), query.find(']')
-        constraint = query[start+5:end]
+        
+        terms = query[start+1:end].split(";")
+        
+        for term in terms:
+            if len(term) == 1:
+                pos = POS2WORD[term]
+            else:
+                constraint = term[4:]
+
         query = query[:start] + query[end+1:]
 
     if query.endswith('+'):
@@ -30,7 +41,7 @@ def parse_query_helper(query):
         example = query[query.find('(')+1 : query.find(')')]
         query = query.replace('EXAMPLE_OF(', '').replace(')', '')
         
-    return (query.lower(), constraint, conceptual, example, morphological)
+    return (query.lower(), constraint, conceptual, example, morphological, pos)
 
 def parse_query(query):
     query = query.split(',')
@@ -39,7 +50,7 @@ def parse_query(query):
 
 def get_instructions(query_string, exact_match_list, not_found_list):
 
-    query, constraint, conceptual, example, morphological = parse_query(
+    query, constraint, conceptual, example, morphological, pos = parse_query(
         query_string)[0]
 
     term_word = 'word'
@@ -94,13 +105,16 @@ def get_instructions(query_string, exact_match_list, not_found_list):
             line3 = 'Read the summary and look for words or phrases that are examples of <b><font color="%s">%s</font></b>.' % (color, constrained_query)
 
         else:
-            line3 = 'Read the summary and look for words or phrases that mean the same thing as %s <b><font color="%s">%s</font></b>.' % (term_word, color, constrained_query)
+            line3 = 'Read the summary and look for words or phrases that mean the same thing as the %s <b><font color="%s">%s</font></b>.' % (term_word, color, constrained_query)
 
         if morphological:
             line3 = line3[:-1] + ' AND have exactly the same number (singular vs. plural, for nouns) or tense (for verbs).'
 
         if constraint:
             line3 = line3 + ' Make sure to look for the specific sense of <b><font color="%s">%s</font></b> given by <b><font color="%s">%s</font></b>.' % (color, query, color, constraint)
+            
+    if pos:
+        line3 = line3 + ' Note that the query term is <b>%s</b>.' % (pos)
         
     return '\n'.join([line2, line3])
     #return '\n'.join([line1, line2, line3])

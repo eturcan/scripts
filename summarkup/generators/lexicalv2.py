@@ -21,6 +21,7 @@ class LexicalV2:
 
     def __init__(self, translations, annotators, translation_annotators,
                  exact_matches=None, stem_matches=None, cutoffs=None,
+                 header=True,
                  default_args=None, default_kwargs=None):
         self.translations = translations
         self.annotators = annotators
@@ -30,6 +31,7 @@ class LexicalV2:
         self.cutoffs = cutoffs
         self.default_args = default_args if default_args else []
         self.default_kwargs = default_kwargs if default_kwargs else {}
+        self.header = header
 
     def get_scores(self, doc, annotator):
         anns = doc.annotations[annotator[0]]["annotation"]
@@ -137,8 +139,11 @@ class LexicalV2:
 
         markup_lines = []
         found_terms = self.get_found_words(doc, best_translations, query)
-        header_line, size = make_word_match_header(query, found_terms)
-        markup_lines.append(header_line)
+        if self.header:
+            header_line, size = make_word_match_header(query, found_terms)
+            markup_lines.append(header_line)
+        else:
+            size = 0
         meta = {"translation": [], "markup": "lexicalv2",
                 "utterance_ids": [], "source_offsets": [],
                 "mode": doc.mode, "source_md5": doc.md5} 

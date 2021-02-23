@@ -20,12 +20,14 @@ def annotator_key(ann):
 class MorphV1:
 
     def __init__(self, translations, annotators, translation_annotators,
+                 header=True,
                  default_args=None, default_kwargs=None):
         self.translations = translations
         self.annotators = annotators
         self.translation_annotators = translation_annotators
         self.default_args = default_args if default_args else []
         self.default_kwargs = default_kwargs if default_kwargs else {}
+        self.header = header
 
 
     def get_best_translations(self, doc):
@@ -113,9 +115,14 @@ class MorphV1:
             return ConceptV2(*self.default_args, **self.default_kwargs)(
                 doc, budget=budget)
 
-        header = "Match found for {}, check number/tense/meaning:".format(" ".join([t.word for t in query.content.tokens]))
-        size = len(header.split())
-        markup_lines = ["<h1>{}</h1>".format(header)]
+        if self.header:
+            header = "Match found for {}, check number/tense/meaning:".format(
+                " ".join([t.word for t in query.content.tokens]))
+            size = len(header.split())
+            markup_lines = ["<h1>{}</h1>".format(header)]
+        else:
+            markup_lines = []
+            size = 0
         meta = {"translation": [], "markup": "morphv1",
                 "utterance_ids": [], "source_offsets": [],
                 "mode": doc.mode, "source_md5": doc.md5} 

@@ -1,0 +1,122 @@
+{
+    "args": [
+        ["edi-nmt", "edi-nmt-2", "edi-nmt-3", "edi-nmt-4", "edi-nmt-5", "umd-nmt", "umd-smt"],
+        [
+            ["edi-nmt.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt-2.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt-3.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt-4.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt-5.exact_match", ["sentence", "sum"]], 
+            ["umd-nmt.exact_match", ["sentence", "sum"]], 
+            ["umd-smt.exact_match", ["sentence", "sum"]], 
+            ["edi-nmt.stem_match", ["sentence", "sum"]],
+            ["edi-nmt-2.stem_match", ["sentence", "sum"]],
+            ["edi-nmt-3.stem_match", ["sentence", "sum"]],
+            ["edi-nmt-4.stem_match", ["sentence", "sum"]],
+            ["edi-nmt-5.stem_match", ["sentence", "sum"]],
+            ["umd-nmt.stem_match", ["sentence", "sum"]],
+            ["umd-smt.stem_match", ["sentence", "sum"]],
+            ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-2.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-3.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-4.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-5.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-2.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-3.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+            ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
+	    ["edi-nmt.robertasim.content_semcons", []],
+	    ["umd-nmt.robertasim.content_semcons", []],
+	    ["umd-smt.robertasim.content_semcons", []],
+            ["psq", []],
+            ["psqemb.ft300", ["sentence", "max"]],
+            ["queryrel", ["query_content"]],
+            ["queryrel", ["semantic_constraint"]]
+        ],
+        {
+            "edi-nmt": [
+                ["edi-nmt.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt.stem_match", ["sentence", "sum"]],
+                ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["edi-nmt.robertasim.content_semcons", []]
+            ],
+            "edi-nmt-2": [
+                ["edi-nmt-2.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt-2.stem_match", ["sentence", "sum"]],
+                ["edi-nmt-2.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt-2.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["edi-nmt.robertasim.content_semcons", []]
+            ],
+            "edi-nmt-3": [
+                ["edi-nmt-3.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt-3.stem_match", ["sentence", "sum"]],
+                ["edi-nmt-3.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt-3.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["edi-nmt.robertasim.content_semcons", []]
+            ],
+            "edi-nmt-4": [
+                ["edi-nmt-4.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt-4.stem_match", ["sentence", "sum"]],
+                ["edi-nmt-4.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["edi-nmt.robertasim.content_semcons", []]
+            ],
+            "edi-nmt-5": [
+                ["edi-nmt-5.exact_match", ["sentence", "sum"]], 
+                ["edi-nmt-5.stem_match", ["sentence", "sum"]],
+                ["edi-nmt-5.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["edi-nmt.robertasim.content_semcons", []]
+            ],
+            "umd-nmt": [
+                ["umd-nmt.exact_match", ["sentence", "sum"]], 
+                ["umd-nmt.stem_match", ["sentence", "sum"]],
+                ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["umd-nmt.robertasim.content_semcons", []]
+            ],
+            "umd-smt": [
+                ["umd-smt.exact_match", ["sentence", "sum"]], 
+                ["umd-smt.stem_match", ["sentence", "sum"]],
+                ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
+                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
+		["umd-smt.robertasim.content_semcons", []]
+            ]
+        }
+    ],
+    "kwargs": {
+        "exact_matches": {
+            "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
+            "edi-nmt-2": ["edi-nmt-2.exact_match", ["word", "matches"]],
+            "edi-nmt-3": ["edi-nmt-3.exact_match", ["word", "matches"]],
+            "edi-nmt-4": ["edi-nmt-4.exact_match", ["word", "matches"]],
+            "edi-nmt-5": ["edi-nmt-5.exact_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
+        },
+        "stem_matches": {
+            "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
+            "edi-nmt-2": ["edi-nmt-2.stem_match", ["word", "matches"]],
+            "edi-nmt-3": ["edi-nmt-3.stem_match", ["word", "matches"]],
+            "edi-nmt-4": ["edi-nmt-4.stem_match", ["word", "matches"]],
+            "edi-nmt-5": ["edi-nmt-5.stem_match", ["word", "matches"]],
+            "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
+            "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
+        },
+        "soft_matches": {
+            "edi-nmt": ["edi-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+            "edi-nmt-2": ["edi-nmt-2.glove42Bsim.content_semcons", ["word", "sims"]],
+            "edi-nmt-3": ["edi-nmt-3.glove42Bsim.content_semcons", ["word", "sims"]],
+            "edi-nmt-4": ["edi-nmt-4.glove42Bsim.content_semcons", ["word", "sims"]],
+            "edi-nmt-5": ["edi-nmt-5.glove42Bsim.content_semcons", ["word", "sims"]],
+            "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
+            "umd-smt": ["umd-smt.glove42Bsim.content_semcons", ["word", "sims"]]
+        }
+    }
+}

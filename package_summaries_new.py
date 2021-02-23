@@ -82,7 +82,7 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                 qc = read_component_content(component_path)
                 qc["query_component_image_filename"] = tgt_img_path.name
                 meta["summary_content"]["components"].append(qc)
-                #tgt_img_path.write_bytes(src_img_path.read_bytes())
+                tgt_img_path.write_bytes(src_img_path.read_bytes())
 
             validate(instance=meta, schema=schema)
             meta_path.write_text(json.dumps(meta,indent=4))

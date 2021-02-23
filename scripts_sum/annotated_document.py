@@ -16,6 +16,7 @@ class AnnotatedDocument:
         self._annotations = {}
         self._token_annotations = {}
         self._md5 = None
+        self._utterance_inds = None
         
     @property
     def md5(self):
@@ -55,6 +56,13 @@ class AnnotatedDocument:
     @property
     def annotations(self):
         return self._annotations
+
+    @property
+    def utterance_inds(self):
+        return self._utterance_inds
+
+    def set_utterance_inds(self, inds):
+        self._utterance_inds = inds
 
     def __iter__(self):
         for utt in self.utterances:

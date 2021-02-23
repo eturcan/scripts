@@ -1,6 +1,7 @@
 import argparse
 import os
 import json
+import pickle
 from multiprocessing import Process, Queue
 from collections import namedtuple
 from pathlib import Path
@@ -15,10 +16,10 @@ from summarkup.cli import generate_markup
 Request = namedtuple('Request', ['query_id', 'doc_id', 'score'])
 
 class RequestProcessor(Process):
-    def __init__(self, request_queue, doc_port, query_port, annotation_port, output_dir):
+    def __init__(self, request_queue, doc_port, query_port, 
+                 annotation_port, output_dir):
         super(RequestProcessor, self).__init__()
 
-        init = timer()
         self.request_queue = request_queue
         self.output_dir = output_dir
         self.doc_client = DocClient(doc_port)
@@ -44,12 +45,13 @@ class RequestProcessor(Process):
             return None
 
     def _get_markup_config(self, markup_gen, lang):
+        prefix = Path("/", "app", "scripts", "configs")
         if markup_gen == 'summarkup.generators.conceptv2.ConceptV2':
-            return '/app/scripts/configs/concept.v2.{}.config.demo.json'.format(lang)
+            return prefix / f'concept.v2.{lang}.config.demo.json'
         elif markup_gen == 'summarkup.generators.lexicalv2.LexicalV2':
-            return '/app/scripts/configs/lexical.v2.{}.config.demo.json'.format(lang)
+            return prefix / f'lexical.v2.{lang}.config.demo.json'
         elif markup_gen == 'summarkup.generators.morphv1.MorphV1':
-            return '/app/scripts/configs/morph.v1.{}.config.demo.json'.format(lang)
+            return prefix / f'morph.v1.{lang}.config.demo.json'
         else:
             return None
 
@@ -63,38 +65,37 @@ class RequestProcessor(Process):
             markup_gen = self._get_markup_gen(qtype)
             markup_config = self._get_markup_config(markup_gen, lang)
 
-            ann_file = os.path.join(self.output_dir, 'annotations', req.query_id,
-                                    '{}.{}.c{}.pkl'.format(req.query_id,
-                                                           req.doc_id, c+1))
+            ann_file = (
+                self.output_dir / 'annotations' / req.query_id /
+                f'{req.query_id}.{req.doc_id}.c{c+1}.pkl'
+            )
 
-            if not os.path.exists(ann_file):
-                self.annotation_client.annotate_material(req.query_id,
-                                                         req.doc_id, c,
-                                                         Path(ann_file))
+            if not ann_file.exists():
+                self.annotation_client.annotate_material(
+                    req.query_id,
+                    req.doc_id, c,
+                    ann_file)
 
-            markup_file = os.path.join(self.output_dir, 'markup', req.query_id,
-                                       '{}.{}.c{}.json'.format(req.query_id,
-                                                               req.doc_id,
-                                                               c+1))
+            markup_file = (
+                self.output_dir / 'markup' / req.query_id /
+                f'{req.query_id}.{req.doc_id}.c{c+1}.json'
+            )
 
-            if not os.path.exists(markup_file):
-                #command = 'generate_markup {} {} {} --args {} --quiet'.format(markup_gen,
-                #                                                              Path(ann_file),
-                #                                                              Path(markup_file),
-                #                                                              markup_config)
-                #os.system(command)
-                args_str = '{} {} {} --args {} --quiet'.format(markup_gen,
-                                                               Path(ann_file),
-                                                               Path(markup_file),
-                                                               markup_config)
+            if not markup_file.exists():
+                args_str = " ".join([
+                    markup_gen, str(ann_file), str(markup_file),
+                    '--args', str(markup_config), '--quiet',
+                    "--evidence"
+                ])
                 generate_markup(args_str)
 
         print('done processing {}: {}'.format(req.doc_id, timer()-start))
 
-
 def main(args):
     start = timer()
-    request_queue = Queue()
+
+    summary_queue = Queue()
+
     query_client = QueryClient(args.query_port)
     #psq_client = PSQClient(args.psq_port)
 
@@ -115,12 +116,13 @@ def main(args):
 
     print('Num relevant docs: {}'.format(len(clir_output['results'])))
     for result in clir_output['results']:
-        request_queue.put(Request(query_id=query_id, doc_id=result['id'],
+        summary_queue.put(Request(query_id=query_id, doc_id=result['id'],
                                   score=result['score']))
 
     processes = []
     for i in range(args.num_procs):
-        p = RequestProcessor(request_queue, args.doc_port, args.query_port,
+        p = RequestProcessor(summary_queue,
+                             args.doc_port, args.query_port,
                              args.annotation_port, args.output_dir)
         processes.append(p)
         p.start()
@@ -130,12 +132,13 @@ def main(args):
     for p in processes:
         p.join()
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--clir_output_file', required=True, help='query ids to summarize')
     parser.add_argument('--input_dir', default='/outputs/clir_output/', help='output dir')
-    parser.add_argument('--output_dir', default='/outputs', help='output dir')
+    parser.add_argument('--output_dir', default=Path('/outputs'), 
+                        type=Path,
+                        help='output dir')
     parser.add_argument('--doc_port', type=int, required=True, help='document server port')
     parser.add_argument('--query_port', type=int, required=True, help='query server port')
     parser.add_argument('--annotation_port', type=int, required=True, help='annotation server port')

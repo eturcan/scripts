@@ -66,8 +66,8 @@ class PSQ:
             for i, t in enumerate(norm_tokens):
                 for q, translations in psq.items():
                     if translations is None:
-                        from warnings import warn
-                        warn("{} has empty psq translation.".format(q))
+                        #from warnings import warn
+                        #warn("{} has empty psq translation.".format(q))
                         continue
                     if t in translations:
                         offsets.append([

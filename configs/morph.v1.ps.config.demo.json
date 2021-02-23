@@ -12,9 +12,6 @@
             ],
             "umd-nmt": [
                 ["umd-nmt.morph_match", ["match_score"]]
-            ],
-            "umd-smt": [
-                ["umd-smt.morph_match", ["match_score"]]
             ]
         }
     ],
@@ -42,11 +39,6 @@
                     ["umd-nmt.exact_match", ["sentence", "sum"]], 
                     ["umd-nmt.stem_match", ["sentence", "sum"]],
                     ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]]
-                ],
-                "umd-smt": [
-                    ["umd-smt.exact_match", ["sentence", "sum"]], 
-                    ["umd-smt.stem_match", ["sentence", "sum"]],
-                    ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]]
                 ]
             }
 
