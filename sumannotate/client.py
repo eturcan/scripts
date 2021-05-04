@@ -43,6 +43,20 @@ class Client:
         message = client.recv(1024).decode("utf8")
         return message 
 
+    def annotate_doc(self, query_id, doc, qcomp, output_path):
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(("127.0.0.1", self.port))
+        request = {
+            "type": "annotate_doc",
+            "query_id": query_id,
+            "doc": doc,
+            "component": qcomp,
+            "output_path": str(output_path.resolve()),
+        }
+        client.sendall(json.dumps(request).encode())
+        message = client.recv(1024).decode("utf8")
+        return message
+
 def reload_annotators():
     import argparse
     parser = argparse.ArgumentParser(

@@ -2,10 +2,11 @@
 
 
 run_name=$1
+num_procs=${2:-8}
 cd $SCRIPTS
 cd ..
 
-scripts/docker/bin/make_images.py
+scripts/docker/bin/make_images_new.py --num_procs $num_procs
 
 TIMESTAMP=`python -c "from datetime import datetime; print(datetime.utcnow().isoformat('T') + 'Z')"`
 python scripts/package_summaries_new.py /clir /outputs/ \

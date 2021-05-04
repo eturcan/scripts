@@ -40,6 +40,10 @@ class RequestHandler(socketserver.BaseRequestHandler):
                 pickle.dumps(get_iso(
                     self.server.doc_cache[msg['doc_id']]['lang'])))
 
+        elif msg['type'] == 'path':
+            self._send(
+                pickle.dumps(self.server.retrieve_paths(msg['doc_id'])))
+
     def process_material_query(self, msg):
         lang, query_id = msg["language"], msg["query_id"]
         lang_query_id = (lang, query_id)
@@ -90,7 +94,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         with index_path.open("r") as fp:
             fp.readline() # consume header
             for line in fp:
-                doc_id = line.strip()
+                # for analysis there might be added columns
+                doc_id = line.strip().split("\t")[0]
                 if text_source_dir and \
                         (text_source_dir / "{}.txt".format(doc_id)).exists():
                     mode = "text"
@@ -116,6 +121,14 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
            return self.validate_audio(ds, doc_id)
         else:
             return self.validate_text(ds, doc_id)
+
+    def retrieve_paths(self, doc_id):
+        ds = self.doc_cache[doc_id]["ds"]
+        mode = self.doc_cache[doc_id]['mode']
+        if mode == "audio":
+            return self.retrieve_audio_paths(ds, doc_id)
+        else:
+            return self.retrieve_text_paths(ds, doc_id)
 
     def retrieve_text_paths(self, ds_id, doc_id):
         ds = self.ds_cache[ds_id]["text"]

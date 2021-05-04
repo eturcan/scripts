@@ -27,7 +27,7 @@ def main():
     schema = json.loads(get_summary_schema().read_text())
 
     for results_path in args.clir_results_dir.glob("query*"):
-        print(results_path)
+        # print(results_path)
         
         src_dir = args.summary_results_dir
         tgt_dir = args.output_directory / results_path.stem

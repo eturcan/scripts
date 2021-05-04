@@ -83,6 +83,19 @@ class Client:
         lang = pickle.loads(self._receive(client))
         client.close()
         return lang
+ 
+    def path(self, doc_id):
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(("127.0.0.1", self.port))
+        request = {
+            "type": "path",
+            "doc_id": doc_id,
+        }
+        client.sendall(json.dumps(request).encode())
+        path = pickle.loads(self._receive(client))
+        client.close()
+        return path
+
 
 
 def main():

@@ -7,8 +7,8 @@ import sumquery.client
 import pickle
 import torch
 from scripts_sum.embeddings import Embeddings
-
-
+from multiprocessing import Pool, Manager, Process, Queue
+from collections import defaultdict
 
 class RequestHandler(socketserver.BaseRequestHandler):
 
@@ -20,6 +20,9 @@ class RequestHandler(socketserver.BaseRequestHandler):
                                    msg['component'],
                                    Path(msg["output_path"]))
             self.request.sendall(b'annotation done')
+
+        elif msg['type'] == "annotate_doc":
+            self.annotate_doc(msg["query_id"],msg["doc"], msg["component"],Path(msg["output_path"]))
 
         elif msg['type'] == "reload_annotators":
             self.server.reload_annotators()
@@ -55,6 +58,34 @@ class RequestHandler(socketserver.BaseRequestHandler):
         with output_path.open("wb") as fp:
             pickle.dump(doc, fp)
 
+    def annotate_doc(self, query_id, doc, component, output_path):
+        if self.server.verbose:
+            print("annotating query-id: {} component {} doc {}".format(
+                query_id, component, doc))
+        query = sumquery.client.Client(self.server.query_port).object(query_id)
+
+        with open(doc,"rb") as doc_fp:
+            doc = pickle.load(doc_fp)
+
+        query_comp = query[component]
+        for ann_name, ann in self.server.annotators.items():
+            if self.server.verbose:
+                print("Applying annotator: {}".format(ann_name))
+            try:
+                doc.annotate_utterances(ann_name, ann(query_comp, doc))
+            except Exception as e:
+                import sys
+                print("Annotation error: {} {} {} {} {} {} {}".format(
+                    query_id, component, query_comp.string, doc, doc.mode,
+                    doc.source_lang, ann_name), file=sys.stderr)
+                raise e
+
+        doc.annotate_utterances("QUERY", query_comp)
+        output_path.parent.mkdir(exist_ok=True, parents=True)
+        with output_path.open("wb") as fp:
+            pickle.dump(doc, fp)
+
+
 class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, port, query_port, doc_port, model_dir, config_path, 
                  threads=8, verbose=False):
@@ -66,8 +97,16 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.threads = threads
         self.model_dir = model_dir
         self.config = json.loads(config_path.read_text())
-        self.embeddings = self.load_embeddings(self.config)
-        self.annotators = self.load_annotators(self.config)
+        if os.path.isfile("/outputs/cache/annotators.pkl"):
+            with open("/outputs/cache/annotators.pkl","rb") as f:
+                annotators_d = pickle.load(f)
+                self.embeddings = annotators_d["embeddings"]
+                self.annotators = annotators_d["annotators"]
+        else:
+            self.embeddings = self.load_embeddings(self.config)
+            self.annotators = self.load_annotators(self.config)
+            with open("/outputs/cache/annotators.pkl","wb") as f:
+                pickle.dump({"embeddings":self.embeddings,"annotators":self.annotators},f)
 
     def load_annotators(self, config):
         annotators = {}
@@ -83,18 +122,19 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         return annotators
     
     def load_embeddings(self, config):
-        embeddings = {}
+        embeddings = defaultdict(dict)
         for lang, embs in config["embeddings"].items():
-            embeddings[lang] = {}
             for name, path in embs.items():
-                print("Loading embeddings: lang={} name={} path={}".format(
-                        lang, name, path))
-                if path.endswith('.txt'):
-                    embeddings[lang][name] = Embeddings.from_path(
-                        self.model_dir / Path(path))
+                filename = os.path.join(self.model_dir, path)
+                if filename.endswith(".pkl"):
+                    with open(filename,"rb") as emb_pkl:
+                        emb = pickle.load(emb_pkl)
+                elif filename.endswith(".torch"):
+                    emb = torch.load(filename, map_location=torch.device('cpu'))
                 else:
-                    with open(os.path.join(self.model_dir, path), 'rb') as fin:
-                        embeddings[lang][name] = torch.load(fin, map_location=torch.device('cpu'))
+                    raise Exception("Embeddings need to be in pkl and torch file type. Please create pkl if the file is .txt and use scripts_sum.Embeddings.from_path()")
+                print("Embeddings loaded: {} {}".format(lang, name))
+                embeddings[lang][name] = emb
         return embeddings
 
     def reload_annotators(self):

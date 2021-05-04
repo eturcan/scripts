@@ -85,14 +85,16 @@ def main(args):
 
     for query in args.queries:
         clir_file = os.path.join(args.clir_dir, '{}.tsv'.format(query))
-        with open(clir_file) as fin:
-            for line in fin:
-                doc_id, rel, score = line.strip().split('\t')
-                if rel == 'N':
-                    continue
-                request_queue.put(Request(query_id=query, doc_id=doc_id,
-                                          score=score))
-
+        if os.path.isfile(clir_file):
+            with open(clir_file) as fin:
+                for line in fin:
+                    doc_id, rel, score = line.strip().split('\t')
+                    if rel == 'N':
+                        continue
+                    request_queue.put(Request(query_id=query, doc_id=doc_id,
+                                            score=score))
+        else:
+            print("{} file does not exist, skipping this query".format(clir_file))
     processes = []
     for i in range(args.num_procs):
         p = RequestProcessor(request_queue, args.doc_port, args.query_port,

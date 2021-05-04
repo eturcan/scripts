@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#queries=$1
+num_procs=$1
+doc_trategy=${2:-none}
+sent_strategy=${3:-none}
+translation_strategy=${4:-edinmt}
+
+python scripts/retranslate_candidates.py \
+	--output_dir /outputs \
+	--doc_port $DOC_PORT \
+	--psq_port $PSQ_PORT \
+	--spm_path "/models/sentencepiece/kk" \
+	--doc_strategy $doc_trategy --sent_strategy $sent_strategy --translation_strategy $translation_strategy \
+	--num_procs $num_procs

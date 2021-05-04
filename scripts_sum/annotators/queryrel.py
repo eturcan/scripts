@@ -11,7 +11,7 @@ class QueryRel:
         self.queryrel_client = QueryRelClient(port)
 
     def __call__(self, query, doc):
-        if get_iso(doc.source_lang) not in ["lt", "ps", "fa"]:
+        if get_iso(doc.source_lang) not in ["lt", "ps", "fa", "kk"]:
             return 
 
         query_content = query.content.text

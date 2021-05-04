@@ -1,5 +1,16 @@
 #!/bin/bash
 
+while getopts ":k" opt; do
+	case ${opt} in
+		k)
+			WAIT="true"
+			;;
+		?)
+			echo "Invalid option: -#${OPTARG}."
+			;;
+	esac
+done
+
 if [[ $GOLD_SUM == "True" ]]; then
     server.gold
     exit
@@ -19,6 +30,25 @@ if [[ -d /experiment ]]; then
     new_doc_config=/app/config/doc.server.config.json
     lang=$(cat $experiment_config | jq .query_processor.target_language | \
         sed -e 's/"//g')
+
+    # Read in query_list_path and create symlinks to /query
+    # Also save valid queries into $query array
+    declare -a query
+    for query_list_path in $(cat "$experiment_config" | jq -r '.query_processor.query_list_path[]' ); do
+        echo "query list path found:${query_list_path}. Creating symbolic links to /query"
+        for f in $(find "/NIST-data/$query_list_path" -type f ! -name "*.*" -printf "%P\n" );
+        do
+            if [[ -f "/NIST-data/$query_list_path/$f.lft" ]] && [[ -f "/NIST-data/$query_list_path/$f.rgt" ]]; then
+                query+=("$f")
+                ln -s "/NIST-data/$query_list_path/$f" "/query/$f"
+                ln -s "/NIST-data/$query_list_path/$f.lft" "/query/$f.lft"
+                ln -s "/NIST-data/$query_list_path/$f.rgt" "/query/$f.rgt"
+            fi
+        done
+    done
+
+    QUERY="${query[@]}"
+    export QUERY
 
 #    echo "Using audio segmentation: $AUDIOSEG_SUM"
 
@@ -48,7 +78,7 @@ if [[ -d /experiment ]]; then
     echo "Setting new annotation config: $ANNOTATION_CONFIG"
     echo
 
-    queryrel_langs=(lt ps fa)
+    queryrel_langs=(lt ps fa kk)
     if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
         USE_QUERYREL="True"
     else
@@ -68,7 +98,7 @@ fi
 
 export NIST_DATA=/NIST-data
 export MODELS=/models
-export SCRIPTS_MORPH=/tools/scripts-morph-v6.1.jar
+export SCRIPTS_MORPH=/tools/scripts-morph-v10.0.jar
 export QUERYSERVER_CONFIG=$CONFIGS/query.latest.config.json
 
 
@@ -147,10 +177,14 @@ fi
 
 if [[ -d /query ]]; then
     echo "in /query"
-    query_jsons="$query_jsons `find /query/ -type f ! -name "*.*"`"
-    argstr="$argstr `find /query/ -type f ! -name "*.*"`"
+    query_jsons="$query_jsons `find -L /query/ -type f ! -name "*.*"`"
+    argstr="$argstr `find -L /query/ -type f ! -name "*.*"`"
 fi
-sumpsq $PSQ_PORT $query_jsons \
+
+#psq_keys=$(jq -r ".matcher.configurations[].index_type" "$experiment_config")
+psq_keys="PSQ_mbertcc_v3.5_pmf1e-5_part_flat"
+
+sumpsq $PSQ_PORT $query_jsons $psq_keys \
         > >(tee /outputs/logs-latest/psq.out.log) \
         2> >(tee /outputs/logs-latest/psq.err.log >&2) &
 
@@ -159,7 +193,7 @@ sumpsq $PSQ_PORT $query_jsons \
         | grep -q "Waiting for client request on port $PSQ_PORT.."
 }
 
-mkdir -p /outputs/logs-latest
+mkdir -p /outputs/logs-latest /outputs/cache
 
 cwd=`pwd`
 morhp_dir=`dirname $SCRIPTS_MORPH`
@@ -190,6 +224,9 @@ fi
 echo "Starting annotation server:"
     start_annotation_server
 echo "Annotation server running."
+
 echo
 echo "Summarization server is ready."
-while true; do sleep 9999999; done
+if [[ "${WAIT}" == true  ]]; then
+	while true; do sleep 9999999; done
+fi

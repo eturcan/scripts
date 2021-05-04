@@ -1,0 +1,9 @@
+#!/bin/bash
+
+num_procs=$1
+
+source server
+
+echo "Summarizing queries..."
+
+bash summarize_queries_fast "$QUERY" "$num_procs"

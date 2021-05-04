@@ -15,6 +15,10 @@ MATERIAL2ISO = {
     '2c': 'ps',
     '3s': 'fa',
     '3S': 'fa',
+    '3c': 'kk',
+    '3C': 'kk',
+    '3B': 'ka',
+    '3b': 'ka'
 }
 
 ISO2MATERIAL = {
@@ -25,6 +29,8 @@ ISO2MATERIAL = {
     'so': '1S',
     'ps': '2C',
     'fa': '3S',
+    'kk': '3C',
+    'ka': '3B'
 }
 
 def is_iso(code):

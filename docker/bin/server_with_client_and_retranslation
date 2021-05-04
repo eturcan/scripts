@@ -1,0 +1,15 @@
+#!/bin/bash
+
+work_dir=$1
+num_procs=$2
+gpu_id=$3
+
+doc_strategy=${4:-none}
+sent_strategy=${5:-psq}
+translation_strategy=${6:-ape_edinmt}
+
+bash server_with_client $num_procs
+
+echo "Retranslating..."
+
+bash retranslate $work_dir $num_procs $gpu_id $doc_strategy $sent_strategy $translation_strategy

@@ -21,12 +21,15 @@ class SpeechDocument(AnnotatedDocument):
                 spkr, start, dur, tok, conf = line.split("\t")[1:]
             else:
                 spkr, start, dur, tok, conf = line.split()[1:]
-            for st in tok.replace("_", " _ ").split(" "):
-                asr_tokens[spkr].append({
+            
+            # if asr has misalignment check what the morphology analyzer is splitting and mimic that
+            for st in tok.replace("_", " _ ").replace("-"," - ").split():
+                if st: # in case _ and - are already split by space and doing the previous step would lead to double spaces
+                    asr_tokens[spkr].append({
                     "offsets": (float(start), float(start) + float(dur)),
                     "token": st,
                     "confidence": float(conf)
-                })
+                    })
 
         asr_lines = asr_path.read_text().strip().split("\n")
         asr_morph_lines = asr_morphology_path.read_text().strip().split("\n")
@@ -63,7 +66,7 @@ class SpeechDocument(AnnotatedDocument):
         num_utt = len(final_asr_lines)
         utterances = []
         for i in range(num_utt):
-            
+
             if "\t" in final_asr_lines[i]:
                 _, spkr, start, stop, src_text = final_asr_lines[i].split("\t")
             else:
@@ -81,19 +84,18 @@ class SpeechDocument(AnnotatedDocument):
             for T, token in enumerate(src_tokens, 1):
                 idx = token_info_pos[spkr]
                 if token.word.lower() != asr_tokens[spkr][idx]["token"].lower():
-                    
-                    #print("ERROR!")
-                    #print(asr_tokens_path)
-                    #print(asr_path)
-                    #print("utt line {}: {}".format(i, " ".join([t.word for t in src_tokens])))
-                    #print("ctm expects token {} to be: {}".format(T,
-                    #    asr_tokens[spkr][idx]["token"]))
-                    #print("utt expects token {} to be: {}".format(
-                    #    T, token.word))
-                    #print()                   
- 
-                    #raise RuntimeError("Bad ctm-utt alignment")
-                    continue
+                    # This shouldn't happen now with the fix, but just in case if this shows check morph output and what this part output
+                    print("ERROR!")
+                    print(asr_tokens_path)
+                    print(asr_path)
+                    print("utt line {}: {}".format(i, " ".join([t.word for t in src_tokens])))
+                    print("ctm expects token {} to be: {}".format(T,
+                        asr_tokens[spkr][idx]["token"]))
+                    print("utt expects token {} to be: {}".format(
+                        T, token.word))
+                    print()
+
+                    raise RuntimeError("Bad ctm-utt alignment")
                 token.offsets = asr_tokens[spkr][idx]["offsets"]
                 token_info_pos[spkr] += 1
                  

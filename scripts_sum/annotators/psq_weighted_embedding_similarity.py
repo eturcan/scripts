@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 en_stopwords = set(stopwords.words('english') + ["'s", "'ll", "'re"])
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-
+import warnings
 
 class PSQWeightedEmbeddingSimilarity:
 
@@ -16,7 +16,6 @@ class PSQWeightedEmbeddingSimilarity:
         if psq_port is None:
             psq_port = int(os.getenv("PSQ_PORT"))
         self.psq_client = PSQClient(psq_port)
-
         self.lang2embeddings = {
             lang: embeddings[lang][name]
             for lang, name in lang2emb_map.items()
@@ -81,7 +80,9 @@ class PSQWeightedEmbeddingSimilarity:
             query_word_emb = (np.array([found_probs]) @ found_embs)
             query_embs.append(query_word_emb)
             query2emb[q] = query_word_emb
-        query_emb = np.mean(query_embs, axis=0)
+        # There are possibilities that this has problem!
+        # query_embs is empty list because query words is empty
+        query_emb = np.mean(query_embs, axis=0) if query_embs else np.nan
         query2emb["AVG"] = query_emb
         return query2emb
 
@@ -124,7 +125,8 @@ class PSQWeightedEmbeddingSimilarity:
         annotations = []
         for utt in doc:
             utt_embs, utt_mask = self.embed_source(utt, lang)
-            if query_emb.shape != ():
+            #if query_emb.shape != ():
+            if not np.all(np.isnan(query_emb)):
                 sims = cosine_similarity(utt_embs, query_emb).reshape(-1)
                 sims = np.ma.masked_where(utt_mask, sims)
                 sims.fill_value = float("-inf")
