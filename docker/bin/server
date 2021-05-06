@@ -182,7 +182,7 @@ if [[ -d /query ]]; then
 fi
 
 #psq_keys=$(jq -r ".matcher.configurations[].index_type" "$experiment_config")
-psq_keys="PSQ_mbertcc_v3.5_pmf1e-5_part_flat"
+psq_keys="PSQ_mbertcc_v4.0_pmf1e-5_stemEN_part_flat"
 
 sumpsq $PSQ_PORT $query_jsons $psq_keys \
         > >(tee /outputs/logs-latest/psq.out.log) \

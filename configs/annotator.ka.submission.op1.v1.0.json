@@ -201,9 +201,9 @@
         "psqemb.ft300": {
             "module": "scripts_sum.annotators.psq_weighted_embedding_similarity",
             "class": "PSQWeightedEmbeddingSimilarity",
-            "args": [{"kk": "ft300"}],
+            "args": [{"ka": "ft300"}],
             "kwargs": {}
-        },
+        }
     },
     "embeddings": {
         "en": {

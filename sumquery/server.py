@@ -80,8 +80,8 @@ class Server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         self.cache = {}
         self._M_queries, self._M_q2lang, self._M_q2period, \
             self._M_q2group, self._M_q2rel = \
+            dict(), dict(), dict(), dict(), dict() 
             #self.read_material_query_manifests(config)
-            dict(), dict(), dict(), dict(), dict()
         self.morph_port = morph_port
         self.query_proc_dir = query_proc_dir
 
