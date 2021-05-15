@@ -108,7 +108,9 @@
 	    	["edi-nmt.robertasim.content_semcons", []],
 	    	["umd-nmt.robertasim.content_semcons", []],
                 ["psq", []],
-                ["psqemb.ft300", ["sentence", "max"]]
+                ["psqemb.ft300", ["sentence", "max"]],
+		["queryrel", ["query_content"]],
+                ["queryrel", ["semantic_constraint"]]
 	    ],
             {
                 "edi-nmt": [

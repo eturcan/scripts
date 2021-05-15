@@ -78,7 +78,7 @@ if [[ -d /experiment ]]; then
     echo "Setting new annotation config: $ANNOTATION_CONFIG"
     echo
 
-    queryrel_langs=(lt ps fa kk)
+    queryrel_langs=(lt ps fa kk ka)
     if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
         USE_QUERYREL="True"
     else
@@ -98,7 +98,7 @@ fi
 
 export NIST_DATA=/NIST-data
 export MODELS=/models
-export SCRIPTS_MORPH=/tools/scripts-morph-v10.0.jar
+export SCRIPTS_MORPH=/tools/scripts-morph-v11.0.jar
 export QUERYSERVER_CONFIG=$CONFIGS/query.latest.config.json
 
 
@@ -182,7 +182,7 @@ if [[ -d /query ]]; then
 fi
 
 #psq_keys=$(jq -r ".matcher.configurations[].index_type" "$experiment_config")
-psq_keys="PSQ_mbertcc_v4.0_pmf1e-5_stemEN_part_flat"
+psq_keys="PSQ_mbertcc_v4.0_pmf1e-5_part_flat"
 
 sumpsq $PSQ_PORT $query_jsons $psq_keys \
         > >(tee /outputs/logs-latest/psq.out.log) \

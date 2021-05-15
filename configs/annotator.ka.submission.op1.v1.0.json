@@ -203,6 +203,12 @@
             "class": "PSQWeightedEmbeddingSimilarity",
             "args": [{"ka": "ft300"}],
             "kwargs": {}
+        },
+	"queryrel": {
+            "module": "scripts_sum.annotators.queryrel",
+            "class": "QueryRel",
+            "args": [],
+            "kwargs": {}
         }
     },
     "embeddings": {
