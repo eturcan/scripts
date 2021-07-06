@@ -29,64 +29,50 @@
             ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]],
             ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
-            ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
-            ["edi-nmt.robertasim.content_semcons", []],
-            ["umd-nmt.robertasim.content_semcons", []],
-            ["umd-smt.robertasim.content_semcons", []],
-            ["psq", []],
-            ["psqemb.ft300", ["sentence", "max"]],
-            ["queryrel", ["query_content"]],
-            ["queryrel", ["semantic_constraint"]]
+            ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
         ],
         {
             "edi-nmt": [
                 ["edi-nmt.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt.stem_match", ["sentence", "sum"]],
                 ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["edi-nmt.robertasim.content_semcons", []]
+                ["edi-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "edi-nmt-2": [
                 ["edi-nmt-2.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt-2.stem_match", ["sentence", "sum"]],
                 ["edi-nmt-2.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt-2.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["edi-nmt.robertasim.content_semcons", []]
+                ["edi-nmt-2.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "edi-nmt-3": [
                 ["edi-nmt-3.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt-3.stem_match", ["sentence", "sum"]],
                 ["edi-nmt-3.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt-3.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["edi-nmt.robertasim.content_semcons", []]
+                ["edi-nmt-3.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "edi-nmt-4": [
                 ["edi-nmt-4.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt-4.stem_match", ["sentence", "sum"]],
                 ["edi-nmt-4.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["edi-nmt.robertasim.content_semcons", []]
+                ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "edi-nmt-5": [
                 ["edi-nmt-5.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt-5.stem_match", ["sentence", "sum"]],
                 ["edi-nmt-5.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["edi-nmt.robertasim.content_semcons", []]
+                ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "umd-nmt": [
                 ["umd-nmt.exact_match", ["sentence", "sum"]], 
                 ["umd-nmt.stem_match", ["sentence", "sum"]],
                 ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["umd-nmt.robertasim.content_semcons", []]
+                ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]]
             ],
             "umd-smt": [
                 ["umd-smt.exact_match", ["sentence", "sum"]], 
                 ["umd-smt.stem_match", ["sentence", "sum"]],
                 ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
-		["umd-smt.robertasim.content_semcons", []]
+                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
             ]
         }
     ],

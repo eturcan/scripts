@@ -27,7 +27,7 @@
     },
     "embeddings": {
         "en": {
-            "glove.42B": "glove.42B.300d.txt"
+            "glove.42B": "glove.42B.300d.pkl"
         }
     }
 }

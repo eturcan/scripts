@@ -123,14 +123,14 @@
     },
     "embeddings": {
         "en": {
-            "glove.6B": "glove.6B.300d.txt",
-            "glove.42B": "glove.42B.300d.txt"
+            "glove.6B": "glove.6B.300d.pkl",
+            "glove.42B": "glove.42B.300d.pkl"
         },
 	"roberta":{
-	    "edi-nmt": "emb/roberta_embs/ps/edi-nmt.pkl",
-	    "umd-nmt": "emb/roberta_embs/ps/umd-nmt.pkl",
-	    "umd-smt": "emb/roberta_embs/ps/umd-smt.pkl",
-	    "query": "emb/roberta_embs/ps/query2.pkl"
+	    "edi-nmt": "emb/roberta_embs/ps/EVAL/edi-nmt.torch",
+	    "umd-nmt": "emb/roberta_embs/ps/EVAL/umd-nmt.torch",
+	    "umd-smt": "emb/roberta_embs/ps/EVAL/umd-smt.torch",
+	    "query": "emb/roberta_embs/ps/EVAL/query.torch"
 	}
     }
 }

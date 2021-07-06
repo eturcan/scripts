@@ -23,7 +23,11 @@ class SpeechDocument(AnnotatedDocument):
                 spkr, start, dur, tok, conf = line.split()[1:]
             
             # if asr has misalignment check what the morphology analyzer is splitting and mimic that
-            for st in tok.replace("_", " _ ").replace("-"," - ").split():
+            # asr tokens are not split similar to what we see in utt
+            # For some odd reason, Farsi does not split by _ otherwise it is wrong
+            regex = "([-_=])" if lang.upper() != "3S" else "([-=])"
+            tok = re.sub(regex," \g<1> ", tok)
+            for st in tok.split():
                 if st: # in case _ and - are already split by space and doing the previous step would lead to double spaces
                     asr_tokens[spkr].append({
                     "offsets": (float(start), float(start) + float(dur)),

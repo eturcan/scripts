@@ -26,13 +26,15 @@ from summarkup.cli import generate_markup
 Request = namedtuple('Request', ['query_id','doc_id','c','f1_label','f1_score'])
 
 class RequestProcessor(Process):
-    def __init__(self, request_queue, doc_port, psq_port, output_dir, sp, stop_words, doc_strategy, sent_strategy, translation_strategy, f1_threshold=2.23454577):
+    def __init__(self, request_queue, doc_port, psq_port, morph_port, morph_path, output_dir, sp, stop_words, doc_strategy, sent_strategy, translation_strategy, f1_threshold):
         super(RequestProcessor, self).__init__()
 
         self.request_queue = request_queue
         self.output_dir = output_dir
         self.doc_client = DocClient(doc_port)
         self.psq_client = PSQClient(psq_port)
+        self.morph_port = morph_port
+        self.morph_path = morph_path
         self.sp = sp
         self.doc_strategy = doc_strategy
         self.sent_strategy = sent_strategy
@@ -61,6 +63,7 @@ class RequestProcessor(Process):
         
         # get relevant information
         query_str = parse_query(markup_data["query_string"])[0]["query"]
+
         doc_type = markup_data["meta"]["mode"]
         utt_ids = markup_data["meta"]["utterance_ids"]
         mts = markup_data["meta"]["translation"]
@@ -224,7 +227,9 @@ class RequestProcessor(Process):
     
     def get_psq_matches(self, query_str, psq, src):
         # Returns matches in the format of tuple (utt_id, list(src_id), list(word), score)
-        query_str = [query for query in query_str.lower().split() if query in psq]
+        query_morph = [w["word"].lower() for w in get_morphology(query_str,self.morph_port, "EN", self.morph_path)[0]]
+        query_str = [w for w in query_morph if w in psq]
+
         matches = []
         for i, s in enumerate(src):
             cur_match = {query:[] for query in query_str}
@@ -337,8 +342,9 @@ def main(args):
     processes = []
     for i in range(args.num_procs):
         p = RequestProcessor(request_queue, args.doc_port,
-                             args.psq_port, args.output_dir, sp, stop_words,
-                             args.doc_strategy, args.sent_strategy, args.translation_strategy)
+                             args.psq_port, args.morph_port, args.morph_path,
+                             args.output_dir, sp, stop_words,
+                             args.doc_strategy, args.sent_strategy, args.translation_strategy,args.f1_threshold)
         p.start()
         processes.append(p)
 
@@ -352,12 +358,16 @@ if __name__ == '__main__':
     parser.add_argument('--output_dir', default='/outputs', help='output dir')
     parser.add_argument('--doc_port', type=int, required=True, help='document server port')
     parser.add_argument('--psq_port', type=int, required=True, help='psq server port')
+    parser.add_argument('--morph_port', type=int, required=True, help='morphology server port')
+    parser.add_argument('--morph_path', type=str, required=True, help='morphology jar path')
+
     parser.add_argument('--num_procs', type=int, default='32', help='number of workers to use')
     parser.add_argument('--spm_path', type=str, required=True, help='SentencePiece Model to be loaded')
     
     parser.add_argument('--doc_strategy', type=str, default='none', choices=['none','psq','nbest','f1','regressor'])
     parser.add_argument('--sent_strategy', type=str, default='psq', choices=['none','psq','nbest'])
     parser.add_argument('--translation_strategy', type=str, default='ape_edinmt', choices=['edinmt','umdnmt','split', 'ape','ape_edinmt','ape_umdnmt','ape_split'])
-    
+    parser.add_argument("--f1_threshold", type=float)
+
     args = parser.parse_args()
     main(args)

@@ -111,14 +111,14 @@
     },
     "embeddings": {
         "en": {
-            "glove.6B": "glove.6B.300d.txt",
-            "glove.42B": "glove.42B.300d.txt"
+            "glove.6B": "glove.6B.300d.pkl",
+            "glove.42B": "glove.42B.300d.pkl"
         },
         "lt": {
-            "ft300": "emb/lt/cc.lt.300.vec.normalized.txt"
+            "ft300": "emb/lt/cc.lt.300.vec.pkl"
         },
         "bg": {
-            "ft300": "emb/bg/cc.bg.300.vec.normalized.txt"
+            "ft300": "emb/bg/cc.bg.300.vec.pkl"
         }
     }
 }

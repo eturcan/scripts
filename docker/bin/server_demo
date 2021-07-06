@@ -20,13 +20,13 @@ if [[ -d /experiment ]]; then
     lang=$(cat $experiment_config | jq .query_processor.target_language | \
         sed -e 's/"//g')
 
-#    echo "Using audio segmentation: $AUDIOSEG_SUM"
+    # echo "Using audio segmentation: $AUDIOSEG_SUM"
 
-#    if [[ $AUDIOSEG_SUM != "True" ]]; then
-#        audioseg_arg="--no-audio-seg"
-#    else
-#        audioseg_arg=""
-#    fi
+    # if [[ $AUDIOSEG_SUM != "True" ]]; then
+    #     audioseg_arg="--no-audio-seg"
+    # else
+    #     audioseg_arg=""
+    # fi
 
     # Setup doc server config based on experiment json.
     echo "experiment_config $experiment_config /NIST-data $new_doc_config"
@@ -43,12 +43,14 @@ if [[ -d /experiment ]]; then
     echo "Setting new annotation config: $ANNOTATION_CONFIG"
     echo
 
-    queryrel_langs=(lt ps)
+    queryrel_langs=(lt ps fa kk ka)
     if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
         USE_QUERYREL="True"
     else
         USE_QUERYREL="False"
     fi
+
+    # no psq server will start
 else
     if [[ $ANNOTATION_CONFIG == "" ]]; then
         export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
@@ -145,7 +147,9 @@ if [[ -d /query ]]; then
     argstr="$argstr find /query/ -type f ! -name "*.*""
 fi
 echo ">>  sumpsq $PSQ_PORT $argstr"
-sumpsq $PSQ_PORT $query_jsons \
+
+# !!! psq_keys is not defined here since it will not be run
+sumpsq $PSQ_PORT $query_jsons $psq_keys \
         > >(tee /outputs/logs-latest/psq.out.log) \
         2> >(tee /outputs/logs-latest/psq.err.log >&2) &
 

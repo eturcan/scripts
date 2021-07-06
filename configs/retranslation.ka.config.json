@@ -1,0 +1,8 @@
+{
+  "doc_strategy": "regressor",
+  "sent_strategy": "psq",
+  "trans_strategy": "edinmt",
+  "f1_threshold": 2.2086477,
+  "ape_docker": "ape:v1.0",
+  "edinmt_docker": "scriptsmt/systems:v22.1.0"
+}

@@ -6,13 +6,8 @@ work_dir=$2
 num_procs=$3
 gpu_id=$4
 
-doc_strategy=${5:-none}
-sent_strategy=${6:-psq}
-translation_strategy=${7:-ape_edinmt}
-
-
-bash server_with_client_and_retranslation $work_dir $num_procs $gpu_id $doc_strategy $sent_strategy $translation_strategy
+source server_with_client_and_retranslation $work_dir $num_procs $gpu_id
 
 echo "Packaging..."
 
-bash package $run_name
+source package $run_name

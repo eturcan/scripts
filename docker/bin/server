@@ -1,15 +1,23 @@
 #!/bin/bash
 
-while getopts ":k" opt; do
-	case ${opt} in
-		k)
-			WAIT="true"
-			;;
-		?)
-			echo "Invalid option: -#${OPTARG}."
-			;;
-	esac
+
+
+# Check for parameter for running server forever
+KEEP_RUNNING=false
+PARAMS=""
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -k | --keep_running )
+            KEEP_RUNNING=true
+            shift
+        ;;
+        * ) #perserve postional arguments
+            PARAMS="$PARAMS $1"
+            shift
+    esac
 done
+
 
 if [[ $GOLD_SUM == "True" ]]; then
     server.gold
@@ -38,7 +46,8 @@ if [[ -d /experiment ]]; then
         echo "query list path found:${query_list_path}. Creating symbolic links to /query"
         for f in $(find "/NIST-data/$query_list_path" -type f ! -name "*.*" -printf "%P\n" );
         do
-            if [[ -f "/NIST-data/$query_list_path/$f.lft" ]] && [[ -f "/NIST-data/$query_list_path/$f.rgt" ]]; then
+            #if [[ -f "/NIST-data/$query_list_path/$f.lft" ]] && [[ -f "/NIST-data/$query_list_path/$f.rgt" ]]; then
+            if [[ $f == query* ]] && ( [[ $f != *.lft ]] || [[ $f != *.rgt ]] ); then
                 query+=("$f")
                 ln -s "/NIST-data/$query_list_path/$f" "/query/$f"
                 ln -s "/NIST-data/$query_list_path/$f.lft" "/query/$f.lft"
@@ -47,16 +56,21 @@ if [[ -d /experiment ]]; then
         done
     done
 
-    QUERY="${query[@]}"
-    export QUERY
+    if [ ${#query[@]} -eq 0 ]; then
+    echo "Could not find queries in /query. Exiting..."
+    exit
+    else
+        QUERY="${query[@]}"
+        export QUERY
+    fi
 
-#    echo "Using audio segmentation: $AUDIOSEG_SUM"
+    # echo "Using audio segmentation: $AUDIOSEG_SUM"
 
-#    if [[ $AUDIOSEG_SUM != "True" ]]; then
-#        audioseg_arg="--no-audio-seg"
-#    else
-#        audioseg_arg=""
-#    fi
+    # if [[ $AUDIOSEG_SUM != "True" ]]; then
+    #     audioseg_arg="--no-audio-seg"
+    # else
+    #     audioseg_arg=""
+    # fi
 
     # Setup doc server config based on experiment json.
     echo "experiment_config $experiment_config /NIST-data $new_doc_config"
@@ -84,6 +98,23 @@ if [[ -d /experiment ]]; then
     else
         USE_QUERYREL="False"
     fi
+
+    # Setup psq keys for PSQ server. Try to find first in experiment config
+    # If not found, try to default to default config
+    psq_keys="$(jq '.psq_keys[]? // empty' $experiment_config | sed -e 's/"//g' )"
+    if [[ ! -z "$psq_keys" ]]; then
+        echo "PSQ Keys found in experiment config: ${psq_keys}"
+    else
+        psq_config_file="/app/scripts/configs/psq.${lang}.config.json"
+        if [[ -f "${psq_config_file}" ]]; then
+            psq_keys="$(jq '.[]' ${psq_config_file} | sed -e 's/"//g')"
+            echo "PSQ Keys found in default config: ${psq_keys}"
+        else
+            echo "Couldn't found PSQ keys. Please make sure it is defined either in the experiment config or has a default config"
+            exit
+        fi
+    fi
+
 else
     if [[ $ANNOTATION_CONFIG == "" ]]; then
         export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
@@ -181,10 +212,7 @@ if [[ -d /query ]]; then
     argstr="$argstr `find -L /query/ -type f ! -name "*.*"`"
 fi
 
-#psq_keys=$(jq -r ".matcher.configurations[].index_type" "$experiment_config")
-psq_keys="PSQ_mbertcc_v4.0_pmf1e-5_part_flat"
-
-sumpsq $PSQ_PORT $query_jsons $psq_keys \
+sumpsq $PSQ_PORT $query_jsons "$psq_keys" \
         > >(tee /outputs/logs-latest/psq.out.log) \
         2> >(tee /outputs/logs-latest/psq.err.log >&2) &
 
@@ -227,6 +255,6 @@ echo "Annotation server running."
 
 echo
 echo "Summarization server is ready."
-if [[ "${WAIT}" == true  ]]; then
+if [[ "${KEEP_RUNNING}" == true  ]]; then
 	while true; do sleep 9999999; done
 fi

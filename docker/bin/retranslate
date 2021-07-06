@@ -1,45 +1,82 @@
 #!/bin/bash
 
-export SCRIPTS_MORPH=/tools/scripts-morph-v10.0.jar
-
 work_dir=$1
 num_procs=$2
 gpu_id=$3
 
-doc_strategy=${4:-f1}
-sent_strategy=${5:-psq}
-translation_strategy=${6:-ape_edinmt}
 
-mkdir -p /outputs/retranslation /outputs/retranslation/config /outputs/retranslation/annotations
-mkdir -p /outputs/retranslation/src /outputs/retranslation/src/edinmt /outputs/retranslation/src/edinmt/audio /outputs/retranslation/src/edinmt/text /outputs/retranslation/src/umdnmt /outputs/retranslation/src/ape
-mkdir -p /outputs/retranslation/mt /outputs/retranslation/mt/edinmt /outputs/retranslation/mt/umdnmt /outputs/retranslation/mt/ape
+# The following should be handled by reading json file
+retranslation_config_file="/app/scripts/configs/retranslation.${lang}.config.json"
 
-echo "Generating candidates..."
-bash retranslate_candidates $num_procs $doc_strategy $sent_strategy $translation_strategy
+# If config file does not exists quit
+if [[ ! -f "$retranslation_config_file" ]]; then
+	echo "No retranslation configuration found. Skipping..."
+else
 
-# translate
+	echo "Retranslation config found in ${retranslation_config_file}. Running Retranslation"
 
-# ape
-if [ "$(ls -A /outputs/retranslation/src/ape)" ]; then
-	echo "Running APE..."
-	docker run --gpus "$gpu_id" --rm -v "$work_dir/retranslation/src/ape:/input_dir" -v "$work_dir/retranslation/mt/ape:/output_dir" ape:v1.0 kk
-fi
+	#Load necessary configs
+	doc_strategy=$(jq '.doc_strategy' "$retranslation_config_file" | sed -e 's/"//g')
+	sent_strategy=$(jq '.sent_strategy' "$retranslation_config_file" | sed -e 's/"//g')
+	trans_strategy=$(jq '.trans_strategy' "$retranslation_config_file" | sed -e 's/"//g')
+	f1_threshold=$(jq '.f1_threshold' "$retranslation_config_file" | sed -e 's/"//g')
+	ape_docker=$(jq '.ape_docker' "$retranslation_config_file" | sed -e 's/"//g')
+	edinmt_docker=$(jq '.edinmt_docker' "$retranslation_config_file" | sed -e 's/"//g')
 
-# edinmt
-for doc_type in "audio" "text"; do
-	if [ "$(ls -A /outputs/retranslation/src/edinmt/$doc_type)" ]; then
-		echo "Running EDINMT $doc_type"
-		docker run --gpus all --rm --user root -v "$work_dir/retranslation/src/edinmt/$doc_type":/mt/input_dir -v "$work_dir/retranslation/mt/edinmt/":/mt/output_dir -e NBEST_WORDS=0 -e NBEST=5 -e TYPE="$doc_type" -e MODE=accurate -e DEVICES="$gpu_id" -e QUERY=1 scriptsmt/systems:v21.5.2 translate kk en /mt/input_dir /mt/output_dir
+	#exit
+
+	mkdir -p /outputs/retranslation /outputs/retranslation/config /outputs/retranslation/annotations
+	mkdir -p /outputs/retranslation/src /outputs/retranslation/src/edinmt /outputs/retranslation/src/edinmt/audio /outputs/retranslation/src/edinmt/text /outputs/retranslation/src/umdnmt /outputs/retranslation/src/ape
+	mkdir -p /outputs/retranslation/mt /outputs/retranslation/mt/edinmt /outputs/retranslation/mt/umdnmt /outputs/retranslation/mt/ape
+
+	echo "Generating candidates..."
+	python scripts/retranslate_candidates.py \
+		--output_dir /outputs \
+		--doc_port $DOC_PORT \
+		--psq_port $PSQ_PORT \
+		--spm_path "/models/sentencepiece/kk" \
+		--doc_strategy $doc_strategy \
+		--sent_strategy $sent_strategy \
+		--translation_strategy $trans_strategy \
+		--num_procs $num_procs \
+		--morph_port $MORPH_PORT \
+		--morph_path $SCRIPTS_MORPH \
+		--f1_threshold $f1_threshold
+
+
+	# translate
+
+	# ape
+	if [ "$(ls -A /outputs/retranslation/src/ape)" ]; then
+		echo "Running APE..."
+		docker run --gpus "$gpu_id" --rm -v "$work_dir/retranslation/src/ape:/input_dir" -v "$work_dir/retranslation/mt/ape:/output_dir" "${ape_docker}" "$lang" 
 	fi
-done
 
-# umdnmt
-if [ "$(ls -A /outputs/retranslation/src/umdnmt)" ]; then
-	echo "Running UMDNMT"
-	python scripts/retranslate_umdnmt.py --input_dir "/outputs/retranslation/src/umdnmt" --output_dir "/outputs/retranslation/mt/umdnmt"
+	# edinmt
+	for doc_type in "audio" "text"; do
+		if [ "$(ls -A /outputs/retranslation/src/edinmt/$doc_type)" ]; then
+			echo "Running EDINMT $doc_type"
+			docker run --gpus all --rm --user root -v "$work_dir/retranslation/src/edinmt/$doc_type":/mt/input_dir -v "$work_dir/retranslation/mt/edinmt/":/mt/output_dir -e NBEST_WORDS=1 -e NBEST=5 -e TYPE="$doc_type" -e MODE=accurate -e DEVICES="$gpu_id" -e QUERY=1 "${edinmt_docker}" translate "${lang}" en /mt/input_dir /mt/output_dir
+		fi
+	done
+
+	# umdnmt, deprecated
+	if [ "$(ls -A /outputs/retranslation/src/umdnmt)" ]; then
+		echo "Running UMDNMT"
+		python scripts/retranslate_umdnmt.py --input_dir "/outputs/retranslation/src/umdnmt" --output_dir "/outputs/retranslation/mt/umdnmt"
+	fi
+
+	#cp -r /outputs/markup /outputs/markup_bk
+	# generate markup
+	echo "Generating markups..."
+
+	python scripts/retranslate_markup.py \
+		--output_dir /outputs \
+		--doc_port $DOC_PORT \
+		--query_port $QUERY_PORT \
+		--annotation_port $ANNOTATION_PORT \
+		--morph_port $MORPH_PORT \
+		--morph_path $SCRIPTS_MORPH \
+		--num_procs $num_procs
+	
 fi
-
-#cp -r /outputs/markup /outputs/markup_bk
-# generate markup
-echo "Generating markups..."
-bash retranslate_markup $num_procs
