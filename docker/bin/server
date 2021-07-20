@@ -101,7 +101,7 @@ if [[ -d /experiment ]]; then
 
     # Setup psq keys for PSQ server. Try to find first in experiment config
     # If not found, try to default to default config
-    psq_keys="$(jq '.psq_keys[]? // empty' $experiment_config | sed -e 's/"//g' )"
+    psq_keys="$(jq '.query_processor.psq_keys[]? // empty' $experiment_config | sed -e 's/"//g' )"
     if [[ ! -z "$psq_keys" ]]; then
         echo "PSQ Keys found in experiment config: ${psq_keys}"
     else

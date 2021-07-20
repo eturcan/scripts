@@ -27,7 +27,7 @@ def main():
     schema = json.loads(get_summary_schema().read_text())
 
     for results_path in args.clir_results_dir.glob("query*"):
-        # print(results_path)
+        print(results_path)
         
         src_dir = args.summary_results_dir
         tgt_dir = args.output_directory / results_path.stem
@@ -85,24 +85,19 @@ def make_query_dir(results_path, tgt_dir, summary_results_dir, system_label,
                 tgt_img_path.write_bytes(src_img_path.read_bytes())
 
             validate(instance=meta, schema=schema)
-            meta_path.write_text(json.dumps(meta,indent=4))
+            meta_path.write_text(json.dumps(meta))
             print("{}\tY\t{}\t{}".format(doc_id, score, meta_fn),
                   file=out_fp)
 
 def read_component_content(json_path):
     data = json.loads(json_path.read_text())
     markup = data["markup"]
-    #markup = re.sub(r"<span.*?>(.*?)</span>", r"\1", markup)
-    markup = re.sub(r"<span class=\"rel_close_match\">(.*?)</span>", r"<blue>\1</blue>", markup)
-    markup = re.sub(r"<span class=\"rel_exact_match\">(.*?)</span>", r"<bold><underline><blue>\1</blue></underline></bold>", markup)
-    markup = re.sub(r"<(?!\/?(bold|blue|underline)(?=>|\s.*>))\/?.*?>", "", markup)
-    #markup = re.sub(r"<.*?>(.*?)<.*?>", r"\1", markup)
+    markup = re.sub(r"<span.*?>(.*?)</span>", r"\1", markup)
+    markup = re.sub(r"<.*?>(.*?)<.*?>", r"\1", markup)
 
     content = [re.sub(r"\s+", " ", line.strip())
                for line in markup.strip().split("\n")]
     content = [c for c in content if c != '']
-    content[0] = "<header>{}</header>".format(content[0])
-    content[1] = "<best>{}</best>".format(content[1])
 
     return {
         "query_component": data["query_string"], 

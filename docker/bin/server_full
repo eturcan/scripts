@@ -6,7 +6,19 @@ work_dir=$2
 num_procs=$3
 gpu_id=$4
 
-source server_with_client_and_retranslation $work_dir $num_procs $gpu_id
+source server
+
+echo "Summarizing queries..."
+python scripts/summarize_queries.py \
+       --clir_dir /clir \
+       --output_dir /outputs \
+       --doc_port $DOC_PORT \
+       --query_port $QUERY_PORT \
+       --annotation_port $ANNOTATION_PORT \
+       --num_procs $num_procs \
+       --queries $QUERY
+
+source retranslate $work_dir $num_procs $gpu_id
 
 echo "Packaging..."
 

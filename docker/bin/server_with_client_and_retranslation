@@ -1,9 +1,0 @@
-#!/bin/bash
-
-work_dir=$1
-num_procs=$2
-gpu_id=$3
-
-source server_with_client $num_procs
-
-source retranslate $work_dir $num_procs $gpu_id
