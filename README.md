@@ -3,6 +3,18 @@ SCRIPTS summarization system for IARPA MATERIAL project.
 
 This is the code for running the summarization docker. The starting scripts can be found in **docker/bin**, which will be introduced below.
 
+The code is roughly structured as follows. Everything is designed as server/client mode. For exmaple tor un the summarization component, we first start multiple servers and then use the client to summarize the queries by calling the servers. 
+
+We have the follwing components:
+
+- Morphological component: We use the morph jar file to get all morphological annotations
+- Doc components: Found in sumdoc/. Handles path and file.
+- Query component: Found in sumquery/. Handles query components, query type and so forth
+- Annotation: Found in sumannotate/. Creates mutiple annotators that assign sentence score. This may take awhile to set up since we load embeddings here. Note that a cache will be created in /output/cache for faster access next time or incase of failure.
+- PSQ: found in sumpsq/. Load the psq translation matrix for annotators
+- Queryrel: Query relevance server. A good performing annotator.
+
+
 ## Running Summarizer for Evaluation
 
 To run the summarizer for evaluation, we expect the following input from CLIR experiment folder (located at **/experiment**)
@@ -53,3 +65,16 @@ Of course, you can always run each component separately, which you can read thro
 ## Demo
 
 The entrypoint for demo is **server_demo** for the server and **summarize_queries_demo** to run the client
+
+
+
+## Docker
+The Dockerfile is included.
+The additional directory we need is as follows:
+
+1. CLIR-Summarizaiton-19/ : The directory that stores query relevance stuff
+2. tools/ : The directory that contains the scripts-morph file and its related resources/ directory
+3. models/ : The most important directory that contains all the embeddings.
+    1. glove.{6B,42B}.300d.pkl, This is created by using pickle to storing the scripts_sum.embedding.from_path
+    2. queryrel_artifacts
+    3. emb: The directory that stores 1) cc.xx.300.vec.pkl. Created like the glove embeddings. 2) roberta_embs/xx/ that stores the roberta sentence embedding for each translation and query

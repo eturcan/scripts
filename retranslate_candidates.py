@@ -73,6 +73,7 @@ class RequestProcessor(Process):
         psq = self.psq_client.get_psq(query_id)["psq"]
         psq_matches = self.get_psq_matches(query_str, psq, src)
 
+        # prepare nbest stuff, deprecated
         nbest_matches = None
         if self.sp is not None:
             nbest_path = str(self.doc_client.path(doc_id)["translations"]["umd-nmt"]) + ".nbest-words"
@@ -82,10 +83,12 @@ class RequestProcessor(Process):
         
         query = ann_data.annotations["QUERY"]
          
+        # perform doc selection first, if we get false or none, we don't process anymore
         if self.doc_selection(query, ann_data, utt_ids, mts, translations, nbest_matches, psq_matches, f1_label, f1_score):
             best_nbest_match = self.get_best_nbest_match(nbest_matches)
             best_psq_match = self.get_best_psq_match(psq_matches, query_str)
             
+            # perform sentence selection
             sent_match = self.sent_selection(query_str, ann_data, best_nbest_match, best_psq_match)
 
             # given sum_id fill in other information
@@ -98,6 +101,8 @@ class RequestProcessor(Process):
             ape_no_match = True
             translation_strategy = None
             
+            # Depending on translation strategy, we transform the sentence into appropiate format for the MT/APE docker
+            # each file will have the name query_id.doc_id.c , just like the annotation and markup
             if "ape" in self.translation_strategy:
                 # try to use ape if possible
                 if sent_match["src_word"] is not None:
@@ -311,6 +316,7 @@ class RequestProcessor(Process):
         return (best_candidate[0], comb_src_words, comb_tgt_words, comb_idx)
 
 def main(args):
+    # load sentence piece if using umdnmt, deprecated
     sp = None
     if args.doc_strategy == "nbest" or args.sent_strategy == "nbest":
         sp_text = spm.SentencePieceProcessor()
@@ -323,7 +329,7 @@ def main(args):
 
     request_queue = Queue()
     
-    # change f1 dir into a dict
+    # change f1 dir into a dict of key tuple(query_id, doc_id) -> tuple(f1_label, f1_score)
     f1_cutoff = dict()
     for query_file in os.listdir(args.f1_dir):
         if re.match("query[0-9]+.tsv", query_file):
@@ -333,6 +339,7 @@ def main(args):
                 f1_score = float(line[2])
                 f1_cutoff[(query_file[:-4],line[0])] = (f1_label, f1_score)
 
+    # read all markup files found in output directory and put it in processing queue
     for query in os.listdir(os.path.join(args.output_dir, "markup")):
         for markup_file in os.listdir(os.path.join(args.output_dir,"markup",query)):
             query_id, doc_id, c, _ = markup_file.split(".")

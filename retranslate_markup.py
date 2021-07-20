@@ -17,7 +17,6 @@ from sumquery.client import Client as QueryClient
 from sumannotate.client import Client as AnnotationClient
 from summarkup.cli import generate_markup
 
-#Request = namedtuple('Request', ['retranslation_config'])
 Request = namedtuple('Request', ["query_id","doc_id","c"])
 
 class RequestProcessor(Process):
@@ -61,10 +60,12 @@ class RequestProcessor(Process):
             return None
 
     def _process(self, req):
+        # read retranslation config
         with open(os.path.join(self.output_dir, "retranslation","config","{}.{}.{}.config".format(req.query_id, req.doc_id, req.c)) ,"r") as retranslation_config_file:
             # config is a dictionary with keys ["query_id","doc_id", "component", "retranslation","translation_strategy"]
             retranslation_config = json.load(retranslation_config_file)
 
+        # read constrained translation
         translation_strategy = retranslation_config["translation_strategy"]
         if translation_strategy == "ape":
             with open(os.path.join(self.output_dir, "retranslation","mt","ape","{}.{}.{}.txt".format(req.query_id, req.doc_id, req.c)), "r") as translation_file:
@@ -92,6 +93,7 @@ class RequestProcessor(Process):
         markup_gen = self._get_markup_gen(qtype)
         markup_config = self._get_markup_config(markup_gen, lang)
         
+        # create annotation file
         ann_file = os.path.join(self.output_dir,'annotations', query_id,'{}.{}.c{}.pkl'.format(query_id,doc_id, c + 1))
         ann_file_retranslation = os.path.join(self.output_dir, "retranslation", "annotations", "{}.{}.c{}.pkl".format(query_id,doc_id, c + 1))
         if not os.path.isfile(ann_file_retranslation):
@@ -140,6 +142,7 @@ class RequestProcessor(Process):
             with open(ann_file_retranslation, "wb") as ann_fp:
                 pickle.dump(doc_orig, ann_fp)
 
+            # generate markup again
             markup_file = os.path.join(self.output_dir, 'markup', query_id,'{}.{}.c{}.json'.format(query_id,doc_id,c+1))
         
             args_str = '{} {} {} --args {} --quiet'.format(markup_gen,Path(ann_file_retranslation),Path(markup_file), markup_config)
@@ -149,6 +152,7 @@ class RequestProcessor(Process):
 def main(args):
     request_queue = Queue()
     
+    # after generationg the translation, we essentially just redo annotation and markup. So this code should look a lot like summarize queries
     for retranslation_file in os.listdir(os.path.join(args.output_dir,"retranslation","config")):
         if retranslation_file.endswith(".config"):
             query_id, doc_id, c, _ = retranslation_file.split(".")

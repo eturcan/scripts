@@ -105,14 +105,7 @@ def main(args):
     query_id = args.clir_output_file.replace('.json', '')
     query_str = clir_output['query']['raw']
     query_client.add_query_str(query_id, query_str)
-    #psq_dict = clir_output['query']['psq']
-
-    #if 'idf' in clir_output:
-    #    idf_dict = clir_output['idf']
-    #else:
-    #    idf_dict = {k: 1.0 for k in psq_dict.keys()}
-
-    #psq_client.add_psq(query_id, psq_dict, idf_dict)
+    
 
     print('Num relevant docs: {}'.format(len(clir_output['results'])))
     for result in clir_output['results']:

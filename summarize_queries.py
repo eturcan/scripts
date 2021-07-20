@@ -50,6 +50,7 @@ class RequestProcessor(Process):
             return None
 
     def _process(self, req):
+        # get number of components from query client
         nc = self.query_client.num_components(req.query_id)
         lang = self.doc_client.lang(req.doc_id)
 
@@ -83,6 +84,8 @@ class RequestProcessor(Process):
 def main(args):
     request_queue = Queue()
 
+    # We only summarize for query-document pair which has a relevance judgment of "Y"
+    # If relevant, we put it in mutliprocessing queue
     for query in args.queries:
         clir_file = os.path.join(args.clir_dir, '{}.tsv'.format(query))
         if os.path.isfile(clir_file):

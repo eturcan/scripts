@@ -6,6 +6,7 @@
 KEEP_RUNNING=false
 PARAMS=""
 
+# Check if -k command is given. If so, keep server running forever
 while [ "$1" != "" ]; do
     case $1 in
         -k | --keep_running )
@@ -18,113 +19,90 @@ while [ "$1" != "" ]; do
     esac
 done
 
-
-if [[ $GOLD_SUM == "True" ]]; then
-    server.gold
-    exit
-fi
-
-if [[ $LITE_SUM == "True" ]]; then
-    server.lite
-    exit
-fi
-
 CONFIGS=/app/scripts/configs
 rm -f /outputs/logs-latest/*
 
-if [[ -d /experiment ]]; then
+# read from /experiment directory and prepare variables
 
-    experiment_config=`ls /experiment/*.json`
-    new_doc_config=/app/config/doc.server.config.json
-    lang=$(cat $experiment_config | jq .query_processor.target_language | \
-        sed -e 's/"//g')
+experiment_config=`ls /experiment/*.json`
+new_doc_config=/app/config/doc.server.config.json
+lang=$(cat $experiment_config | jq .query_processor.target_language | \
+    sed -e 's/"//g')
 
-    # Read in query_list_path and create symlinks to /query
-    # Also save valid queries into $query array
-    declare -a query
-    for query_list_path in $(cat "$experiment_config" | jq -r '.query_processor.query_list_path[]' ); do
-        echo "query list path found:${query_list_path}. Creating symbolic links to /query"
-        for f in $(find "/NIST-data/$query_list_path" -type f ! -name "*.*" -printf "%P\n" );
-        do
-            #if [[ -f "/NIST-data/$query_list_path/$f.lft" ]] && [[ -f "/NIST-data/$query_list_path/$f.rgt" ]]; then
-            if [[ $f == query* ]] && ( [[ $f != *.lft ]] || [[ $f != *.rgt ]] ); then
-                query+=("$f")
-                ln -s "/NIST-data/$query_list_path/$f" "/query/$f"
-                ln -s "/NIST-data/$query_list_path/$f.lft" "/query/$f.lft"
-                ln -s "/NIST-data/$query_list_path/$f.rgt" "/query/$f.rgt"
-            fi
-        done
-    done
-
-    if [ ${#query[@]} -eq 0 ]; then
-    echo "Could not find queries in /query. Exiting..."
-    exit
-    else
-        QUERY="${query[@]}"
-        export QUERY
-    fi
-
-    # echo "Using audio segmentation: $AUDIOSEG_SUM"
-
-    # if [[ $AUDIOSEG_SUM != "True" ]]; then
-    #     audioseg_arg="--no-audio-seg"
-    # else
-    #     audioseg_arg=""
-    # fi
-
-    # Setup doc server config based on experiment json.
-    echo "experiment_config $experiment_config /NIST-data $new_doc_config"
-    experiment_config $experiment_config /NIST-data $new_doc_config --no-audio-seg
-
-    # Setup nbest translations
-    new_doc_config_nbest=/app/config/doc.server.config.nbest.json
-    echo "extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest" 
-    extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest
-
-    echo "Deriving doc server config from experiment config $experiment_config"
-    export DOCSERVER_CONFIG=$new_doc_config_nbest
-    echo "Setting new doc server config: $DOCSERVER_CONFIG"
-
-    # Setup annotator config based on language code of experiment json.
-    export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.submission.op1.v1.0.json
-
-    echo
-    echo "Setting new annotation config: $ANNOTATION_CONFIG"
-    echo
-
-    queryrel_langs=(lt ps fa kk ka)
-    if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
-        USE_QUERYREL="True"
-    else
-        USE_QUERYREL="False"
-    fi
-
-    # Setup psq keys for PSQ server. Try to find first in experiment config
-    # If not found, try to default to default config
-    psq_keys="$(jq '.query_processor.psq_keys[]? // empty' $experiment_config | sed -e 's/"//g' )"
-    if [[ ! -z "$psq_keys" ]]; then
-        echo "PSQ Keys found in experiment config: ${psq_keys}"
-    else
-        psq_config_file="/app/scripts/configs/psq.${lang}.config.json"
-        if [[ -f "${psq_config_file}" ]]; then
-            psq_keys="$(jq '.[]' ${psq_config_file} | sed -e 's/"//g')"
-            echo "PSQ Keys found in default config: ${psq_keys}"
-        else
-            echo "Couldn't found PSQ keys. Please make sure it is defined either in the experiment config or has a default config"
-            exit
+# Read in query_list_path and create symlinks to /query
+# Also save valid queries into $query array
+declare -a query
+for query_list_path in $(cat "$experiment_config" | jq -r '.query_processor.query_list_path[]' ); do
+    echo "query list path found:${query_list_path}. Creating symbolic links to /query"
+    for f in $(find "/NIST-data/$query_list_path" -type f ! -name "*.*" -printf "%P\n" );
+    do
+        #if [[ -f "/NIST-data/$query_list_path/$f.lft" ]] && [[ -f "/NIST-data/$query_list_path/$f.rgt" ]]; then
+        if [[ $f == query* ]] && ( [[ $f != *.lft ]] || [[ $f != *.rgt ]] ); then
+            query+=("$f")
+            ln -s "/NIST-data/$query_list_path/$f" "/query/$f"
+            ln -s "/NIST-data/$query_list_path/$f.lft" "/query/$f.lft"
+            ln -s "/NIST-data/$query_list_path/$f.rgt" "/query/$f.rgt"
         fi
-    fi
+    done
+done
 
+if [ ${#query[@]} -eq 0 ]; then
+echo "Could not find queries in /query. Exiting..."
+exit
 else
-    if [[ $ANNOTATION_CONFIG == "" ]]; then
-        export ANNOTATION_CONFIG=$CONFIGS/annotator.submission.op1.json
+    QUERY="${query[@]}"
+    export QUERY
+fi
+
+# echo "Using audio segmentation: $AUDIOSEG_SUM"
+
+# if [[ $AUDIOSEG_SUM != "True" ]]; then
+#     audioseg_arg="--no-audio-seg"
+# else
+#     audioseg_arg=""
+# fi
+
+# Setup doc server config based on experiment json.
+echo "experiment_config $experiment_config /NIST-data $new_doc_config"
+experiment_config $experiment_config /NIST-data $new_doc_config --no-audio-seg
+
+# Setup nbest translations
+new_doc_config_nbest=/app/config/doc.server.config.nbest.json
+echo "extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest" 
+extract_nbest_translations $new_doc_config /NIST-data /outputs $new_doc_config_nbest
+
+echo "Deriving doc server config from experiment config $experiment_config"
+export DOCSERVER_CONFIG=$new_doc_config_nbest
+echo "Setting new doc server config: $DOCSERVER_CONFIG"
+
+# Setup annotator config based on language code of experiment json.
+export ANNOTATION_CONFIG=$CONFIGS/annotator.$lang.submission.op1.v1.0.json
+
+echo
+echo "Setting new annotation config: $ANNOTATION_CONFIG"
+echo
+
+queryrel_langs=(lt ps fa kk ka)
+if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
+    USE_QUERYREL="True"
+else
+    USE_QUERYREL="False"
+fi
+
+# Setup psq keys for PSQ server. Try to find first in experiment config
+# If not found, try to default to default config
+psq_keys="$(jq '.query_processor.psq_keys[]? // empty' $experiment_config | sed -e 's/"//g' )"
+if [[ ! -z "$psq_keys" ]]; then
+    echo "PSQ Keys found in experiment config: ${psq_keys}"
+else
+    psq_config_file="/app/scripts/configs/psq.${lang}.config.json"
+    if [[ -f "${psq_config_file}" ]]; then
+        psq_keys="$(jq '.[]' ${psq_config_file} | sed -e 's/"//g')"
+        echo "PSQ Keys found in default config: ${psq_keys}"
+    else
+        echo "Couldn't found PSQ keys. Please make sure it is defined either in the experiment config or has a default config"
+        exit
     fi
-    if [[ $DOCSERVER_CONFIG == "" ]]; then
-        export DOCSERVER_CONFIG=$CONFIGS/docs.latest.config.json
-    fi
-    export USE_QUERYREL="True"
-    echo "Using default document server config: $DOCSERVER_CONFIG"
-    echo "Using default annotation server config: $ANNOTATION_CONFIG"
 fi
 
 export NIST_DATA=/NIST-data
