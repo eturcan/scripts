@@ -1,10 +1,9 @@
 {
     "args": [
-        ["edi-nmt", "umd-nmt", "umd-smt"],
+        ["edi-nmt", "umd-nmt"],
         [
             "edi-nmt.morph_match",
-            "umd-nmt.morph_match",
-            "umd-smt.morph_match"
+            "umd-nmt.morph_match"
         ],
         {
             "edi-nmt": [
@@ -17,17 +16,17 @@
     ],
     "kwargs": {
         "default_args": [
-            ["edi-nmt", "umd-nmt", "umd-smt"],
+            ["edi-nmt", "umd-nmt"],
             [
                 ["edi-nmt.exact_match", ["sentence", "sum"]], 
                 ["umd-nmt.exact_match", ["sentence", "sum"]], 
-                ["umd-smt.exact_match", ["sentence", "sum"]], 
                 ["edi-nmt.stem_match", ["sentence", "sum"]],
                 ["umd-nmt.stem_match", ["sentence", "sum"]],
-                ["umd-smt.stem_match", ["sentence", "sum"]],
                 ["edi-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
                 ["umd-nmt.glove42Bsim.content_semcons", ["sentence", "max"]],
-                ["umd-smt.glove42Bsim.content_semcons", ["sentence", "max"]]
+                ["psq", []],
+                ["queryrel", ["query_content"]],
+                ["queryrel", ["semantic_constraint"]]
             ],
             {
                 "edi-nmt": [
@@ -46,18 +45,15 @@
         "default_kwargs": {
             "exact_matches": {
                 "edi-nmt": ["edi-nmt.exact_match", ["word", "matches"]],
-                "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]],
-                "umd-smt": ["umd-smt.exact_match", ["word", "matches"]]
+                "umd-nmt": ["umd-nmt.exact_match", ["word", "matches"]]
             },
             "stem_matches": {
                 "edi-nmt": ["edi-nmt.stem_match", ["word", "matches"]],
-                "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]],
-                "umd-smt": ["umd-smt.stem_match", ["word", "matches"]]
+                "umd-nmt": ["umd-nmt.stem_match", ["word", "matches"]]
             },
             "soft_matches": {
                 "edi-nmt": ["edi-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
-                "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]],
-                "umd-smt": ["umd-smt.glove42Bsim.content_semcons", ["word", "sims"]]
+                "umd-nmt": ["umd-nmt.glove42Bsim.content_semcons", ["word", "sims"]]
             }
 
         }

@@ -97,7 +97,7 @@ def main(args):
     summary_queue = Queue()
 
     query_client = QueryClient(args.query_port)
-    #psq_client = PSQClient(args.psq_port)
+    psq_client = PSQClient(args.psq_port)
 
     with open(os.path.join(args.input_dir, args.clir_output_file)) as fin:
         clir_output = json.load(fin)
@@ -106,6 +106,8 @@ def main(args):
     query_str = clir_output['query']['raw']
     query_client.add_query_str(query_id, query_str)
     
+    if "psq" in clir_output["query"]:
+        psq_client.add_psq(query_id, clir_output["query"]["psq"], clir_output["query"]["idf"])
 
     print('Num relevant docs: {}'.format(len(clir_output['results'])))
     for result in clir_output['results']:

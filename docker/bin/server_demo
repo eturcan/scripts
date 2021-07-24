@@ -23,9 +23,6 @@ echo
 echo "Setting new annotation config: $ANNOTATION_CONFIG"
 echo
 
-# no query rel will be used
-# no psq server will be used
-
 export NIST_DATA=/NIST-data
 export MODELS=/models
 export SCRIPTS_MORPH=/tools/scripts-morph-v11.0.jar
@@ -80,6 +77,40 @@ echo ">>  annotation_server $ANNOTATION_PORT $QUERY_PORT $DOC_PORT $MODELS $ANNO
         | grep -q "Waiting for client request on port $ANNOTATION_PORT.."
 }
 
+queryrel_langs=(lt ps fa kk ka)
+if [[ "${queryrel_langs[@]} " =~ " ${lang}" ]]; then
+    USE_QUERYREL="True"
+else
+    USE_QUERYREL="False"
+fi
+
+start_queryrel_server () {
+
+qrel_args="$lang /models/queryrel_artifacts"
+
+echo ">>  queryrel_server $QUERYREL_PORT $qrel_args"
+export PYTHONPATH=$PYTHONPATH:/app/CLIR-Summarization-19/queryrel
+queryrel_server $QUERYREL_PORT $qrel_args \
+        > >(tee /outputs/logs-latest/qrel.out.log) \
+        2> >(tee /outputs/logs-latest/qrel.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/qrel.out.log & ) \
+        | grep -q "Query relevance server started on port $QUERYREL_PORT"
+}
+
+start_psq_server () {
+
+
+sumpsq --port $PSQ_PORT  \
+        > >(tee /outputs/logs-latest/psq.out.log) \
+        2> >(tee /outputs/logs-latest/psq.err.log >&2) &
+
+    sleep 1
+    ( tail -f -n1 /outputs/logs-latest/psq.out.log & ) \
+        | grep -q "Waiting for client request on port $PSQ_PORT.."
+}
+
 mkdir -p /outputs/logs-latest /outputs/cache
 mkdir -p /outputs/annotations /outputs/annotations/res /outputs/markup /outputs/markup/res
 
@@ -98,7 +129,16 @@ echo
 echo "Starting query server:"
     start_query_server
 echo "Query server running."
+echo "Staring PSQ server:"
+    start_psq_server
+echo "PSQ server running."
 echo
+if [[ $USE_QUERYREL == "True" ]]; then
+    echo "Starting queryrel server:"
+        start_queryrel_server
+    echo "Queryrel server running."
+    echo
+fi
 echo "Starting annotation server:"
     start_annotation_server
 echo "Annotation server running."

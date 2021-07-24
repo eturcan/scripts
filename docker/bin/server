@@ -190,7 +190,7 @@ if [[ -d /query ]]; then
     argstr="$argstr `find -L /query/ -type f ! -name "*.*"`"
 fi
 
-sumpsq $PSQ_PORT $query_jsons "$psq_keys" \
+sumpsq --port $PSQ_PORT --query_data $query_jsons --psq_names "$psq_keys" \
         > >(tee /outputs/logs-latest/psq.out.log) \
         2> >(tee /outputs/logs-latest/psq.err.log >&2) &
 

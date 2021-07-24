@@ -114,11 +114,11 @@
             "args": [],
             "kwargs": {}
         },
-	"queryrel": {
-            "module": "scripts_sum.annotators.queryrel",
-            "class": "QueryRel",
-            "args": [],
-            "kwargs": {}
+        "queryrel": {
+                "module": "scripts_sum.annotators.queryrel",
+                "class": "QueryRel",
+                "args": [],
+                "kwargs": {}
         }
     },
     "embeddings": {

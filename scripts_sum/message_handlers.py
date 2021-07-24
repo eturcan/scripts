@@ -4,7 +4,7 @@ import hashlib
 import datetime
 import json
 from .query_processor import process_query
-from .results_utils import relevant_results_iter
+#from .results_utils import relevant_results_iter
 
 from . import evidence
 

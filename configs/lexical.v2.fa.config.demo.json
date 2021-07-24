@@ -114,7 +114,11 @@
                 ["edi-nmt-4.glove6Bsim.content_semcons", ["sentence", "max"]],
                 ["edi-nmt-5.glove6Bsim.content_semcons", ["sentence", "max"]],
                 ["umd-nmt.glove6Bsim.content_semcons", ["sentence", "max"]],
-                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]]
+                ["umd-smt.glove6Bsim.content_semcons", ["sentence", "max"]],
+                ["psq", []],
+                ["psqemb.ft300", ["sentence", "max"]],
+                ["queryrel", ["query_content"]],
+                ["queryrel", ["semantic_constraint"]]
             ],
             {
                 "edi-nmt": [
